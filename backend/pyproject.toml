@@ -5,7 +5,7 @@ description = ""
 authors = ["masaki.arizuka <masaki.arizuka@gmail.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.6"
+python = "^3.7"
 uvicorn = "^0.11.3"
 starlette = {extras = ["full"], version = "^0.13.2"}
 
