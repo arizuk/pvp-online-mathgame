@@ -1,2 +1,2 @@
 server:
-	poetry run uvicorn tashizan.app:app
+	poetry run uvicorn tashizan.server:app
