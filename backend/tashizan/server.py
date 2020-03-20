@@ -1,12 +1,10 @@
+import asyncio
+import enum
+from enum import auto
+
 from starlette.applications import Starlette
 from starlette.routing import Mount, WebSocketRoute
 from starlette.staticfiles import StaticFiles
-
-import asyncio
-import uuid
-import enum
-from enum import auto
-from typing import List
 
 
 class Player:
