@@ -1,4 +1,7 @@
 SRC := tashizan
+PROTO_SRC := proto/*.proto
+
+.PHONY: proto
 
 style:
 	poetry run isort --recursive $(SRC)
@@ -11,3 +14,9 @@ server:
 devserver:
 	poetry run uvicorn tashizan.server:app --ws websockets \
 		--reload --reload-dir $(SRC)
+
+proto:
+	rm -rf tashizan/pb/*pb.py
+	protoc -I proto --python_out=tashizan/pb $(PROTO_SRC)
+
+	protoc --js_out=binary:./static/js/pb $(PROTO_SRC)
