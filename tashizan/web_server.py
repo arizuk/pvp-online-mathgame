@@ -63,21 +63,10 @@ async def ws_handler(websocket):
     await websocket.close()
 
 
-templates = Jinja2Templates(directory="templates")
-
-
-async def index(request):
-    channels.game.send(Message(type=GameMessageType.JOIN, payload={},))
-    return templates.TemplateResponse("index.html", {"request": request})
-
-
 routes = [
-    Route("/", index),
     WebSocketRoute("/ws", ws_handler),
-    Mount("/static", app=StaticFiles(directory="static"), name="static"),
+    Mount("/", app=StaticFiles(directory="frontend/build", html=True), name="static"),
 ]
-
-
 app = Starlette(routes=routes, debug=True)
 
 
