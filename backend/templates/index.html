@@ -16,9 +16,12 @@
         connection.addEventListener("message", ev => {
             console.log(ev.data)
         })
-        setInterval(() => {
-            connection.send("hello world")
-        }, 1000)
+        connection.addEventListener("open", ev => {
+            connection.send(JSON.stringify({
+                "type": "JOIN",
+                "payload": {}
+            }))
+        })
     </script>
 </body>
 
