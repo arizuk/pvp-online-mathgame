@@ -1,33 +1,9 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import logo from './logo.svg'
 import './App.css'
 
-interface Props {}
-interface State {}
-
-export default class App extends React.Component<Props, State> {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.tsx</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    )
-  }
-
-  componentDidMount() {
+function App() {
+  useEffect(() => {
     const devPort = '3000'
     const protocolPrefix =
       window.location.protocol === 'https:' ? 'wss:' : 'ws:'
@@ -50,5 +26,19 @@ export default class App extends React.Component<Props, State> {
         })
       )
     })
-  }
+  })
+
+  const [count, setCount] = useState(0)
+
+  return (
+    <div className="App">
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        <p>Counter {count}</p>
+        <button onClick={() => setCount(count+1)}>click me</button>
+      </header>
+    </div>
+  )
 }
+
+export default App
