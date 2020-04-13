@@ -8,11 +8,9 @@ style:
 	poetry run black $(SRC)
 	poetry run flake8 $(SRC)
 
-server:
-	poetry run uvicorn tashizan.server:app --ws websockets --host 0.0.0.0
-
-devserver:
-	poetry run uvicorn tashizan.server:app --ws websockets \
+#FIXME:
+dev/web_server:
+	poetry run uvicorn tashizan.web_server:app --ws websockets \
 		--reload --reload-dir $(SRC)
 
 proto:

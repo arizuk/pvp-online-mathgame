@@ -3,9 +3,8 @@ import json
 
 import uvicorn
 from starlette.applications import Starlette
-from starlette.routing import Mount, Route, WebSocketRoute
+from starlette.routing import Mount, WebSocketRoute
 from starlette.staticfiles import StaticFiles
-from starlette.templating import Jinja2Templates
 
 from .message import GameMessageType, Message
 from .message_channel import channels
