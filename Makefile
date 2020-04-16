@@ -13,6 +13,9 @@ dev/web_server:
 	poetry run uvicorn tashizan.web_server:app --ws websockets \
 		--reload --reload-dir $(SRC)
 
+dualboot:
+	poetry run python -m tashizan.dualboot
+
 proto:
 	rm -rf tashizan/pb/*pb.py
 	protoc -I proto --python_out=tashizan/pb $(PROTO_SRC)

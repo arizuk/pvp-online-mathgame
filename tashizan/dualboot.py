@@ -1,3 +1,7 @@
+"""
+Boot a web and game server
+"""
+
 import logging
 import multiprocessing as mp
 from multiprocessing import Process
