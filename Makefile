@@ -1,5 +1,9 @@
 SRC := tashizan
 PROTO_SRC := proto/*.proto
+PLUGIN_TS := ./frontend/node_modules/.bin/protoc-gen-ts
+
+PYTHON_OUT = tashizan/pb
+JS_OUT := frontend/src/pb
 
 .PHONY: proto
 
@@ -17,7 +21,17 @@ dualboot:
 	poetry run python -m tashizan.dualboot
 
 proto:
-	rm -rf tashizan/pb/*pb.py
-	protoc -I proto --python_out=tashizan/pb $(PROTO_SRC)
+	# python
+	rm -rf $(PYTHON_OUT)/*pb.py
+	protoc -I proto --python_out=$(PYTHON_OUT) $(PROTO_SRC)
 
-	protoc --js_out=binary:./static/js/pb $(PROTO_SRC)
+	# js/ts
+	rm -rf $(JS_OUT)/*
+	protoc \
+	-I proto \
+	--plugin=protoc-gen-ts="$(PLUGIN_TS)" \
+	--js_out=import_style=commonjs,binary:$(JS_OUT) \
+	--ts_out=import_style=commonjs,binary:$(JS_OUT) \
+	$(PROTO_SRC)
+
+	for f in $(JS_OUT)/*.js; do echo '/* eslint-disable */' | cat - "$${f}" > temp && mv temp "$${f}"; done
