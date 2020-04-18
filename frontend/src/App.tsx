@@ -2,6 +2,8 @@ import React, {useEffect, useState} from 'react'
 import logo from './logo.svg'
 import './App.css'
 
+import { Message } from "pb/app_pb"
+
 function App() {
   useEffect(() => {
     const devPort = '3000'
@@ -19,12 +21,7 @@ function App() {
     })
     ws.addEventListener('open', (ev) => {
       console.log('WS onOpen')
-      ws.send(
-        JSON.stringify({
-          type: 'JOIN',
-          payload: {},
-        })
-      )
+      // ws.send(join.serializeBinary())
     })
   }, [])
 

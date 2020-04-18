@@ -1,5 +1,7 @@
 SRC := tashizan
-PROTO_SRC := proto/*.proto
+
+
+PROTO_CNAME := tashizan-taisen-gen-proto
 
 .PHONY: proto
 
@@ -17,7 +19,9 @@ dualboot:
 	poetry run python -m tashizan.dualboot
 
 proto:
-	rm -rf tashizan/pb/*pb.py
-	protoc -I proto --python_out=tashizan/pb $(PROTO_SRC)
-
-	protoc --js_out=binary:./static/js/pb $(PROTO_SRC)
+	docker rm $(PROTO_CNAME) || true
+	docker build -t $(PROTO_CNAME) -f proto/Dockerfile .
+	docker run -it --name $(PROTO_CNAME) $(PROTO_CNAME)
+	docker cp $(PROTO_CNAME):/app/python proto
+	docker cp $(PROTO_CNAME):/app/js proto
+	docker rm $(PROTO_CNAME)

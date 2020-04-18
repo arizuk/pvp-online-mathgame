@@ -36,14 +36,15 @@ def handle_ws_message(message):
         print(f"Unknown message={message}")
         return
 
-    data = json.loads(message["text"])
-    msg_type = data["type"]
-    payload = data["payload"]
+    # message["bytes"]
+    # data = json.loads(message["text"])
+    # msg_type = data["type"]
+    # payload = data["payload"]
 
-    if msg_type == "JOIN":
-        channels.game.send(Message(type=GameMessageType.JOIN, payload=payload))
-    else:
-        raise RuntimeError(f"unknown message={data}")
+    # if msg_type == "JOIN":
+    #     channels.game.send(Message(type=GameMessageType.JOIN, payload=payload))
+    # else:
+    #     raise RuntimeError(f"unknown message={data}")
 
 
 async def ws_handler(websocket):
