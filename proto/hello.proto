@@ -1,5 +1,0 @@
-syntax = "proto3";
-
-message Join {
-    string player_id = 1;
-}

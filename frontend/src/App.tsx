@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import logo from './logo.svg'
 import './App.css'
 
-import { Join } from "pb/hello_pb"
+import { Message } from "pb/app_pb"
 
 function App() {
   useEffect(() => {
@@ -21,19 +21,11 @@ function App() {
     })
     ws.addEventListener('open', (ev) => {
       console.log('WS onOpen')
-      ws.send(
-        JSON.stringify({
-          type: 'JOIN',
-          payload: {},
-        })
-      )
+      // ws.send(join.serializeBinary())
     })
   }, [])
 
   const [count, setCount] = useState(0)
-
-  const join = new Join()
-  join.setPlayerId("1")
 
   return (
     <div className="App">
@@ -41,7 +33,6 @@ function App() {
         <img src={logo} className="App-logo" alt="logo" />
         <p>Counter {count}</p>
         <button onClick={() => setCount(count+1)}>click me</button>
-        <p>playerId: {join.getPlayerId()}</p>
       </header>
     </div>
   )
