@@ -10,9 +10,11 @@ export function serializeMessage(type: MessageType, payload: any) {
     case Message.Type.CLIENT_JOIN:
       msg.setJoin(payload)
       break
-    default:
+    case Message.Type.CLIENT_ANSWER:
       msg.setAnswer(payload)
       break
+    default:
+      throw new Error(`type is unexpected. type=${type}`)
   }
   return msg.serializeBinary()
 }
