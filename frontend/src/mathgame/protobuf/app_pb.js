@@ -48,14 +48,15 @@ if (goog.DEBUG && !COMPILED) {
  * @private {!Array<!Array<number>>}
  * @const
  */
-proto.mathgame.protobuf.Message.oneofGroups_ = [[2]];
+proto.mathgame.protobuf.Message.oneofGroups_ = [[2,3]];
 
 /**
  * @enum {number}
  */
 proto.mathgame.protobuf.Message.PayloadCase = {
   PAYLOAD_NOT_SET: 0,
-  JOIN: 2
+  JOIN: 2,
+  ANSWER: 3
 };
 
 /**
@@ -97,7 +98,8 @@ proto.mathgame.protobuf.Message.prototype.toObject = function(opt_includeInstanc
 proto.mathgame.protobuf.Message.toObject = function(includeInstance, msg) {
   var f, obj = {
     type: jspb.Message.getFieldWithDefault(msg, 1, 0),
-    join: (f = msg.getJoin()) && mathgame_protobuf_client_pb.Join.toObject(includeInstance, f)
+    join: (f = msg.getJoin()) && mathgame_protobuf_client_pb.Join.toObject(includeInstance, f),
+    answer: (f = msg.getAnswer()) && mathgame_protobuf_client_pb.Answer.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -143,6 +145,11 @@ proto.mathgame.protobuf.Message.deserializeBinaryFromReader = function(msg, read
       reader.readMessage(value,mathgame_protobuf_client_pb.Join.deserializeBinaryFromReader);
       msg.setJoin(value);
       break;
+    case 3:
+      var value = new mathgame_protobuf_client_pb.Answer;
+      reader.readMessage(value,mathgame_protobuf_client_pb.Answer.deserializeBinaryFromReader);
+      msg.setAnswer(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -187,6 +194,14 @@ proto.mathgame.protobuf.Message.serializeBinaryToWriter = function(message, writ
       mathgame_protobuf_client_pb.Join.serializeBinaryToWriter
     );
   }
+  f = message.getAnswer();
+  if (f != null) {
+    writer.writeMessage(
+      3,
+      f,
+      mathgame_protobuf_client_pb.Answer.serializeBinaryToWriter
+    );
+  }
 };
 
 
@@ -194,7 +209,8 @@ proto.mathgame.protobuf.Message.serializeBinaryToWriter = function(message, writ
  * @enum {number}
  */
 proto.mathgame.protobuf.Message.Type = {
-  CLIENT_JOIN: 0
+  CLIENT_JOIN: 0,
+  CLIENT_ANSWER: 1
 };
 
 /**
@@ -249,6 +265,43 @@ proto.mathgame.protobuf.Message.prototype.clearJoin = function() {
  */
 proto.mathgame.protobuf.Message.prototype.hasJoin = function() {
   return jspb.Message.getField(this, 2) != null;
+};
+
+
+/**
+ * optional Answer answer = 3;
+ * @return {?proto.mathgame.protobuf.Answer}
+ */
+proto.mathgame.protobuf.Message.prototype.getAnswer = function() {
+  return /** @type{?proto.mathgame.protobuf.Answer} */ (
+    jspb.Message.getWrapperField(this, mathgame_protobuf_client_pb.Answer, 3));
+};
+
+
+/**
+ * @param {?proto.mathgame.protobuf.Answer|undefined} value
+ * @return {!proto.mathgame.protobuf.Message} returns this
+*/
+proto.mathgame.protobuf.Message.prototype.setAnswer = function(value) {
+  return jspb.Message.setOneofWrapperField(this, 3, proto.mathgame.protobuf.Message.oneofGroups_[0], value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
+ * @return {!proto.mathgame.protobuf.Message} returns this
+ */
+proto.mathgame.protobuf.Message.prototype.clearAnswer = function() {
+  return this.setAnswer(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.mathgame.protobuf.Message.prototype.hasAnswer = function() {
+  return jspb.Message.getField(this, 3) != null;
 };
 
 

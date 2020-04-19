@@ -27,6 +27,15 @@ class Match:
 
     def on_answer(self, message: app_pb2.Message):
         assert message.type == app_pb2.Message.Type.CLIENT_ANSWER
+        answer: client_pb2.Answer = message.answer
+        player = self._get_player(answer.player_id)
+        logger.info("[PLAYER_ANSWERED]: player={}".format(player))
+
+    def _get_player(self, player_id: str) -> Player:
+        for player in self._players:
+            if player.id == player_id:
+                return player
+        raise RuntimeError()
 
     def tick(self):
         pass
@@ -41,6 +50,8 @@ class GameServer:
 
         if message.type == app_pb2.Message.Type.CLIENT_JOIN:
             self.current_match.on_join(message)
+        elif message.type == app_pb2.Message.Type.CLIENT_ANSWER:
+            self.current_match.on_answer(message)
         else:
             raise NotImplementedError(str(message))
 

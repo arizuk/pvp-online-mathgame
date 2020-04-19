@@ -18,7 +18,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='mathgame.protobuf',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=b'\n\x1emathgame/protobuf/client.proto\x12\x11mathgame.protobuf\"\x19\n\x04Join\x12\x11\n\tplayer_id\x18\x01 \x01(\tb\x06proto3'
+  serialized_pb=b'\n\x1emathgame/protobuf/client.proto\x12\x11mathgame.protobuf\"\x19\n\x04Join\x12\x11\n\tplayer_id\x18\x01 \x01(\t\"\x1b\n\x06\x41nswer\x12\x11\n\tplayer_id\x18\x01 \x01(\tb\x06proto3'
 )
 
 
@@ -54,7 +54,39 @@ _JOIN = _descriptor.Descriptor(
   serialized_end=78,
 )
 
+
+_ANSWER = _descriptor.Descriptor(
+  name='Answer',
+  full_name='mathgame.protobuf.Answer',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='player_id', full_name='mathgame.protobuf.Answer.player_id', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=80,
+  serialized_end=107,
+)
+
 DESCRIPTOR.message_types_by_name['Join'] = _JOIN
+DESCRIPTOR.message_types_by_name['Answer'] = _ANSWER
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 Join = _reflection.GeneratedProtocolMessageType('Join', (_message.Message,), {
@@ -63,6 +95,13 @@ Join = _reflection.GeneratedProtocolMessageType('Join', (_message.Message,), {
   # @@protoc_insertion_point(class_scope:mathgame.protobuf.Join)
   })
 _sym_db.RegisterMessage(Join)
+
+Answer = _reflection.GeneratedProtocolMessageType('Answer', (_message.Message,), {
+  'DESCRIPTOR' : _ANSWER,
+  '__module__' : 'mathgame.protobuf.client_pb2'
+  # @@protoc_insertion_point(class_scope:mathgame.protobuf.Answer)
+  })
+_sym_db.RegisterMessage(Answer)
 
 
 # @@protoc_insertion_point(module_scope)

@@ -5,3 +5,7 @@ package mathgame.protobuf;
 message Join {
     string player_id = 1;
 }
+
+message Answer {
+    string player_id = 1;
+}

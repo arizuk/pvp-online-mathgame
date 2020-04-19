@@ -13,6 +13,11 @@ export class Message extends jspb.Message {
   getJoin(): mathgame_protobuf_client_pb.Join | undefined;
   setJoin(value?: mathgame_protobuf_client_pb.Join): void;
 
+  hasAnswer(): boolean;
+  clearAnswer(): void;
+  getAnswer(): mathgame_protobuf_client_pb.Answer | undefined;
+  setAnswer(value?: mathgame_protobuf_client_pb.Answer): void;
+
   getPayloadCase(): Message.PayloadCase;
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): Message.AsObject;
@@ -28,10 +33,12 @@ export namespace Message {
   export type AsObject = {
     type: Message.TypeMap[keyof Message.TypeMap],
     join?: mathgame_protobuf_client_pb.Join.AsObject,
+    answer?: mathgame_protobuf_client_pb.Answer.AsObject,
   }
 
   export interface TypeMap {
     CLIENT_JOIN: 0;
+    CLIENT_ANSWER: 1;
   }
 
   export const Type: TypeMap;
@@ -39,6 +46,7 @@ export namespace Message {
   export enum PayloadCase {
     PAYLOAD_NOT_SET = 0,
     JOIN = 2,
+    ANSWER = 3,
   }
 }
 

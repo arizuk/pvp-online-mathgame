@@ -37,11 +37,7 @@ def handle_ws_message(message):
         return
     pb_msg = app_pb2.Message()
     pb_msg.ParseFromString(message["bytes"])
-
-    if pb_msg.type == app_pb2.Message.Type.CLIENT_JOIN:
-        channels.game.send(pb_msg)
-    else:
-        raise NotImplementedError(str(pb_msg))
+    channels.game.send(pb_msg)
 
 
 async def ws_handler(websocket):

@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='mathgame.protobuf',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=b'\n\x1bmathgame/protobuf/app.proto\x12\x11mathgame.protobuf\x1a\x1emathgame/protobuf/client.proto\"\x85\x01\n\x07Message\x12-\n\x04type\x18\x01 \x01(\x0e\x32\x1f.mathgame.protobuf.Message.Type\x12\'\n\x04join\x18\x02 \x01(\x0b\x32\x17.mathgame.protobuf.JoinH\x00\"\x17\n\x04Type\x12\x0f\n\x0b\x43LIENT_JOIN\x10\x00\x42\t\n\x07payloadb\x06proto3'
+  serialized_pb=b'\n\x1bmathgame/protobuf/app.proto\x12\x11mathgame.protobuf\x1a\x1emathgame/protobuf/client.proto\"\xc5\x01\n\x07Message\x12-\n\x04type\x18\x01 \x01(\x0e\x32\x1f.mathgame.protobuf.Message.Type\x12\'\n\x04join\x18\x02 \x01(\x0b\x32\x17.mathgame.protobuf.JoinH\x00\x12+\n\x06\x61nswer\x18\x03 \x01(\x0b\x32\x19.mathgame.protobuf.AnswerH\x00\"*\n\x04Type\x12\x0f\n\x0b\x43LIENT_JOIN\x10\x00\x12\x11\n\rCLIENT_ANSWER\x10\x01\x42\t\n\x07payloadb\x06proto3'
   ,
   dependencies=[mathgame_dot_protobuf_dot_client__pb2.DESCRIPTOR,])
 
@@ -35,11 +35,15 @@ _MESSAGE_TYPE = _descriptor.EnumDescriptor(
       name='CLIENT_JOIN', index=0, number=0,
       serialized_options=None,
       type=None),
+    _descriptor.EnumValueDescriptor(
+      name='CLIENT_ANSWER', index=1, number=1,
+      serialized_options=None,
+      type=None),
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=182,
-  serialized_end=205,
+  serialized_start=227,
+  serialized_end=269,
 )
 _sym_db.RegisterEnumDescriptor(_MESSAGE_TYPE)
 
@@ -65,6 +69,13 @@ _MESSAGE = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='answer', full_name='mathgame.protobuf.Message.answer', index=2,
+      number=3, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -82,15 +93,19 @@ _MESSAGE = _descriptor.Descriptor(
       index=0, containing_type=None, fields=[]),
   ],
   serialized_start=83,
-  serialized_end=216,
+  serialized_end=280,
 )
 
 _MESSAGE.fields_by_name['type'].enum_type = _MESSAGE_TYPE
 _MESSAGE.fields_by_name['join'].message_type = mathgame_dot_protobuf_dot_client__pb2._JOIN
+_MESSAGE.fields_by_name['answer'].message_type = mathgame_dot_protobuf_dot_client__pb2._ANSWER
 _MESSAGE_TYPE.containing_type = _MESSAGE
 _MESSAGE.oneofs_by_name['payload'].fields.append(
   _MESSAGE.fields_by_name['join'])
 _MESSAGE.fields_by_name['join'].containing_oneof = _MESSAGE.oneofs_by_name['payload']
+_MESSAGE.oneofs_by_name['payload'].fields.append(
+  _MESSAGE.fields_by_name['answer'])
+_MESSAGE.fields_by_name['answer'].containing_oneof = _MESSAGE.oneofs_by_name['payload']
 DESCRIPTOR.message_types_by_name['Message'] = _MESSAGE
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
