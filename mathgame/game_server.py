@@ -2,7 +2,6 @@ import asyncio
 import logging
 import uuid
 
-from .message import GameMessageType, Message
 from .message_channel import channels
 from .player import Player, PlayerState
 from .problem import ProblemSet, RandomAdditionFactory

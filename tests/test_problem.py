@@ -1,4 +1,4 @@
-from tashizan.problem import Addition, RandomAdditionFactory
+from mathgame.problem import Addition, RandomAdditionFactory
 
 
 def test_addition():

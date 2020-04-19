@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package mathgame.protobuf;
+
+import "mathgame/protobuf/client.proto";
+
+message Message {
+    enum Type {
+        CLIENT_JOIN = 0;
+    }
+    Type type = 1;
+
+    oneof payload {
+        Join join = 2;
+    }
+}

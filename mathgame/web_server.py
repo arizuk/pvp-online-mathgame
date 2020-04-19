@@ -6,8 +6,8 @@ from starlette.applications import Starlette
 from starlette.routing import Mount, WebSocketRoute
 from starlette.staticfiles import StaticFiles
 
-from .message import GameMessageType, Message
 from .message_channel import channels
+from .protobuf import app_pb2, client_pb2
 
 
 class ConnectionManager:
@@ -35,6 +35,11 @@ def handle_ws_message(message):
     if message["type"] != "websocket.receive":
         print(f"Unknown message={message}")
         return
+
+    pb_msg = app_pb2.Message()
+    pb_msg.ParseFromString(message["bytes"])
+
+    print(pb_msg)
 
     # message["bytes"]
     # data = json.loads(message["text"])

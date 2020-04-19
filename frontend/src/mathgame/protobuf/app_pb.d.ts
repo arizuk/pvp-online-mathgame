@@ -1,18 +1,19 @@
-// package: app
-// file: app.proto
+// package: mathgame.protobuf
+// file: mathgame/protobuf/app.proto
 
 import * as jspb from "google-protobuf";
-import * as google_protobuf_any_pb from "google-protobuf/google/protobuf/any_pb";
+import * as mathgame_protobuf_client_pb from "../../mathgame/protobuf/client_pb";
 
 export class Message extends jspb.Message {
   getType(): Message.TypeMap[keyof Message.TypeMap];
   setType(value: Message.TypeMap[keyof Message.TypeMap]): void;
 
-  hasPayload(): boolean;
-  clearPayload(): void;
-  getPayload(): google_protobuf_any_pb.Any | undefined;
-  setPayload(value?: google_protobuf_any_pb.Any): void;
+  hasJoin(): boolean;
+  clearJoin(): void;
+  getJoin(): mathgame_protobuf_client_pb.Join | undefined;
+  setJoin(value?: mathgame_protobuf_client_pb.Join): void;
 
+  getPayloadCase(): Message.PayloadCase;
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): Message.AsObject;
   static toObject(includeInstance: boolean, msg: Message): Message.AsObject;
@@ -26,7 +27,7 @@ export class Message extends jspb.Message {
 export namespace Message {
   export type AsObject = {
     type: Message.TypeMap[keyof Message.TypeMap],
-    payload?: google_protobuf_any_pb.Any.AsObject,
+    join?: mathgame_protobuf_client_pb.Join.AsObject,
   }
 
   export interface TypeMap {
@@ -34,5 +35,10 @@ export namespace Message {
   }
 
   export const Type: TypeMap;
+
+  export enum PayloadCase {
+    PAYLOAD_NOT_SET = 0,
+    JOIN = 2,
+  }
 }
 

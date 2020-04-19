@@ -2,9 +2,16 @@ import React, {useEffect, useState} from 'react'
 import logo from './logo.svg'
 import './App.css'
 
-import { Message } from "pb/app_pb"
+import { Message } from "mathgame/protobuf/app_pb"
+import { Join } from "mathgame/protobuf/client_pb"
 
 function App() {
+  const join = new Join()
+  join.setPlayerId("taro")
+  const msg = new Message()
+  msg.setType(Message.Type.CLIENT_JOIN)
+  msg.setJoin(join)
+
   useEffect(() => {
     const devPort = '3000'
     const protocolPrefix =
@@ -21,7 +28,7 @@ function App() {
     })
     ws.addEventListener('open', (ev) => {
       console.log('WS onOpen')
-      // ws.send(join.serializeBinary())
+      ws.send(msg.serializeBinary())
     })
   }, [])
 

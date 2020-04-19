@@ -1,4 +1,4 @@
-from tashizan import __version__
+from mathgame import __version__
 
 
 def test_version():

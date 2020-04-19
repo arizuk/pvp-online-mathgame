@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+package mathgame.protobuf;
+
+message Join {
+    string player_id = 1;
+}

@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "tashizan"
+name = "mathgame"
 version = "0.1.0"
 description = ""
 authors = ["masaki.arizuka <masaki.arizuka@gmail.com>"]
