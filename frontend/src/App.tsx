@@ -1,21 +1,20 @@
-import React, {useEffect, useState} from 'react'
-import logo from './logo.svg'
-import './App.css'
+import React, { useEffect, useState } from "react"
+import logo from "./logo.svg"
+import "./App.css"
 
 import { Message } from "mathgame/protobuf/app_pb"
 import { Join, Answer } from "mathgame/protobuf/client_pb"
 import { serializeMessage } from "helpers"
 
-let ws: WebSocket|null = null
+let ws: WebSocket | null = null
 
 const getWSUrl = () => {
-  const devPort = '3000'
-  const protocolPrefix =
-    window.location.protocol === 'https:' ? 'wss:' : 'ws:'
+  const devPort = "3000"
+  const protocolPrefix = window.location.protocol === "https:" ? "wss:" : "ws:"
   let { host, port } = window.location
 
   if (port === devPort) {
-    host = host.replace(devPort, '8000')
+    host = host.replace(devPort, "8000")
   }
   const wsUrl = `${protocolPrefix}//${host}/ws`
   return wsUrl
@@ -30,11 +29,10 @@ function App() {
 
     ws = new WebSocket(getWSUrl())
 
-    ws.addEventListener('message', (ev) => {
+    ws.addEventListener("message", (ev) => {
       console.log(ev.data)
-
     })
-    ws.addEventListener('open', (ev) => {
+    ws.addEventListener("open", (ev) => {
       if (ws) {
         const join = new Join()
         join.setPlayerId("taro")
@@ -56,7 +54,7 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>Counter {count}</p>
-        <button onClick={() => setCount(count+1)}>click me</button>
+        <button onClick={() => setCount(count + 1)}>click me</button>
       </header>
     </div>
   )

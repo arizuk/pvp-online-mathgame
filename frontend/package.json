@@ -23,7 +23,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint './src/**/*.{ts,tsx}'",
-    "lint:fix": "eslint --fix './src/**/*.{ts,tsx}'"
+    "lint:fix": "eslint --fix './src/**/*.{ts,tsx}'",
+    "fmt:fix": "prettier --write src/**/*.{ts,tsx}"
   },
   "eslintConfig": {
     "extends": "react-app"
