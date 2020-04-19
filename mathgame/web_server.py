@@ -35,21 +35,13 @@ def handle_ws_message(message):
     if message["type"] != "websocket.receive":
         print(f"Unknown message={message}")
         return
-
     pb_msg = app_pb2.Message()
     pb_msg.ParseFromString(message["bytes"])
 
-    print(pb_msg)
-
-    # message["bytes"]
-    # data = json.loads(message["text"])
-    # msg_type = data["type"]
-    # payload = data["payload"]
-
-    # if msg_type == "JOIN":
-    #     channels.game.send(Message(type=GameMessageType.JOIN, payload=payload))
-    # else:
-    #     raise RuntimeError(f"unknown message={data}")
+    if pb_msg.type == app_pb2.Message.Type.CLIENT_JOIN:
+        channels.game.send(pb_msg)
+    else:
+        raise NotImplementedError(str(pb_msg))
 
 
 async def ws_handler(websocket):
