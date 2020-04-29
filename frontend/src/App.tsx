@@ -6,7 +6,9 @@ import { Message } from "mathgame/protobuf/app_pb"
 import { Join, Answer } from "mathgame/protobuf/client_pb"
 import { serializeMessage } from "helpers"
 import { PageRouter } from "Pages"
-import { syncAppStateWithStorage } from "contexts"
+import { Pages } from "consts"
+import { syncAppStateWithStorage, useAppState } from "contexts"
+import { Stats } from "fs"
 
 let ws: WebSocket | null = null
 
@@ -22,29 +24,57 @@ const getWSUrl = () => {
   return wsUrl
 }
 
+interface InitializationState {
+  sync: boolean
+  ws: boolean
+}
+
+function useInitializationState() {
+  const [_, setPage] = useAppState("page")
+  const [playerId] = useAppState("playerId")
+
+  const initState: InitializationState = { sync: false, ws: false }
+  const [init, setInit] = useState(initState)
+  const [logs, setLogs] = useState([])
+
+  useEffect(() => {
+    if (init.sync === false) {
+      syncAppStateWithStorage()
+      setInit({ ...init, sync: true })
+      return
+    }
+
+    // Redirect to playerEdit page
+    if (!playerId) {
+      setPage(Pages.PlayerEdit)
+      return
+    }
+
+    if (init.ws === false) {
+      console.log("ws initialized")
+
+      ws = new WebSocket(getWSUrl())
+
+      ws.addEventListener("message", (ev) => {
+        setLogs(logs.concat(ev.data))
+      })
+
+      ws.addEventListener("open", (ev) => {
+        if (ws) {
+          const join = new Join()
+          join.setPlayerId(playerId)
+          ws.send(serializeMessage(Message.Type.CLIENT_JOIN, join))
+        }
+        setInit({ ...init, ws: true })
+      })
+    }
+  }, [init, playerId])
+
+  return [init, logs] as const
+}
+
 function App() {
-  const [wsIsReady, setWsIsReady] = useState(false)
-  const [count, setCount] = useState(0)
-
-  useEffect(() => syncAppStateWithStorage(), [])
-
-  // useEffect(() => {
-  //   if (ws) return
-
-  //   ws = new WebSocket(getWSUrl())
-
-  //   ws.addEventListener("message", (ev) => {
-  //     console.log(ev.data)
-  //   })
-  //   ws.addEventListener("open", (ev) => {
-  //     if (ws) {
-  //       const join = new Join()
-  //       join.setPlayerId("taro")
-  //       ws.send(serializeMessage(Message.Type.CLIENT_ANSWER, join))
-  //     }
-  //     setWsIsReady(true)
-  //   })
-  // }, [wsIsReady])
+  const [init, logs] = useInitializationState()
 
   // useEffect(() => {
   //   if (!wsIsReady || !ws) return
@@ -55,7 +85,19 @@ function App() {
 
   return (
     <div className="App">
-      <PageRouter></PageRouter>
+      {init.sync ? <PageRouter></PageRouter> : <div>NOW LOADING</div>}
+
+      <div>
+        <ul>
+          <li>server:{getWSUrl()}</li>
+        </ul>
+      </div>
+
+      <div>
+        {logs.map((log, idx) => (
+          <div key={idx}>{log}</div>
+        ))}
+      </div>
     </div>
   )
 }

@@ -8,24 +8,33 @@ function PlayerEdit() {
 
   const [playerId, setPlayerId] = useState(globalPlayerId)
   const [saveClicked, setSaveClicked] = useState(false)
+
   useEffect(() => {
     if (saveClicked) {
       setGlobalPlayerId(playerId)
-      // Upload local storage
       setPage(Pages.Top)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [saveClicked])
 
   return (
     <div>
-      PlayerEdit
-      <input
-        type="text"
-        value={playerId}
-        onChange={(ev) => setPlayerId(ev.target.value)}
-      />
-      <button onClick={() => setSaveClicked(true)}>Save</button>
-      <button onClick={() => setPage(Pages.Top)}>Cancel</button>
+      <h1>Player Edit Page</h1>
+      {globalPlayerId ? null : (
+        <div>ゲームをはじめるにはまず、なまえを入力してください</div>
+      )}
+
+      <div>
+        <input
+          type="text"
+          value={playerId}
+          onChange={(ev) => setPlayerId(ev.target.value)}
+        />
+      </div>
+      <div>
+        <button onClick={() => setSaveClicked(true)}>Save</button>
+        <button onClick={() => setPage(Pages.Top)}>Cancel</button>
+      </div>
     </div>
   )
 }

@@ -29,7 +29,6 @@ class WsHandler(WebSocketEndpoint):
         pb_msg.ParseFromString(data)
         channels.game.send(pb_msg)
 
-        import time
-
-        print("handle ws message")
-        channels.web.send({"hello": str(time.time())})
+        # FIXME:
+        if pb_msg.join is not None:
+            channels.web.send(f"Hello {pb_msg.join.player_id}")

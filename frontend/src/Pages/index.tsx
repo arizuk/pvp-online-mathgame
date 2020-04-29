@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React from "react"
 import { getRoute } from "./routes"
 import { useAppState } from "contexts"
 
@@ -9,7 +9,7 @@ import { useAppState } from "contexts"
 // {/* </header> */}
 
 export function PageRouter() {
-  const [page, setPage] = useAppState("page")
+  const [page] = useAppState("page")
   const PageComponent = getRoute(page)
   return <PageComponent></PageComponent>
 }
