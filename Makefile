@@ -11,9 +11,8 @@ style:
 test:
 	poetry run pytest tests
 
-#FIXME:
 dev/web_server:
-	poetry run uvicorn mathgame.web_server:app --ws websockets \
+	WEB_DEBUG=1 poetry run uvicorn mathgame.web_server:app --ws websockets \
 		--reload --reload-dir $(SRC)
 
 dualboot:

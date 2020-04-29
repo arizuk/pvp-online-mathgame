@@ -1,67 +1,47 @@
 import asyncio
-import json
+import os
 
 import uvicorn
 from starlette.applications import Starlette
-from starlette.routing import Mount, WebSocketRoute
+from starlette.responses import PlainTextResponse
+from starlette.routing import Mount, Route, WebSocketRoute
 from starlette.staticfiles import StaticFiles
 
 from .message_channel import channels
-from .protobuf import app_pb2, client_pb2
+from .ws_handler import WsHandler, handle_web_message
 
 
-class ConnectionManager:
-    def __init__(self):
-        self._connections = []
-
-    async def add(self, conn):
-        self._connections.append(conn)
-
-    async def remove(self, conn):
-        index = self._connections.index(conn)
-        self._connections.pop(index)
+def pong(requests):
+    return PlainTextResponse("pong")
 
 
-class Publisher:
-    @classmethod
-    async def publish(self, connections: list, message):
-        await asyncio.gather(*[c.send_text(message) for c in connections])
-
-
-connection_manger = ConnectionManager()
-
-
-def handle_ws_message(message):
-    if message["type"] != "websocket.receive":
-        print(f"Unknown message={message}")
-        return
-    pb_msg = app_pb2.Message()
-    pb_msg.ParseFromString(message["bytes"])
-    channels.game.send(pb_msg)
-
-
-async def ws_handler(websocket):
-    await websocket.accept()
-    await connection_manger.add(websocket)
-
-    try:
+async def polling_web_channel(fps: int):
+    while True:
         while True:
-            message = await websocket.receive()
-            handle_ws_message(message)
+            message = channels.web.read()
+            if message is None:
+                break
+            await handle_web_message(message)
+        await asyncio.sleep(1 / fps)
 
-    except RuntimeError as e:
-        print(e)
-        await connection_manger.remove(websocket)
 
-    await websocket.close()
+async def on_server_startup():
+    asyncio.create_task(polling_web_channel(fps=10))
+
+    if os.environ.get("WEB_DEBUG", False):
+        import multiprocessing as mp
+
+        channels.web.init(mp.Queue())
+        channels.game.init(mp.Queue())
 
 
 routes = [
-    WebSocketRoute("/ws", ws_handler),
+    WebSocketRoute("/ws", WsHandler),
+    Route("/ping", pong),
     Mount("/", app=StaticFiles(directory="frontend/build", html=True), name="static"),
 ]
-app = Starlette(routes=routes, debug=True)
+app = Starlette(routes=routes, debug=True, on_startup=[on_server_startup])
 
 
-def start_web_server():
-    uvicorn.run(app, debug=True)
+def start_web_server(**kw_args):
+    uvicorn.run(app, debug=True, **kw_args)
