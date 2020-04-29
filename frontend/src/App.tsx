@@ -5,6 +5,7 @@ import "./App.css"
 import { Message } from "mathgame/protobuf/app_pb"
 import { Join, Answer } from "mathgame/protobuf/client_pb"
 import { serializeMessage } from "helpers"
+import { PageRouter } from "Pages"
 
 let ws: WebSocket | null = null
 
@@ -24,38 +25,34 @@ function App() {
   const [wsIsReady, setWsIsReady] = useState(false)
   const [count, setCount] = useState(0)
 
-  useEffect(() => {
-    if (ws) return
+  // useEffect(() => {
+  //   if (ws) return
 
-    ws = new WebSocket(getWSUrl())
+  //   ws = new WebSocket(getWSUrl())
 
-    ws.addEventListener("message", (ev) => {
-      console.log(ev.data)
-    })
-    ws.addEventListener("open", (ev) => {
-      if (ws) {
-        const join = new Join()
-        join.setPlayerId("taro")
-        ws.send(serializeMessage(Message.Type.CLIENT_ANSWER, join))
-      }
-      setWsIsReady(true)
-    })
-  }, [wsIsReady])
+  //   ws.addEventListener("message", (ev) => {
+  //     console.log(ev.data)
+  //   })
+  //   ws.addEventListener("open", (ev) => {
+  //     if (ws) {
+  //       const join = new Join()
+  //       join.setPlayerId("taro")
+  //       ws.send(serializeMessage(Message.Type.CLIENT_ANSWER, join))
+  //     }
+  //     setWsIsReady(true)
+  //   })
+  // }, [wsIsReady])
 
-  useEffect(() => {
-    if (!wsIsReady || !ws) return
-    const answer = new Answer()
-    answer.setPlayerId("taro")
-    ws.send(serializeMessage(Message.Type.CLIENT_ANSWER, answer))
-  }, [wsIsReady, count])
+  // useEffect(() => {
+  //   if (!wsIsReady || !ws) return
+  //   const answer = new Answer()
+  //   answer.setPlayerId("taro")
+  //   ws.send(serializeMessage(Message.Type.CLIENT_ANSWER, answer))
+  // }, [wsIsReady, count])
 
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Counter {count}</p>
-        <button onClick={() => setCount(count + 1)}>click me</button>
-      </header>
+      <PageRouter></PageRouter>
     </div>
   )
 }
