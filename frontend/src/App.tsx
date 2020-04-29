@@ -6,6 +6,7 @@ import { Message } from "mathgame/protobuf/app_pb"
 import { Join, Answer } from "mathgame/protobuf/client_pb"
 import { serializeMessage } from "helpers"
 import { PageRouter } from "Pages"
+import { syncAppStateWithStorage } from "contexts"
 
 let ws: WebSocket | null = null
 
@@ -24,6 +25,8 @@ const getWSUrl = () => {
 function App() {
   const [wsIsReady, setWsIsReady] = useState(false)
   const [count, setCount] = useState(0)
+
+  useEffect(() => syncAppStateWithStorage(), [])
 
   // useEffect(() => {
   //   if (ws) return

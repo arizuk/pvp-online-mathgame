@@ -1,4 +1,4 @@
-import { Pages } from "contexts/page"
+import { Pages } from "consts"
 
 import Top from "./Top"
 import PlayerEdit from "./PlayerEdit"

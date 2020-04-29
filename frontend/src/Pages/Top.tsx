@@ -1,15 +1,18 @@
 import React, { useContext, useEffect } from "react"
-import { Pages, PageContext } from "contexts/page"
+import { useAppState } from "contexts"
+import { Pages } from "consts"
 
 function Top() {
-  const { changePage } = useContext(PageContext)
+  const [, setPage] = useAppState("page")
+  const [playerId] = useAppState("playerId")
 
   useEffect(() => {})
 
   return (
     <div>
+      playerId: {playerId}
       Top
-      <button onClick={() => changePage(Pages.PlayerEdit)}>
+      <button onClick={() => setPage(Pages.PlayerEdit)}>
         Go To PlayerEdit
       </button>
     </div>
