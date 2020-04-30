@@ -1,7 +1,7 @@
 import React from "react"
 import { useAppState } from "contexts"
 import { Pages } from "consts"
-import { PageLink } from "Components"
+import { PageLink } from "components"
 
 function Top() {
   const [playerId] = useAppState("playerId")
