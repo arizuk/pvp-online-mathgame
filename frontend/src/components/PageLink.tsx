@@ -1,6 +1,6 @@
-import { Pages } from "consts"
-import { useAppState } from "contexts"
-import React, { ReactNode } from "react"
+import { Pages } from 'consts'
+import { useAppState } from 'contexts'
+import React, { ReactNode } from 'react'
 
 interface Props {
   to: Pages
@@ -8,7 +8,7 @@ interface Props {
 }
 
 function PageLink(props: Props) {
-  const [, setPage] = useAppState("page")
+  const [, setPage] = useAppState('page')
   return <span onClick={() => setPage(props.to)}>{props.children}</span>
 }
 

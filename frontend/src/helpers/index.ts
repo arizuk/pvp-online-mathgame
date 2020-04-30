@@ -1,4 +1,4 @@
-import { Message } from "../mathgame/protobuf/app_pb"
+import { Message } from '../mathgame/protobuf/app_pb'
 
 type MessageType = Message.TypeMap[keyof Message.TypeMap]
 

@@ -1,1 +1,1 @@
-export { useAppState, syncAppStateWithStorage } from "./app"
+export { useAppState, syncAppStateWithStorage } from './app'

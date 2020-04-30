@@ -1,4 +1,4 @@
 export enum Pages {
-  Top = "top",
-  PlayerEdit = "playerEdit",
+  Top = 'top',
+  PlayerEdit = 'playerEdit',
 }

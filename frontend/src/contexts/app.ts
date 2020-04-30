@@ -1,5 +1,5 @@
-import { createGlobalState } from "react-hooks-global-state"
-import { Pages } from "consts"
+import { createGlobalState } from 'react-hooks-global-state'
+import { Pages } from 'consts'
 
 interface AppState {
   page: Pages
@@ -8,11 +8,11 @@ interface AppState {
 
 const initialState: AppState = {
   page: Pages.Top,
-  playerId: "",
+  playerId: '',
 }
 const { useGlobalState, setGlobalState } = createGlobalState(initialState)
 
-const LOCAL_STORAGE_PREFIX = "mathgame.app"
+const LOCAL_STORAGE_PREFIX = 'mathgame.app'
 
 const getLocalStorageKey = (key: string) => {
   return `${LOCAL_STORAGE_PREFIX}.${key}`

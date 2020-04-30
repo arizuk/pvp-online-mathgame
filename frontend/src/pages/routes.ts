@@ -1,7 +1,7 @@
-import { Pages } from "consts"
+import { Pages } from 'consts'
 
-import Top from "./Top"
-import PlayerEdit from "./PlayerEdit"
+import Top from './Top'
+import PlayerEdit from './PlayerEdit'
 
 const routes: { [index: string]: () => JSX.Element } = {
   [Pages.Top]: Top,

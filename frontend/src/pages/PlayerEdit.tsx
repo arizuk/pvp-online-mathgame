@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react"
-import { useAppState } from "contexts"
-import { Pages } from "consts"
+import React, { useState, useEffect } from 'react'
+import { useAppState } from 'contexts'
+import { Pages } from 'consts'
 
 function PlayerEdit() {
-  const [, setPage] = useAppState("page")
-  const [globalPlayerId, setGlobalPlayerId] = useAppState("playerId")
+  const [, setPage] = useAppState('page')
+  const [globalPlayerId, setGlobalPlayerId] = useAppState('playerId')
 
   const [playerId, setPlayerId] = useState(globalPlayerId)
   const [saveClicked, setSaveClicked] = useState(false)

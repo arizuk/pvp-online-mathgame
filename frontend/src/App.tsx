@@ -1,24 +1,24 @@
-import React, { useEffect, useState } from "react"
-import logo from "./logo.svg"
-import "./App.css"
+import React, { useEffect, useState } from 'react'
+import logo from './logo.svg'
+import './App.css'
 
-import { Message } from "mathgame/protobuf/app_pb"
-import { Join, Answer } from "mathgame/protobuf/client_pb"
-import { serializeMessage } from "helpers"
-import { PageRouter } from "pages"
-import { Pages } from "consts"
-import { syncAppStateWithStorage, useAppState } from "contexts"
-import { Stats } from "fs"
+import { Message } from 'mathgame/protobuf/app_pb'
+import { Join, Answer } from 'mathgame/protobuf/client_pb'
+import { serializeMessage } from 'helpers'
+import { PageRouter } from 'pages'
+import { Pages } from 'consts'
+import { syncAppStateWithStorage, useAppState } from 'contexts'
+import { Stats } from 'fs'
 
 let ws: WebSocket | null = null
 
 const getWSUrl = () => {
-  const devPort = "3000"
-  const protocolPrefix = window.location.protocol === "https:" ? "wss:" : "ws:"
+  const devPort = '3000'
+  const protocolPrefix = window.location.protocol === 'https:' ? 'wss:' : 'ws:'
   let { host, port } = window.location
 
   if (port === devPort) {
-    host = host.replace(devPort, "8000")
+    host = host.replace(devPort, '8000')
   }
   const wsUrl = `${protocolPrefix}//${host}/ws`
   return wsUrl
@@ -30,8 +30,8 @@ interface InitializationState {
 }
 
 function useInitializationState() {
-  const [_, setPage] = useAppState("page")
-  const [playerId] = useAppState("playerId")
+  const [_, setPage] = useAppState('page')
+  const [playerId] = useAppState('playerId')
 
   const initState: InitializationState = { sync: false, ws: false }
   const [init, setInit] = useState(initState)
@@ -51,15 +51,15 @@ function useInitializationState() {
     }
 
     if (init.ws === false) {
-      console.log("ws initialized")
+      console.log('ws initialized')
 
       ws = new WebSocket(getWSUrl())
 
-      ws.addEventListener("message", (ev) => {
+      ws.addEventListener('message', (ev) => {
         setLogs(logs.concat(ev.data))
       })
 
-      ws.addEventListener("open", (ev) => {
+      ws.addEventListener('open', (ev) => {
         if (ws) {
           const join = new Join()
           join.setPlayerId(playerId)

@@ -1,6 +1,6 @@
-import React from "react"
-import { getRoute } from "./routes"
-import { useAppState } from "contexts"
+import React from 'react'
+import { getRoute } from './routes'
+import { useAppState } from 'contexts'
 
 // {/* <header className="App-header"> */}
 // {/* <img src={logo} className="App-logo" alt="logo" />
@@ -9,7 +9,7 @@ import { useAppState } from "contexts"
 // {/* </header> */}
 
 export function PageRouter() {
-  const [page] = useAppState("page")
+  const [page] = useAppState('page')
   const PageComponent = getRoute(page)
   return <PageComponent></PageComponent>
 }
