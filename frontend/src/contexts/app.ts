@@ -7,7 +7,7 @@ interface AppState {
 }
 
 const initialState: AppState = {
-  page: Pages.Top,
+  page: Pages.Home,
   playerId: '',
 }
 const { useGlobalState, setGlobalState } = createGlobalState(initialState)

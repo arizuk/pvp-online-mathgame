@@ -3,12 +3,12 @@ import { useAppState } from 'contexts'
 import { Pages } from 'consts'
 import { PageLink } from 'components'
 
-function Top() {
+function Home() {
   const [playerId] = useAppState('playerId')
 
   return (
     <div>
-      <h1>Top Page</h1>
+      <h1>Home Page</h1>
       <div>
         なまえ: <PageLink to={Pages.PlayerEdit}>{playerId}</PageLink>
       </div>
@@ -19,4 +19,4 @@ function Top() {
   )
 }
 
-export default Top
+export default Home

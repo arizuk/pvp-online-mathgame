@@ -1,13 +1,13 @@
 import { Pages } from 'consts'
 
-import Top from './Top'
+import Home from './Home'
 import PlayerEdit from './PlayerEdit'
 
 const routes: { [index: string]: () => JSX.Element } = {
-  [Pages.Top]: Top,
+  [Pages.Home]: Home,
   [Pages.PlayerEdit]: PlayerEdit,
 }
 
-export function getRoute(page: string) {
+export function getCurrentPage(page: string) {
   return routes[page]
 }

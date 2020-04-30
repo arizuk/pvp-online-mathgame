@@ -12,7 +12,7 @@ function PlayerEdit() {
   useEffect(() => {
     if (saveClicked) {
       setGlobalPlayerId(playerId)
-      setPage(Pages.Top)
+      setPage(Pages.Home)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [saveClicked])
@@ -33,7 +33,7 @@ function PlayerEdit() {
       </div>
       <div>
         <button onClick={() => setSaveClicked(true)}>Save</button>
-        <button onClick={() => setPage(Pages.Top)}>Cancel</button>
+        <button onClick={() => setPage(Pages.Home)}>Cancel</button>
       </div>
     </div>
   )
