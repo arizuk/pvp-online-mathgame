@@ -15,7 +15,7 @@ def pong(requests):
     return PlainTextResponse("pong")
 
 
-async def polling_web_channel(fps: int):
+async def subscribe_web_channel(fps: int):
     while True:
         while True:
             message = channels.web.read()
@@ -26,7 +26,7 @@ async def polling_web_channel(fps: int):
 
 
 async def on_server_startup():
-    asyncio.create_task(polling_web_channel(fps=10))
+    asyncio.create_task(subscribe_web_channel(fps=10))
 
     if os.environ.get("WEB_DEBUG", False):
         import multiprocessing as mp
