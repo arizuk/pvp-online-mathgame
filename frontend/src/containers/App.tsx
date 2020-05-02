@@ -3,7 +3,7 @@ import { Message } from 'mathgame/protobuf/app_pb'
 import { Join, Answer } from 'mathgame/protobuf/client_pb'
 import { serializeMessage, getWsServerUrl } from 'helpers'
 import { Pages } from 'consts'
-import { syncWithLocalStorage, wrapSetter } from 'helpers/local_storage'
+import * as localStorageHelper from 'helpers/local_storage'
 
 type State = {
   page: Pages
@@ -41,7 +41,7 @@ function useAppState() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (init.sync === false) {
-      syncWithLocalStorage<State>(state)
+      localStorageHelper.sync<State>(state)
       setInit({ ...init, sync: true })
       return
     }
@@ -53,8 +53,6 @@ function useAppState() {
     }
 
     if (init.ws === false) {
-      console.log('ws initialized')
-
       socket.current = new WebSocket(getWsServerUrl())
       socket.current.addEventListener('message', (ev) => {
         setLogs(logs.concat(ev.data))
@@ -72,8 +70,8 @@ function useAppState() {
 
   return {
     ...state,
-    changePage: wrapSetter('page', setPage),
-    changePlayerId: wrapSetter('playerId', setPlayerId),
+    changePage: localStorageHelper.wrap('page', setPage),
+    changePlayerId: localStorageHelper.wrap('playerId', setPlayerId),
   }
 }
 
