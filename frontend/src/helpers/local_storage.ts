@@ -8,17 +8,18 @@ export const wrap = <V>(key: string, setter: (v: V) => void) => {
   }
 }
 
-export const sync = <S extends object>(object: S) => {
-  // TODO: stringからcastできる型じゃない場合だめそう
-
-  const setItem = <K extends keyof S>(key: K, item: unknown) => {
-    object[key] = item as S[K]
-  }
-
-  Object.keys(object).forEach((key) => {
+export const readItems = <
+  S extends { [key: string]: string },
+  K extends keyof S & string
+>(
+  keys: K[]
+): Partial<S> => {
+  const items: Partial<S> = {}
+  keys.forEach((key) => {
     const item = localStorage.getItem(getLocalStorageKey(key))
     if (item !== null) {
-      setItem(key as keyof S, item)
+      items[key] = item as S[K]
     }
   })
+  return items
 }

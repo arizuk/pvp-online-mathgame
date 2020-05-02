@@ -1,20 +1,15 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useContext } from 'react'
 import { Pages } from 'consts'
 import { AppContext } from 'containers/App'
 
 function PlayerEdit() {
   const context = useContext(AppContext)
-
   const [playerId, setPlayerId] = useState(context.playerId)
-  const [saveClicked, setSaveClicked] = useState(false)
 
-  useEffect(() => {
-    if (saveClicked) {
-      context.changePlayerId(playerId)
-      context.changePage(Pages.Home)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [saveClicked])
+  const save = () => {
+    context.changePlayerId(playerId)
+    context.changePage(Pages.Home)
+  }
 
   return (
     <div>
@@ -31,7 +26,7 @@ function PlayerEdit() {
         />
       </div>
       <div>
-        <button onClick={() => setSaveClicked(true)}>Save</button>
+        <button onClick={save}>Save</button>
         <button onClick={() => context.changePage(Pages.Home)}>Cancel</button>
       </div>
     </div>
