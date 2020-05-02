@@ -1,18 +1,17 @@
-import React, { useState, useEffect } from 'react'
-import { useAppState } from 'contexts'
+import React, { useState, useEffect, useContext } from 'react'
 import { Pages } from 'consts'
+import { AppContext } from 'containers/App'
 
 function PlayerEdit() {
-  const [, setPage] = useAppState('page')
-  const [globalPlayerId, setGlobalPlayerId] = useAppState('playerId')
+  const context = useContext(AppContext)
 
-  const [playerId, setPlayerId] = useState(globalPlayerId)
+  const [playerId, setPlayerId] = useState(context.playerId)
   const [saveClicked, setSaveClicked] = useState(false)
 
   useEffect(() => {
     if (saveClicked) {
-      setGlobalPlayerId(playerId)
-      setPage(Pages.Home)
+      context.changePlayerId(playerId)
+      context.changePage(Pages.Home)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [saveClicked])
@@ -20,7 +19,7 @@ function PlayerEdit() {
   return (
     <div>
       <h1>Player Edit Page</h1>
-      {globalPlayerId ? null : (
+      {context.playerId ? null : (
         <div>ゲームをはじめるにはまず、なまえを入力してください</div>
       )}
 
@@ -33,7 +32,7 @@ function PlayerEdit() {
       </div>
       <div>
         <button onClick={() => setSaveClicked(true)}>Save</button>
-        <button onClick={() => setPage(Pages.Home)}>Cancel</button>
+        <button onClick={() => context.changePage(Pages.Home)}>Cancel</button>
       </div>
     </div>
   )

@@ -1,6 +1,6 @@
 import { Pages } from 'consts'
-import { useAppState } from 'contexts'
-import React, { ReactNode } from 'react'
+import { AppContext } from 'containers/App'
+import React, { ReactNode, useContext } from 'react'
 
 interface Props {
   to: Pages
@@ -8,8 +8,8 @@ interface Props {
 }
 
 function PageLink(props: Props) {
-  const [, setPage] = useAppState('page')
-  return <span onClick={() => setPage(props.to)}>{props.children}</span>
+  const { changePage } = useContext(AppContext)
+  return <span onClick={() => changePage(props.to)}>{props.children}</span>
 }
 
 export default PageLink

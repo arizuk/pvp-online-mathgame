@@ -1,10 +1,10 @@
-import React from 'react'
-import { useAppState } from 'contexts'
+import React, { useContext } from 'react'
 import { Pages } from 'consts'
 import { PageLink } from 'components'
+import { AppContext } from 'containers/App'
 
 function Home() {
-  const [playerId] = useAppState('playerId')
+  const { playerId } = useContext(AppContext)
 
   return (
     <div>

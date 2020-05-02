@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { getCurrentPage } from './routes'
-import { useAppState } from 'contexts'
 import { Pages } from 'consts'
+import { AppContext } from 'containers/App'
 
 // {/* <header className="App-header"> */}
 // {/* <img src={logo} className="App-logo" alt="logo" />
@@ -10,12 +10,12 @@ import { Pages } from 'consts'
 // {/* </header> */}
 
 export function PageRoot() {
-  const [page, setPage] = useAppState('page')
+  const { page, changePage } = useContext(AppContext)
   const PageComponent = getCurrentPage(page)
 
   // In case where a obsolete page is cached in the local storage
   if (!PageComponent) {
-    setPage(Pages.Home)
+    changePage(Pages.Home)
     return null
   }
 

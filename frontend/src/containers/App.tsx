@@ -3,17 +3,34 @@ import { Message } from 'mathgame/protobuf/app_pb'
 import { Join, Answer } from 'mathgame/protobuf/client_pb'
 import { serializeMessage, getWsServerUrl } from 'helpers'
 import { Pages } from 'consts'
-import { syncAppStateWithStorage, useAppState } from 'contexts'
+import { syncWithLocalStorage, wrapSetter } from 'helpers/local_storage'
 
-export const AppContext = React.createContext({})
+type State = {
+  page: Pages
+  playerId: string
+}
+type Actions = {
+  changePage: (v: Pages) => void
+  changePlayerId: (v: string) => void
+}
+type Store = State & Actions
+
+export const AppContext = React.createContext<Store>({
+  page: Pages.Home,
+  playerId: '',
+  changePage: (v) => {},
+  changePlayerId: (v) => {},
+})
 
 type InitializationState = {
   sync: boolean
   ws: boolean
 }
-function useInitializationState() {
-  const [, setPage] = useAppState('page')
-  const [playerId] = useAppState('playerId')
+function useAppState() {
+  const [page, setPage] = useState(Pages.Home)
+  const [playerId, setPlayerId] = useState('')
+  const state: State = { page, playerId }
+
   const [init, setInit] = useState<InitializationState>({
     sync: false,
     ws: false,
@@ -24,7 +41,7 @@ function useInitializationState() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (init.sync === false) {
-      syncAppStateWithStorage()
+      syncWithLocalStorage<State>(state)
       setInit({ ...init, sync: true })
       return
     }
@@ -52,15 +69,17 @@ function useInitializationState() {
       })
     }
   })
+
+  return {
+    ...state,
+    changePage: wrapSetter('page', setPage),
+    changePlayerId: wrapSetter('playerId', setPlayerId),
+  }
 }
 
 export const AppContainer: React.FunctionComponent<{}> = (props) => {
-  // TODO:
-  //  * AppStateを更新するdispatchをstateにいれる
-  useInitializationState()
-
-  const state = {}
+  const store = useAppState()
   return (
-    <AppContext.Provider value={state}>{props.children}</AppContext.Provider>
+    <AppContext.Provider value={store}>{props.children}</AppContext.Provider>
   )
 }
