@@ -12,7 +12,7 @@ test:
 	poetry run pytest tests
 
 dev/web_server:
-	WEB_DEBUG=1 poetry run uvicorn mathgame.web_server:app --ws websockets \
+	WEB_DEBUG=1 poetry run uvicorn mathgame.web.server:app --ws websockets \
 		--reload --reload-dir $(SRC)
 
 dualboot:

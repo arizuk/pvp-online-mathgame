@@ -1,11 +1,11 @@
 import asyncio
 import logging
-import uuid
 
-from .message_channel import channels
+from mathgame.message_channel import channels
+from mathgame.protobuf.client_pb2 import Command
+
 from .player import Player, PlayerState
 from .problem import ProblemSet, RandomAdditionFactory
-from .protobuf.client_pb2 import Command
 
 logger = logging.getLogger(__name__)
 

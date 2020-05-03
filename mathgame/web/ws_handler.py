@@ -1,8 +1,9 @@
 from starlette.endpoints import WebSocketEndpoint
 from starlette.websockets import WebSocket
 
-from .message_channel import channels
-from .protobuf import client_pb2
+from mathgame.message_channel import channels
+from mathgame.protobuf import client_pb2
+
 from .ws_connection import ConnectionManager
 
 

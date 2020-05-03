@@ -7,7 +7,8 @@ from starlette.responses import PlainTextResponse
 from starlette.routing import Mount, Route, WebSocketRoute
 from starlette.staticfiles import StaticFiles
 
-from .message_channel import channels
+from mathgame.message_channel import channels
+
 from .ws_handler import WsHandler, handle_web_message
 
 

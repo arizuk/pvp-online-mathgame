@@ -6,9 +6,9 @@ import logging
 import multiprocessing as mp
 from multiprocessing import Process
 
-from mathgame.game_server import start_game_server
+from mathgame.game.server import start_game_server
 from mathgame.message_channel import channels
-from mathgame.web_server import start_web_server
+from mathgame.web.server import start_web_server
 
 logging.basicConfig(level="INFO")
 
