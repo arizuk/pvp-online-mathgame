@@ -30,7 +30,7 @@ export class APIClient {
   }
 
   startGame() {
-    const cmd = this.newCommand(Command.Type.JOIN_ROOM)
+    const cmd = this.newCommand(Command.Type.START_GAME)
     const payload = new StartGame()
     cmd.setStartGame(payload)
     payload.setType(StartGame.Type.ADDITION)
@@ -38,7 +38,7 @@ export class APIClient {
   }
 
   answer(v: string) {
-    const cmd = this.newCommand(Command.Type.JOIN_ROOM)
+    const cmd = this.newCommand(Command.Type.ANSWER)
     const payload = new Answer()
     cmd.setAnswer(payload)
     this.send(cmd)
