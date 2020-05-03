@@ -24,6 +24,11 @@ class Match:
         self._players.append(player)
         self._player_states[player.id] = PlayerState()
 
+    def on_start_game(self, command: Command):
+        assert command.type == Command.Type.START_GAME
+        player = self._get_player(command.player_id)
+        logger.info("[GAME_STARTED]: player={}".format(player))
+
     def on_answer(self, command: Command):
         assert command.type == Command.Type.ANSWER
         player = self._get_player(command.player_id)
@@ -48,6 +53,8 @@ class GameServer:
 
         if command.type == Command.Type.JOIN_ROOM:
             self.current_match.on_join_room(command)
+        elif command.type == Command.Type.START_GAME:
+            self.current_match.on_start_game(command)
         elif command.type == Command.Type.ANSWER:
             self.current_match.on_answer(command)
         else:
@@ -55,19 +62,22 @@ class GameServer:
 
     async def run(self):
         while True:
-            commands = []
+            try:
+                commands = []
 
-            while True:
-                command = channels.game.read()
-                if command is None:
-                    break
-                commands.append(command)
+                while True:
+                    command = channels.game.read()
+                    if command is None:
+                        break
+                    commands.append(command)
 
-            for command in commands:
-                self.handle_command(command)
+                for command in commands:
+                    self.handle_command(command)
 
-            if self.current_match:
-                self.current_match.tick()
+                if self.current_match:
+                    self.current_match.tick()
+            except Exception as e:
+                logger.exception(e)
 
             await asyncio.sleep(0.5)
 

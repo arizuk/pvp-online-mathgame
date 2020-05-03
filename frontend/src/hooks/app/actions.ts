@@ -12,7 +12,10 @@ type AnswerAction = {
   type: 'answer'
   value: string
 }
-export type Action = SetAction | AnswerAction
+type StartGameAction = {
+  type: 'start_game'
+}
+export type Action = SetAction | AnswerAction | StartGameAction
 
 export function wrapDispatch(
   ref: APIClientRef,
@@ -22,6 +25,9 @@ export function wrapDispatch(
     switch (action.type) {
       case 'answer':
         if (ref.current) answer(dispatch, ref.current, action)
+        return
+      case 'start_game':
+        if (ref.current) startGame(dispatch, ref.current, action)
         return
       default:
         dispatch(action)
@@ -35,4 +41,12 @@ const answer = (
   action: AnswerAction
 ) => {
   apiClient.answer(action.value)
+}
+
+const startGame = (
+  dispatch: React.Dispatch<Action>,
+  apiClient: APIClient,
+  action: StartGameAction
+) => {
+  apiClient.startGame()
 }

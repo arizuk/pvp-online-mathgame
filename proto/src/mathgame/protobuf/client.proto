@@ -5,14 +5,23 @@ package mathgame.protobuf;
 message Command {
     enum Type {
         JOIN_ROOM = 0;
-        ANSWER = 1;
+        START_GAME = 1;
+        ANSWER = 2;
     }
     Type type = 1;
     string player_id = 2;
 
     oneof payload {
+        StartGame start_game = 10;
         Answer answer = 11;
     }
+}
+
+message StartGame {
+    enum Type {
+        ADDITION = 0;
+    }
+    Type type = 1;
 }
 
 message Answer {

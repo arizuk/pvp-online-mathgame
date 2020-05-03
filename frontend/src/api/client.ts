@@ -1,4 +1,4 @@
-import { Command, Answer } from 'mathgame/protobuf/client_pb'
+import { Command, Answer, StartGame } from 'mathgame/protobuf/client_pb'
 import { serializeMessage, getWsServerUrl } from 'helpers'
 
 export class APIClient {
@@ -14,6 +14,14 @@ export class APIClient {
   joinRoom() {
     this.socket.send(
       serializeMessage(Command.Type.JOIN_ROOM, this.playerId, null)
+    )
+  }
+
+  startGame() {
+    const payload = new StartGame()
+    payload.setType(StartGame.Type.ADDITION)
+    this.socket.send(
+      serializeMessage(Command.Type.START_GAME, this.playerId, payload)
     )
   }
 

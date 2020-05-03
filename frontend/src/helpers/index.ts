@@ -14,6 +14,9 @@ export function serializeMessage(
   switch (type) {
     case Command.Type.JOIN_ROOM:
       break
+    case Command.Type.START_GAME:
+      cmd.setStartGame(payload)
+      break
     case Command.Type.ANSWER:
       cmd.setAnswer(payload)
       break

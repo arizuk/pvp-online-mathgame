@@ -13,7 +13,9 @@ function Home() {
         なまえ: <PageLink to={Pages.PlayerEdit}>{playerId}</PageLink>
       </div>
       <div>
-        <button>ゲームスタート</button>
+        <button onClick={() => dispatch({ type: 'start_game' })}>
+          ゲームスタート
+        </button>
       </div>
       <div>
         <button onClick={() => dispatch({ type: 'answer', value: 'FIXME' })}>
