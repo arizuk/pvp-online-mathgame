@@ -30,5 +30,7 @@ class WsHandler(WebSocketEndpoint):
         channels.game.send(pb_msg)
 
         # FIXME:
-        if pb_msg.join is not None:
+        if pb_msg.type == app_pb2.Message.Type.CLIENT_JOIN:
             channels.web.send(f"Hello {pb_msg.join.player_id}")
+        elif pb_msg.type == app_pb2.Message.Type.CLIENT_ANSWER:
+            channels.web.send(f"Answer {pb_msg.answer.player_id}")

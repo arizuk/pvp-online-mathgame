@@ -7,14 +7,23 @@ type InitFlags = {
   sync: boolean
   ws: boolean
 }
+type State = {
+  page: Pages
+  playerId: string
+}
+type Actions = {
+  changePage: (v: Pages) => void
+  changePlayerId: (v: string) => void
+  answer: (v: string) => void
+}
 
 const initAPIClient = (playerId: string) => {
-  const apiClient = new APIClient()
+  const apiClient = new APIClient(null, playerId)
   apiClient.socket.addEventListener('message', (ev) => {
     console.log(`[ONMESSAGE] ${ev.data}`)
   })
   apiClient.socket.addEventListener('open', (ev) => {
-    apiClient.join(playerId)
+    apiClient.join()
   })
   apiClient.socket.addEventListener('close', (ev) => {
     console.log('connection closed')
@@ -25,10 +34,6 @@ const initAPIClient = (playerId: string) => {
   return apiClient
 }
 
-type State = {
-  page: Pages
-  playerId: string
-}
 const reducer: React.Reducer<State, any> = (state: State, action: any) => {
   switch (action.type) {
     case 'set':
@@ -37,6 +42,8 @@ const reducer: React.Reducer<State, any> = (state: State, action: any) => {
       throw new Error()
   }
 }
+
+export type AppStore = State & Actions
 
 export function useAppState() {
   const [state, dispatch] = useReducer(reducer, {
@@ -78,9 +85,15 @@ export function useAppState() {
   const setPlayerId = (v: string) =>
     dispatch({ type: 'set', payload: { playerId: v } })
 
+  const answer = (v: string) => {
+    if (apiClientRef.current) {
+      apiClientRef.current.answer(v)
+    }
+  }
   return {
     ...state,
     changePage: localStorageHelper.wrap('page', setPage),
     changePlayerId: localStorageHelper.wrap('playerId', setPlayerId),
+    answer,
   }
 }

@@ -1,18 +1,13 @@
 import React from 'react'
 import { Pages } from 'consts'
-import { useAppState } from 'hooks/app'
+import { useAppState, AppStore } from 'hooks/app'
 
-type Store = {
-  page: Pages
-  playerId: string
-  changePage: (v: Pages) => void
-  changePlayerId: (v: string) => void
-}
-export const AppContext = React.createContext<Store>({
+export const AppContext = React.createContext<AppStore>({
   page: Pages.Home,
   playerId: '',
   changePage: (v) => {},
   changePlayerId: (v) => {},
+  answer: (v) => {},
 })
 
 export const AppContainer: React.FunctionComponent<{}> = (props) => {

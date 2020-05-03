@@ -4,15 +4,23 @@ import { serializeMessage, getWsServerUrl } from 'helpers'
 
 export class APIClient {
   socket: WebSocket
+  playerId: string
 
-  constructor(url: string | null = null) {
+  constructor(url: string | null = null, playerId: string) {
     if (!url) url = getWsServerUrl()
     this.socket = new WebSocket(url)
+    this.playerId = playerId
   }
 
-  join(playerId: string) {
-    const join = new Join()
-    join.setPlayerId(playerId)
-    this.socket.send(serializeMessage(Message.Type.CLIENT_JOIN, join))
+  join() {
+    const payload = new Join()
+    payload.setPlayerId(this.playerId)
+    this.socket.send(serializeMessage(Message.Type.CLIENT_JOIN, payload))
+  }
+
+  answer(v: string) {
+    const payload = new Answer()
+    payload.setPlayerId(this.playerId)
+    this.socket.send(serializeMessage(Message.Type.CLIENT_ANSWER, payload))
   }
 }
