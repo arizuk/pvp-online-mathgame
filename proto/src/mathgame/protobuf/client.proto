@@ -2,10 +2,18 @@ syntax = "proto3";
 
 package mathgame.protobuf;
 
-message Join {
-    string player_id = 1;
+message Command {
+    enum Type {
+        JOIN_ROOM = 0;
+        ANSWER = 1;
+    }
+    Type type = 1;
+    string player_id = 2;
+
+    oneof payload {
+        Answer answer = 11;
+    }
 }
 
 message Answer {
-    string player_id = 1;
 }

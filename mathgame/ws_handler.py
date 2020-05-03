@@ -2,7 +2,7 @@ from starlette.endpoints import WebSocketEndpoint
 from starlette.websockets import WebSocket
 
 from .message_channel import channels
-from .protobuf import app_pb2
+from .protobuf import client_pb2
 from .ws_connection import ConnectionManager
 
 
@@ -25,12 +25,6 @@ class WsHandler(WebSocketEndpoint):
         await self._connection_manager.remove(websocket)
 
     async def on_receive(self, ws, data):
-        pb_msg = app_pb2.Message()
-        pb_msg.ParseFromString(data)
-        channels.game.send(pb_msg)
-
-        # FIXME:
-        if pb_msg.type == app_pb2.Message.Type.CLIENT_JOIN:
-            channels.web.send(f"Hello {pb_msg.join.player_id}")
-        elif pb_msg.type == app_pb2.Message.Type.CLIENT_ANSWER:
-            channels.web.send(f"Answer {pb_msg.answer.player_id}")
+        command = client_pb2.Command()
+        command.ParseFromString(data)
+        channels.game.send(command)

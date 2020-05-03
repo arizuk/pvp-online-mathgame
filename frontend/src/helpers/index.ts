@@ -1,22 +1,26 @@
-import { Message } from '../mathgame/protobuf/app_pb'
+import { Command } from '../mathgame/protobuf/client_pb'
 
-type MessageType = Message.TypeMap[keyof Message.TypeMap]
+type CommandType = Command.TypeMap[keyof Command.TypeMap]
 
-export function serializeMessage(type: MessageType, payload: any) {
-  const msg = new Message()
-  msg.setType(type)
+export function serializeMessage(
+  type: CommandType,
+  playerId: string,
+  payload: any
+) {
+  const cmd = new Command()
+  cmd.setType(type)
+  cmd.setPlayerId(playerId)
 
   switch (type) {
-    case Message.Type.CLIENT_JOIN:
-      msg.setJoin(payload)
+    case Command.Type.JOIN_ROOM:
       break
-    case Message.Type.CLIENT_ANSWER:
-      msg.setAnswer(payload)
+    case Command.Type.ANSWER:
+      cmd.setAnswer(payload)
       break
     default:
       throw new Error(`type is unexpected. type=${type}`)
   }
-  return msg.serializeBinary()
+  return cmd.serializeBinary()
 }
 
 export const getWsServerUrl = () => {

@@ -5,7 +5,7 @@ import uuid
 from .message_channel import channels
 from .player import Player, PlayerState
 from .problem import ProblemSet, RandomAdditionFactory
-from .protobuf import app_pb2, client_pb2
+from .protobuf.client_pb2 import Command
 
 logger = logging.getLogger(__name__)
 
@@ -16,19 +16,17 @@ class Match:
         self._player_states = {}
         self._problem_set = ProblemSet(RandomAdditionFactory.generate(num_problems))
 
-    def on_join(self, message: app_pb2.Message):
-        assert message.type == app_pb2.Message.Type.CLIENT_JOIN
-        join: client_pb2.Join = message.join
-        player = Player(id=join.player_id)
+    def on_join_room(self, command: Command):
+        assert command.type == Command.Type.JOIN_ROOM
+        player = Player(id=command.player_id)
 
         logger.info("[PLYAER_JOINED]: player={}".format(player))
         self._players.append(player)
         self._player_states[player.id] = PlayerState()
 
-    def on_answer(self, message: app_pb2.Message):
-        assert message.type == app_pb2.Message.Type.CLIENT_ANSWER
-        answer: client_pb2.Answer = message.answer
-        player = self._get_player(answer.player_id)
+    def on_answer(self, command: Command):
+        assert command.type == Command.Type.ANSWER
+        player = self._get_player(command.player_id)
         logger.info("[PLAYER_ANSWERED]: player={}".format(player))
 
     def _get_player(self, player_id: str) -> Player:
@@ -45,28 +43,28 @@ class GameServer:
     def __init__(self):
         self.current_match = Match()
 
-    def handle_message(self, message: app_pb2.Message):
-        logger.info(f"[READ_MESSAGE]: {message}")
+    def handle_command(self, command: Command):
+        logger.info(f"[READ_MESSAGE]: {command}")
 
-        if message.type == app_pb2.Message.Type.CLIENT_JOIN:
-            self.current_match.on_join(message)
-        elif message.type == app_pb2.Message.Type.CLIENT_ANSWER:
-            self.current_match.on_answer(message)
+        if command.type == Command.Type.JOIN_ROOM:
+            self.current_match.on_join_room(command)
+        elif command.type == Command.Type.ANSWER:
+            self.current_match.on_answer(command)
         else:
-            raise NotImplementedError(str(message))
+            raise NotImplementedError(str(command))
 
     async def run(self):
         while True:
-            messages = []
+            commands = []
 
             while True:
-                message = channels.game.read()
-                if message is None:
+                command = channels.game.read()
+                if command is None:
                     break
-                messages.append(message)
+                commands.append(command)
 
-            for message in messages:
-                self.handle_message(message)
+            for command in commands:
+                self.handle_command(command)
 
             if self.current_match:
                 self.current_match.tick()

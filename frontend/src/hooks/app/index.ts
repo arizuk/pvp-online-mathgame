@@ -17,7 +17,7 @@ const useAPIClient = (state: AppState) => {
         console.log(`[ONMESSAGE] ${ev.data}`)
       })
       apiClient.socket.addEventListener('open', (ev) => {
-        apiClient.join()
+        apiClient.joinRoom()
       })
       apiClient.socket.addEventListener('close', (ev) => {
         console.log('connection closed')
