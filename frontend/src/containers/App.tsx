@@ -7,7 +7,7 @@ export const AppContext = React.createContext<AppStore>({
   playerId: '',
   changePage: (v) => {},
   changePlayerId: (v) => {},
-  answer: (v) => {},
+  dispatch: (v) => {},
 })
 
 export const AppContainer: React.FunctionComponent<{}> = (props) => {

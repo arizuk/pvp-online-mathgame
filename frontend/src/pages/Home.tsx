@@ -4,7 +4,7 @@ import { PageLink } from 'components'
 import { AppContext } from 'containers/App'
 
 function Home() {
-  const { playerId, answer } = useContext(AppContext)
+  const { playerId, dispatch } = useContext(AppContext)
 
   return (
     <div>
@@ -16,7 +16,9 @@ function Home() {
         <button>ゲームスタート</button>
       </div>
       <div>
-        <button onClick={() => answer('FIXME')}>answer</button>
+        <button onClick={() => dispatch({ type: 'answer', value: 'FIXME' })}>
+          answer
+        </button>
       </div>
     </div>
   )

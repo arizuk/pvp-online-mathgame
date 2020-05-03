@@ -1,12 +1,13 @@
-import { useState, useEffect, useRef, useReducer } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Pages } from 'consts'
 import * as localStorageHelper from 'helpers/local_storage'
 import { APIClient } from 'api/client'
-import { useAppReducer, Store, State } from './reducer'
 
-export type AppStore = Store
+import { AppState } from './types'
+import { Action, wrapDispatch } from './actions'
+import { useAppReducer } from './reducer'
 
-const useAPIClient = (state: State) => {
+const useAPIClient = (state: AppState) => {
   const [initialized, setInitialized] = useState(false)
   const ref = useRef<APIClient>()
   useEffect(() => {
@@ -32,18 +33,26 @@ const useAPIClient = (state: State) => {
   return ref
 }
 
-export const useAppState = () => {
+type AppMethods = {
+  changePage: (v: Pages) => void
+  changePlayerId: (v: string) => void
+  dispatch: React.Dispatch<Action>
+}
+export type AppStore = AppState & AppMethods
+
+export const useAppState = (): AppStore => {
   const [initialized, setInitialized] = useState(false)
 
   const { state, dispatch } = useAppReducer()
   const apiClientRef = useAPIClient(state)
+  const wrappedDispatch = wrapDispatch(apiClientRef, dispatch)
 
   // Sync state with state stored in localStorage
   useEffect(() => {
     if (initialized === true) return
 
-    const savedState = localStorageHelper.readItems<State, keyof State>(
-      Object.keys(state) as Array<keyof State>
+    const savedState = localStorageHelper.readItems<AppState, keyof AppState>(
+      Object.keys(state) as Array<keyof AppState>
     )
     dispatch({ type: 'set', payload: savedState })
     setInitialized(true)
@@ -64,15 +73,10 @@ export const useAppState = () => {
   const setPlayerId = (v: string) =>
     dispatch({ type: 'set', payload: { playerId: v } })
 
-  const answer = (v: string) => {
-    if (apiClientRef.current) {
-      apiClientRef.current.answer(v)
-    }
-  }
   return {
     ...state,
     changePage: localStorageHelper.wrap('page', setPage),
     changePlayerId: localStorageHelper.wrap('playerId', setPlayerId),
-    answer,
+    dispatch: wrappedDispatch,
   }
 }

@@ -1,23 +1,16 @@
 import { Pages } from 'consts'
 import { useReducer } from 'react'
-
-export type State = {
-  page: Pages
-  playerId: string
-}
-export type Actions = {
-  changePage: (v: Pages) => void
-  changePlayerId: (v: string) => void
-  answer: (v: string) => void
-}
-export type Store = State & Actions
+import { AppState } from './types'
+import { Action } from './actions'
 
 const initialState = {
   page: Pages.Home,
   playerId: '',
 }
-
-const reducer: React.Reducer<State, any> = (state: State, action: any) => {
+const reducer: React.Reducer<AppState, Action> = (
+  state: AppState,
+  action: Action
+) => {
   switch (action.type) {
     case 'set':
       return { ...state, ...action.payload }
