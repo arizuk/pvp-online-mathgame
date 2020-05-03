@@ -1,5 +1,7 @@
 import { Command, Answer, StartGame } from 'mathgame/protobuf/client_pb'
-import { serializeMessage, getWsServerUrl } from 'helpers'
+import { getWsServerUrl } from 'helpers'
+
+type CommandType = Command.TypeMap[keyof Command.TypeMap]
 
 export class APIClient {
   socket: WebSocket
@@ -11,24 +13,34 @@ export class APIClient {
     this.playerId = playerId
   }
 
+  private newCommand(type: CommandType) {
+    const cmd = new Command()
+    cmd.setType(type)
+    cmd.setPlayerId(this.playerId)
+    return cmd
+  }
+
+  private send(cmd: Command) {
+    this.socket.send(cmd.serializeBinary())
+  }
+
   joinRoom() {
-    this.socket.send(
-      serializeMessage(Command.Type.JOIN_ROOM, this.playerId, null)
-    )
+    const cmd = this.newCommand(Command.Type.JOIN_ROOM)
+    this.send(cmd)
   }
 
   startGame() {
+    const cmd = this.newCommand(Command.Type.JOIN_ROOM)
     const payload = new StartGame()
+    cmd.setStartGame(payload)
     payload.setType(StartGame.Type.ADDITION)
-    this.socket.send(
-      serializeMessage(Command.Type.START_GAME, this.playerId, payload)
-    )
+    this.send(cmd)
   }
 
   answer(v: string) {
+    const cmd = this.newCommand(Command.Type.JOIN_ROOM)
     const payload = new Answer()
-    this.socket.send(
-      serializeMessage(Command.Type.ANSWER, this.playerId, payload)
-    )
+    cmd.setAnswer(payload)
+    this.send(cmd)
   }
 }
