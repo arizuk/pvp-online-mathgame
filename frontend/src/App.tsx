@@ -2,9 +2,8 @@ import React from 'react'
 import './App.css'
 
 import Auth from 'components/Auth'
+import { AppContainer } from 'components/AppContainer'
 import { Router, Route, Switch } from 'components/Router'
-
-import { AppContainer } from 'containers/App'
 
 import PlayerEdit from 'pages/PlayerEdit'
 import Home from 'pages/Home'

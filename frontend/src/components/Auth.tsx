@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react'
 import { Page } from 'consts'
-import { AppContext } from 'containers/App'
+import { AppContext } from './AppContainer'
 import { RouterContext } from './Router'
 
 const Redirect = ({ page }: { page: Page }) => {

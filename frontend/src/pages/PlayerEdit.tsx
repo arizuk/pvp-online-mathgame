@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react'
-import { AppContext } from 'containers/App'
+import { AppContext } from 'components/AppContainer'
 import { RouterContext } from 'components/Router'
 
 function PlayerEdit() {

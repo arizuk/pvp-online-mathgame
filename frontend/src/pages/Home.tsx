@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { AppContext } from 'containers/App'
+import { AppContext } from 'components/AppContainer'
 import PageLink from 'components/PageLink'
 
 function Home() {
