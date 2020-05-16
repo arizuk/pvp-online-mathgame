@@ -1,5 +1,7 @@
 import asyncio
 
+from mathgame.protobuf.server_pb2 import Response
+
 
 class ConnectionManager:
     """Handles websocket connections
@@ -25,5 +27,6 @@ class ConnectionManager:
         index = self._connections.index(conn)
         self._connections.pop(index)
 
-    async def _publish(self, message):
-        await asyncio.gather(*[c.send_text(message) for c in self._connections])
+    async def _publish(self, message: Response):
+        res_bytes = message.SerializeToString()
+        await asyncio.gather(*[c.send_bytes(res_bytes) for c in self._connections])

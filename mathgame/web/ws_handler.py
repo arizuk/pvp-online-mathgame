@@ -2,7 +2,7 @@ from starlette.endpoints import WebSocketEndpoint
 from starlette.websockets import WebSocket
 
 from mathgame.message_channel import channels
-from mathgame.protobuf import client_pb2
+from mathgame.protobuf import client_pb2, server_pb2
 
 from .ws_connection import ConnectionManager
 

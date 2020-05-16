@@ -2,6 +2,7 @@ import React, { useRef, useContext, useEffect, useState } from 'react'
 import { WSAPIClient } from 'api/client'
 import { AppContext } from './AppContainer'
 import { getWsServerUrl } from 'helpers'
+import { Response } from 'mathgame/protobuf/server_pb'
 
 type Context = {
   wsApiRef: React.MutableRefObject<WSAPIClient | undefined> | null
@@ -28,9 +29,6 @@ export const WSAPIContainer: React.FunctionComponent<{}> = ({ children }) => {
     wsApiRef.current = client
     setInitialized(true)
 
-    client.socket.addEventListener('message', (ev) => {
-      console.log(`[ONMESSAGE] ${ev.data}`)
-    })
     client.socket.addEventListener('open', (ev) => {
       console.log('ON OPEN')
       client.joinRoom()

@@ -12,7 +12,10 @@ function Lobby() {
 
   // TODO: check current state
   const startGame = () => {
-    if (wsReady) gameCtx.setStarted(true)
+    if (wsReady) {
+      gameCtx.setStarted(true)
+      wsApiRef?.current?.startGame()
+    }
   }
 
   if (gameCtx.started && wsApiRef?.current) {
