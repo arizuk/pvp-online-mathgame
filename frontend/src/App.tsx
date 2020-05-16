@@ -4,7 +4,6 @@ import './App.css'
 import Auth from 'components/Auth'
 import { Router, Route, Switch } from 'components/Router'
 
-import { Pages } from './consts'
 import { AppContainer } from 'containers/App'
 
 import PlayerEdit from 'pages/PlayerEdit'
@@ -16,11 +15,11 @@ function App() {
       <AppContainer>
         <Router>
           <Switch>
-            <Route page={Pages.PlayerEdit} component={PlayerEdit} />
+            <Route page="playerEdit" component={PlayerEdit} />
 
             <Auth>
               <Switch>
-                <Route page={Pages.Home} component={Home} />
+                <Route page="home" component={Home} />
               </Switch>
             </Auth>
           </Switch>

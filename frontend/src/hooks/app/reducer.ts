@@ -1,10 +1,9 @@
-import { Pages } from 'consts'
 import { useReducer } from 'react'
 import { AppState } from './types'
 import { Action } from './actions'
 
-const initialState = {
-  page: Pages.Home,
+const initialState: AppState = {
+  page: 'home',
   playerId: '',
   appReady: false,
 }

@@ -1,7 +1,7 @@
-import { Pages } from 'consts'
+import { Page } from 'consts'
 
 export type AppState = {
-  page: Pages
+  page: Page
   playerId: string
   appReady: boolean
 }

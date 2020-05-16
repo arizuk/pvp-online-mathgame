@@ -1,8 +1,8 @@
 import React, { useContext, useEffect } from 'react'
-import { Pages } from 'consts'
+import { Page } from 'consts'
 import { AppContext } from 'containers/App'
 
-const Redirect = ({ page }: { page: Pages }) => {
+const Redirect = ({ page }: { page: Page }) => {
   const { changePage } = useContext(AppContext)
   useEffect(() => changePage(page))
   return <></>
@@ -13,7 +13,7 @@ const Auth: React.FunctionComponent<{}> = ({ children }) => {
   if (playerId) {
     return <>{children}</>
   } else {
-    return <Redirect page={Pages.PlayerEdit}></Redirect>
+    return <Redirect page="playerEdit"></Redirect>
   }
 }
 

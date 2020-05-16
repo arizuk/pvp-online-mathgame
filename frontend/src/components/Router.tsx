@@ -1,8 +1,8 @@
-import React, { useContext, useEffect } from 'react'
-import { Pages } from 'consts'
+import React, { useContext } from 'react'
+import { Page } from 'consts'
 import { AppContext } from 'containers/App'
 type Props = {
-  page: Pages
+  page: Page
   component: () => JSX.Element | null
 }
 

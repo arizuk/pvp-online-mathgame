@@ -1,4 +1,3 @@
-export enum Pages {
-  Home = 'home',
-  PlayerEdit = 'playerEdit',
-}
+const pages = ['home', 'playerEdit'] as const
+
+export type Page = typeof pages[number]

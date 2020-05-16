@@ -1,9 +1,8 @@
 import React from 'react'
-import { Pages } from 'consts'
 import { useAppState, AppStore } from 'hooks/app'
 
 export const AppContext = React.createContext<AppStore>({
-  page: Pages.Home,
+  page: 'home',
   playerId: '',
   appReady: false,
   changePage: (v) => {},

@@ -1,5 +1,4 @@
 import React, { useContext } from 'react'
-import { Pages } from 'consts'
 import { AppContext } from 'containers/App'
 import PageLink from 'components/PageLink'
 
@@ -10,7 +9,7 @@ function Home() {
     <div>
       <h1>Home Page</h1>
       <div>
-        なまえ: <PageLink to={Pages.PlayerEdit}>{playerId}</PageLink>
+        なまえ: <PageLink to="playerEdit">{playerId}</PageLink>
       </div>
       <div>
         <button onClick={() => dispatch({ type: 'start_game' })}>

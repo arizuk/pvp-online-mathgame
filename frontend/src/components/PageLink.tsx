@@ -1,11 +1,11 @@
 import './PageLink.css'
 
-import { Pages } from 'consts'
+import { Page } from 'consts'
 import { AppContext } from 'containers/App'
 import React, { ReactNode, useContext } from 'react'
 
 interface Props {
-  to: Pages
+  to: Page
   children?: ReactNode
 }
 

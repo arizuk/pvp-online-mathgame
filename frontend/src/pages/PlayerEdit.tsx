@@ -1,5 +1,4 @@
 import React, { useState, useContext } from 'react'
-import { Pages } from 'consts'
 import { AppContext } from 'containers/App'
 
 function PlayerEdit() {
@@ -8,7 +7,7 @@ function PlayerEdit() {
 
   const save = () => {
     context.changePlayerId(playerId)
-    context.changePage(Pages.Home)
+    context.changePage('home')
   }
 
   return (
@@ -27,7 +26,7 @@ function PlayerEdit() {
       </div>
       <div>
         <button onClick={save}>Save</button>
-        <button onClick={() => context.changePage(Pages.Home)}>Cancel</button>
+        <button onClick={() => context.changePage('home')}>Cancel</button>
       </div>
     </div>
   )

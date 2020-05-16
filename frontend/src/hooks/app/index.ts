@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { Pages } from 'consts'
+import { Page } from 'consts'
 import * as localStorageHelper from 'helpers/local_storage'
 import { APIClient } from 'api/client'
 
@@ -34,7 +34,7 @@ const useAPIClient = (state: AppState) => {
 }
 
 type AppMethods = {
-  changePage: (v: Pages) => void
+  changePage: (v: Page) => void
   changePlayerId: (v: string) => void
   dispatch: React.Dispatch<Action>
 }
@@ -66,7 +66,7 @@ export const useAppState = (): AppStore => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialized])
 
-  const setPage = (v: Pages) => dispatch({ type: 'set', payload: { page: v } })
+  const setPage = (v: Page) => dispatch({ type: 'set', payload: { page: v } })
   const setPlayerId = (v: string) =>
     dispatch({ type: 'set', payload: { playerId: v } })
 
