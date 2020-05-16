@@ -6,6 +6,7 @@ import { Router, Route, Switch } from 'components/Router'
 
 import { Pages } from './consts'
 import { AppContainer } from 'containers/App'
+
 import PlayerEdit from 'pages/PlayerEdit'
 import Home from 'pages/Home'
 
@@ -18,7 +19,9 @@ function App() {
             <Route page={Pages.PlayerEdit} component={PlayerEdit} />
 
             <Auth>
-              <Route page={Pages.Home} component={Home} />
+              <Switch>
+                <Route page={Pages.Home} component={Home} />
+              </Switch>
             </Auth>
           </Switch>
         </Router>
