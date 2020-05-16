@@ -1,19 +1,22 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext } from 'react'
 import { AppContext } from 'components/AppContainer'
 import PageLink from 'components/PageLink'
 import GameWindow from 'components/GameWindow'
+import { GameContext, GameContainer } from 'components/GameContainer'
 import { WSAPIContext } from 'components/WSAPIContainer'
 
-function Home() {
+function Lobby() {
   const { playerId } = useContext(AppContext)
   const { wsReady, wsApiRef } = useContext(WSAPIContext)
-  const [gameStarted, setGameStarted] = useState(false)
+  const gameCtx = useContext(GameContext)
 
+  // TODO: check current state
   const startGame = () => {
-    if (wsReady) setGameStarted(true)
+    if (wsReady) gameCtx.setStarted(true)
   }
-  if (gameStarted && wsApiRef?.current) {
-    return <GameWindow client={wsApiRef.current}></GameWindow>
+
+  if (gameCtx.started && wsApiRef?.current) {
+    return <GameWindow client={wsApiRef.current} />
   }
 
   return (
@@ -25,7 +28,17 @@ function Home() {
       <div>
         <button onClick={() => startGame()}>ゲームスタート</button>
       </div>
+
+      <div>wsReady: {String(wsReady)}</div>
     </div>
+  )
+}
+
+function Home() {
+  return (
+    <GameContainer>
+      <Lobby />
+    </GameContainer>
   )
 }
 
