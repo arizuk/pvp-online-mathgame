@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import * as localStorageHelper from 'helpers/local_storage'
-import { APIClient } from 'api/client'
+import { WSAPIClinet } from 'api/client'
 
 import { AppState } from './types'
 import { Action, wrapDispatch } from './actions'
@@ -8,10 +8,10 @@ import { useAppReducer } from './reducer'
 
 const useAPIClient = (state: AppState) => {
   const [initialized, setInitialized] = useState(false)
-  const ref = useRef<APIClient>()
+  const ref = useRef<WSAPIClinet>()
   useEffect(() => {
     if (state.playerId && initialized === false) {
-      const apiClient = new APIClient(null, state.playerId)
+      const apiClient = new WSAPIClinet(null, state.playerId)
       apiClient.socket.addEventListener('message', (ev) => {
         console.log(`[ONMESSAGE] ${ev.data}`)
       })

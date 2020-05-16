@@ -1,8 +1,8 @@
-import { APIClient } from 'api/client'
+import { WSAPIClinet } from 'api/client'
 
 import { AppState } from './types'
 
-type APIClientRef = React.MutableRefObject<APIClient | undefined>
+type APIClientRef = React.MutableRefObject<WSAPIClinet | undefined>
 
 type SetAction = {
   type: 'set'
@@ -37,7 +37,7 @@ export function wrapDispatch(
 
 const answer = (
   dispatch: React.Dispatch<Action>,
-  apiClient: APIClient,
+  apiClient: WSAPIClinet,
   action: AnswerAction
 ) => {
   apiClient.answer(action.value)
@@ -45,7 +45,7 @@ const answer = (
 
 const startGame = (
   dispatch: React.Dispatch<Action>,
-  apiClient: APIClient,
+  apiClient: WSAPIClinet,
   action: StartGameAction
 ) => {
   apiClient.startGame()

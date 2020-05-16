@@ -3,7 +3,7 @@ import { getWsServerUrl } from 'helpers'
 
 type CommandType = Command.TypeMap[keyof Command.TypeMap]
 
-export class APIClient {
+export class WSAPIClinet {
   socket: WebSocket
   playerId: string
 
