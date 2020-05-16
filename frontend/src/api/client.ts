@@ -47,10 +47,10 @@ export class WSAPIClient {
     this.send(cmd)
   }
 
-  onResponse(listener: Listener) {
+  addResponseListener(listener: Listener) {
     this.listeners.push(listener)
   }
-  offResponse(listener: Listener) {
+  removeResponseListener(listener: Listener) {
     const index = this.listeners.findIndex((l) => l === listener)
     if (index >= 0) {
       this.listeners.splice(index, 1)

@@ -2,7 +2,6 @@ import React, { useRef, useContext, useEffect, useState } from 'react'
 import { WSAPIClient } from 'api/client'
 import { AppContext } from './AppContainer'
 import { getWsServerUrl } from 'helpers'
-import { Response } from 'mathgame/protobuf/server_pb'
 
 type Context = {
   wsApiRef: React.MutableRefObject<WSAPIClient | undefined> | null
