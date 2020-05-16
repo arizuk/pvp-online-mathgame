@@ -3,7 +3,11 @@ import { AppContext } from 'components/AppContainer'
 import PageLink from 'components/PageLink'
 
 function Home() {
-  const { playerId, dispatch } = useContext(AppContext)
+  const { playerId } = useContext(AppContext)
+
+  const dispatch = (payload: any) => {
+    alert(payload)
+  }
 
   return (
     <div>

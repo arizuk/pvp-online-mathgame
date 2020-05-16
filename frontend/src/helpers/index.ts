@@ -1,4 +1,4 @@
-export const getWsServerUrl = () => {
+export const getWsServerUrl = (window: Window) => {
   const protocolPrefix = window.location.protocol === 'https:' ? 'wss:' : 'ws:'
   let { host, port } = window.location
 

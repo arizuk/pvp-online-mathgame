@@ -1,5 +1,4 @@
 import { Command, Answer, StartGame } from 'mathgame/protobuf/client_pb'
-import { getWsServerUrl } from 'helpers'
 
 type CommandType = Command.TypeMap[keyof Command.TypeMap]
 
@@ -7,8 +6,7 @@ export class WSAPIClinet {
   socket: WebSocket
   playerId: string
 
-  constructor(url: string | null = null, playerId: string) {
-    if (!url) url = getWsServerUrl()
+  constructor(url: string, playerId: string) {
     this.socket = new WebSocket(url)
     this.playerId = playerId
   }
