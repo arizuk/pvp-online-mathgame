@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from 'react'
-import { Page } from 'consts'
 import * as localStorageHelper from 'helpers/local_storage'
 import { APIClient } from 'api/client'
 
@@ -34,7 +33,6 @@ const useAPIClient = (state: AppState) => {
 }
 
 type AppMethods = {
-  changePage: (v: Page) => void
   changePlayerId: (v: string) => void
   dispatch: React.Dispatch<Action>
 }
@@ -53,7 +51,7 @@ export const useAppState = (): AppStore => {
 
     // TODO: べたがきやめる
     let savedState: { [key: string]: any } = {}
-    const keys = ['page', 'playerId']
+    const keys = ['playerId']
     keys.forEach((key) => {
       const item = localStorageHelper.readItem(key)
       if (item !== null) {
@@ -66,14 +64,12 @@ export const useAppState = (): AppStore => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialized])
 
-  const setPage = (v: Page) => dispatch({ type: 'set', payload: { page: v } })
   const setPlayerId = (v: string) =>
     dispatch({ type: 'set', payload: { playerId: v } })
 
   return {
     ...state,
     appReady: initialized,
-    changePage: localStorageHelper.wrap('page', setPage),
     changePlayerId: localStorageHelper.wrap('playerId', setPlayerId),
     dispatch: wrappedDispatch,
   }

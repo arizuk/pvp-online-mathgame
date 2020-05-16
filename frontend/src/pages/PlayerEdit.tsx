@@ -1,19 +1,22 @@
 import React, { useState, useContext } from 'react'
 import { AppContext } from 'containers/App'
+import { RouterContext } from 'components/Router'
 
 function PlayerEdit() {
-  const context = useContext(AppContext)
-  const [playerId, setPlayerId] = useState(context.playerId)
+  const appContext = useContext(AppContext)
+  const { goToPage } = useContext(RouterContext)
+
+  const [playerId, setPlayerId] = useState(appContext.playerId)
 
   const save = () => {
-    context.changePlayerId(playerId)
-    context.changePage('home')
+    appContext.changePlayerId(playerId)
+    goToPage('home')
   }
 
   return (
     <div>
       <h1>Player Edit Page</h1>
-      {context.playerId ? null : (
+      {appContext.playerId ? null : (
         <div>ゲームをはじめるにはまず、なまえを入力してください</div>
       )}
 
@@ -26,7 +29,7 @@ function PlayerEdit() {
       </div>
       <div>
         <button onClick={save}>Save</button>
-        <button onClick={() => context.changePage('home')}>Cancel</button>
+        <button onClick={() => goToPage('home')}>Cancel</button>
       </div>
     </div>
   )

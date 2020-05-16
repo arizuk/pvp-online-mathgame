@@ -1,8 +1,8 @@
 import './PageLink.css'
 
 import { Page } from 'consts'
-import { AppContext } from 'containers/App'
 import React, { ReactNode, useContext } from 'react'
+import { RouterContext } from './Router'
 
 interface Props {
   to: Page
@@ -10,9 +10,9 @@ interface Props {
 }
 
 function PageLink(props: Props) {
-  const { changePage } = useContext(AppContext)
+  const { goToPage } = useContext(RouterContext)
   return (
-    <span className="PageLink" onClick={() => changePage(props.to)}>
+    <span className="PageLink" onClick={() => goToPage(props.to)}>
       {props.children}
     </span>
   )

@@ -2,10 +2,8 @@ import React from 'react'
 import { useAppState, AppStore } from 'hooks/app'
 
 export const AppContext = React.createContext<AppStore>({
-  page: 'home',
   playerId: '',
   appReady: false,
-  changePage: (v) => {},
   changePlayerId: (v) => {},
   dispatch: (v) => {},
 })

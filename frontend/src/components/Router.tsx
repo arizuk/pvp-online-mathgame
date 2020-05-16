@@ -1,21 +1,34 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { Page } from 'consts'
-import { AppContext } from 'containers/App'
-type Props = {
+
+type RouteProps = {
   page: Page
   component: () => JSX.Element | null
 }
-
-export const Route: React.FunctionComponent<Props> = ({ component }) => {
+export const Route: React.FunctionComponent<RouteProps> = ({ component }) => {
   return React.createElement(component)
 }
 
+export const RouterContext = React.createContext<{
+  page: Page
+  goToPage: (p: Page) => void
+}>({
+  page: 'home',
+  goToPage: (p) => {},
+})
 export const Router: React.FunctionComponent<{}> = ({ children }) => {
-  return <>{children}</>
+  const [page, setPage] = useState<Page>('home')
+  const state = {
+    page,
+    goToPage: setPage,
+  }
+  return (
+    <RouterContext.Provider value={state}>{children}</RouterContext.Provider>
+  )
 }
 
 export const Switch: React.FunctionComponent<{}> = ({ children }) => {
-  const { page } = useContext(AppContext)
+  const { page } = useContext(RouterContext)
 
   let element = null
   let match = false

@@ -3,7 +3,6 @@ import { AppState } from './types'
 import { Action } from './actions'
 
 const initialState: AppState = {
-  page: 'home',
   playerId: '',
   appReady: false,
 }
