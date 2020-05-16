@@ -6,6 +6,7 @@ import { Action } from './actions'
 const initialState = {
   page: Pages.Home,
   playerId: '',
+  appReady: false,
 }
 const reducer: React.Reducer<AppState, Action> = (
   state: AppState,

@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { Pages } from 'consts'
-import { PageLink } from 'components'
 import { AppContext } from 'containers/App'
+import PageLink from 'components/PageLink'
 
 function Home() {
   const { playerId, dispatch } = useContext(AppContext)

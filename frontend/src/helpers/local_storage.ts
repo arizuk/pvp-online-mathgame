@@ -8,18 +8,5 @@ export const wrap = <V>(key: string, setter: (v: V) => void) => {
   }
 }
 
-export const readItems = <
-  S extends { [key: string]: string },
-  K extends keyof S & string
->(
-  keys: K[]
-): Partial<S> => {
-  const items: Partial<S> = {}
-  keys.forEach((key) => {
-    const item = localStorage.getItem(getLocalStorageKey(key))
-    if (item !== null) {
-      items[key] = item as S[K]
-    }
-  })
-  return items
-}
+export const readItem = (key: string) =>
+  localStorage.getItem(getLocalStorageKey(key))

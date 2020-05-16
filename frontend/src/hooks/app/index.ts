@@ -51,23 +51,20 @@ export const useAppState = (): AppStore => {
   useEffect(() => {
     if (initialized === true) return
 
-    const savedState = localStorageHelper.readItems<AppState, keyof AppState>(
-      Object.keys(state) as Array<keyof AppState>
-    )
+    // TODO: べたがきやめる
+    let savedState: { [key: string]: any } = {}
+    const keys = ['page', 'playerId']
+    keys.forEach((key) => {
+      const item = localStorageHelper.readItem(key)
+      if (item !== null) {
+        savedState[key] = item
+      }
+    })
     dispatch({ type: 'set', payload: savedState })
     setInitialized(true)
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialized])
-
-  // redirect
-  useEffect(() => {
-    if (initialized === false) return
-    if (state.page === Pages.PlayerEdit) return
-    if (!state.playerId) {
-      dispatch({ type: 'set', payload: { page: Pages.PlayerEdit } })
-    }
-  })
 
   const setPage = (v: Pages) => dispatch({ type: 'set', payload: { page: v } })
   const setPlayerId = (v: string) =>
@@ -75,6 +72,7 @@ export const useAppState = (): AppStore => {
 
   return {
     ...state,
+    appReady: initialized,
     changePage: localStorageHelper.wrap('page', setPage),
     changePlayerId: localStorageHelper.wrap('playerId', setPlayerId),
     dispatch: wrappedDispatch,

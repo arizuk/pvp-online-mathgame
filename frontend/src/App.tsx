@@ -1,14 +1,27 @@
 import React from 'react'
 import './App.css'
 
-import { PageRoot } from 'pages'
+import Auth from 'components/Auth'
+import { Router, Route, Switch } from 'components/Router'
+
+import { Pages } from './consts'
 import { AppContainer } from 'containers/App'
+import PlayerEdit from 'pages/PlayerEdit'
+import Home from 'pages/Home'
 
 function App() {
   return (
     <div className="App">
       <AppContainer>
-        <PageRoot></PageRoot>
+        <Router>
+          <Switch>
+            <Route page={Pages.PlayerEdit} component={PlayerEdit} />
+
+            <Auth>
+              <Route page={Pages.Home} component={Home} />
+            </Auth>
+          </Switch>
+        </Router>
       </AppContainer>
     </div>
   )
