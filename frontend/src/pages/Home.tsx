@@ -1,11 +1,11 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { AppContext } from 'components/AppContainer'
 import PageLink from 'components/PageLink'
 import { WSAPIContext } from 'components/WSAPIContainer'
 
 function Home() {
   const { playerId } = useContext(AppContext)
-  const { wsApiRef } = useContext(WSAPIContext)
+  const { wsApiRef, wsReady } = useContext(WSAPIContext)
 
   const startGame = () => {
     wsApiRef?.current?.startGame()
@@ -14,6 +14,16 @@ function Home() {
   const answer = () => {
     wsApiRef?.current?.answer('text')
   }
+
+  useEffect(() => {
+    if (!wsReady) return
+    const client = wsApiRef?.current
+    if (!client) return
+
+    client.socket.addEventListener('message', (ev) => {
+      alert(ev.data)
+    })
+  }, [wsApiRef, wsReady])
 
   return (
     <div>

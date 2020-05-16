@@ -5,9 +5,11 @@ import { getWsServerUrl } from 'helpers'
 
 type Context = {
   wsApiRef: React.MutableRefObject<WSAPIClient | undefined> | null
+  wsReady: boolean
 }
 export const WSAPIContext = React.createContext<Context>({
   wsApiRef: null,
+  wsReady: false,
 })
 
 export const WSAPIContainer: React.FunctionComponent<{}> = ({ children }) => {
@@ -41,6 +43,6 @@ export const WSAPIContainer: React.FunctionComponent<{}> = ({ children }) => {
     })
   }, [playerId, initialized])
 
-  const store = { wsApiRef }
+  const store = { wsApiRef, wsReady: initialized }
   return <WSAPIContext.Provider value={store}>{children}</WSAPIContext.Provider>
 }
