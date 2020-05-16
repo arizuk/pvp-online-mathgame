@@ -2,7 +2,7 @@ import { Command, Answer, StartGame } from 'mathgame/protobuf/client_pb'
 
 type CommandType = Command.TypeMap[keyof Command.TypeMap]
 
-export class WSAPIClinet {
+export class WSAPIClient {
   socket: WebSocket
   playerId: string
 

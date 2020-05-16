@@ -1,17 +1,18 @@
 import React, { useRef, useContext, useEffect, useState } from 'react'
-import { WSAPIClinet } from 'api/client'
+import { WSAPIClient } from 'api/client'
 import { AppContext } from './AppContainer'
 import { getWsServerUrl } from 'helpers'
 
 type Context = {
-  clientRef: React.MutableRefObject<WSAPIClinet | undefined> | null
+  wsApiRef: React.MutableRefObject<WSAPIClient | undefined> | null
 }
 export const WSAPIContext = React.createContext<Context>({
-  clientRef: null,
+  wsApiRef: null,
 })
+
 export const WSAPIContainer: React.FunctionComponent<{}> = ({ children }) => {
   const { playerId } = useContext(AppContext)
-  const clientRef = useRef<WSAPIClinet>()
+  const wsApiRef = useRef<WSAPIClient>()
 
   const [initialized, setInitialized] = useState(false)
 
@@ -21,24 +22,25 @@ export const WSAPIContainer: React.FunctionComponent<{}> = ({ children }) => {
     // TODO: reconnect
     if (initialized) return
 
-    const client = new WSAPIClinet(getWsServerUrl(window), playerId)
-    clientRef.current = client
+    const client = new WSAPIClient(getWsServerUrl(window), playerId)
+    wsApiRef.current = client
     setInitialized(true)
 
-    // apiClient.socket.addEventListener('message', (ev) => {
-    //   console.log(`[ONMESSAGE] ${ev.data}`)
-    // })
-    // apiClient.socket.addEventListener('open', (ev) => {
-    //   apiClient.joinRoom()
-    // })
-    // apiClient.socket.addEventListener('close', (ev) => {
-    //   console.log('connection closed')
-    // })
-    // apiClient.socket.addEventListener('error', (ev) => {
-    //   console.log('connection error')
-    // })
+    client.socket.addEventListener('message', (ev) => {
+      console.log(`[ONMESSAGE] ${ev.data}`)
+    })
+    client.socket.addEventListener('open', (ev) => {
+      console.log('ON OPEN')
+      client.joinRoom()
+    })
+    client.socket.addEventListener('close', (ev) => {
+      console.log('connection closed')
+    })
+    client.socket.addEventListener('error', (ev) => {
+      console.log('connection error')
+    })
   }, [playerId, initialized])
 
-  const store = { clientRef }
+  const store = { wsApiRef }
   return <WSAPIContext.Provider value={store}>{children}</WSAPIContext.Provider>
 }

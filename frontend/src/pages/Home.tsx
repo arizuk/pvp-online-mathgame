@@ -1,12 +1,18 @@
 import React, { useContext } from 'react'
 import { AppContext } from 'components/AppContainer'
 import PageLink from 'components/PageLink'
+import { WSAPIContext } from 'components/WSAPIContainer'
 
 function Home() {
   const { playerId } = useContext(AppContext)
+  const { wsApiRef } = useContext(WSAPIContext)
 
-  const dispatch = (payload: any) => {
-    alert(payload)
+  const startGame = () => {
+    wsApiRef?.current?.startGame()
+  }
+
+  const answer = () => {
+    wsApiRef?.current?.answer('text')
   }
 
   return (
@@ -16,14 +22,10 @@ function Home() {
         なまえ: <PageLink to="playerEdit">{playerId}</PageLink>
       </div>
       <div>
-        <button onClick={() => dispatch({ type: 'start_game' })}>
-          ゲームスタート
-        </button>
+        <button onClick={() => startGame()}>ゲームスタート</button>
       </div>
       <div>
-        <button onClick={() => dispatch({ type: 'answer', value: 'FIXME' })}>
-          answer
-        </button>
+        <button onClick={() => answer()}>answer</button>
       </div>
     </div>
   )
