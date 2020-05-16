@@ -1,29 +1,20 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useState } from 'react'
 import { AppContext } from 'components/AppContainer'
 import PageLink from 'components/PageLink'
+import GameWindow from 'components/GameWindow'
 import { WSAPIContext } from 'components/WSAPIContainer'
 
 function Home() {
   const { playerId } = useContext(AppContext)
-  const { wsApiRef, wsReady } = useContext(WSAPIContext)
+  const { wsReady, wsApiRef } = useContext(WSAPIContext)
+  const [gameStarted, setGameStarted] = useState(false)
 
   const startGame = () => {
-    wsApiRef?.current?.startGame()
+    if (wsReady) setGameStarted(true)
   }
-
-  const answer = () => {
-    wsApiRef?.current?.answer('text')
+  if (gameStarted && wsApiRef?.current) {
+    return <GameWindow client={wsApiRef.current}></GameWindow>
   }
-
-  useEffect(() => {
-    if (!wsReady) return
-    const client = wsApiRef?.current
-    if (!client) return
-
-    client.socket.addEventListener('message', (ev) => {
-      alert(ev.data)
-    })
-  }, [wsApiRef, wsReady])
 
   return (
     <div>
@@ -33,9 +24,6 @@ function Home() {
       </div>
       <div>
         <button onClick={() => startGame()}>ゲームスタート</button>
-      </div>
-      <div>
-        <button onClick={() => answer()}>answer</button>
       </div>
     </div>
   )
