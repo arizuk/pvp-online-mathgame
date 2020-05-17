@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { WSAPIClient } from 'api/client'
 import { GameContext } from 'components/GameContainer'
-import { Response } from 'mathgame/protobuf/server_pb'
+import * as server_pb from 'mathgame/protobuf/server_pb'
+import { Addition } from 'game/problem'
 
 type GameAdditionProps = {
   client: WSAPIClient
-  problem: { x: number; y: number }
+  problem: Addition
 }
 function GameAddition({ client, problem }: GameAdditionProps) {
   const answer = () => {
@@ -27,16 +28,19 @@ type GameWindowProps = {
 }
 export default function GameWindow({ client }: GameWindowProps) {
   const { started } = useContext(GameContext)
-  const [problem, setProblem] = useState<{ x: number; y: number } | null>(null)
+  const [problem, setProblem] = useState<Addition | null>(null)
 
   useEffect(() => {
-    const handler = (resp: Response) => {
+    const handler = (resp: server_pb.Response) => {
       console.log('response comes ' + resp.getType())
 
       switch (resp.getType()) {
-        case Response.Type.PROBLEM:
-          const addition = resp.getProblem()!.getAddition()
-          setProblem({ x: addition!.getX(), y: addition!.getY() })
+        case server_pb.Response.Type.PROBLEM:
+          const respProblem = resp.getProblem()
+          if (respProblem) {
+            const problem = Addition.from(respProblem)
+            setProblem(problem)
+          }
           break
         default:
           break

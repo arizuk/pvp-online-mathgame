@@ -1,8 +1,8 @@
 import { Command, Answer, StartGame } from 'mathgame/protobuf/client_pb'
-import { Response as ServerResponse } from 'mathgame/protobuf/server_pb'
+import * as server_pb from 'mathgame/protobuf/server_pb'
 
 type CommandType = Command.TypeMap[keyof Command.TypeMap]
-type Listener = (event: ServerResponse) => void
+type Listener = (event: server_pb.Response) => void
 
 export class WSAPIClient {
   socket: WebSocket
@@ -62,13 +62,13 @@ export class WSAPIClient {
     fileReader.onload = (event) => {
       const buffer = event.target!.result as ArrayBuffer
       const binary = new Uint8Array(buffer)
-      const response = ServerResponse.deserializeBinary(binary)
+      const response = server_pb.Response.deserializeBinary(binary)
       this.dispatch(response)
     }
     fileReader.readAsArrayBuffer(event.data)
   }
 
-  dispatch(response: ServerResponse) {
+  dispatch(response: server_pb.Response) {
     this.listeners.forEach((l) => l(response))
   }
 }
