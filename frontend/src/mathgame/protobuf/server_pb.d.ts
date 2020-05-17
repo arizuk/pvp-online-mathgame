@@ -28,11 +28,6 @@ export class Response extends jspb.Message {
   getAnswerResult(): AnswerResult | undefined;
   setAnswerResult(value?: AnswerResult): void;
 
-  hasProblemResult(): boolean;
-  clearProblemResult(): void;
-  getProblemResult(): ProblemResult | undefined;
-  setProblemResult(value?: ProblemResult): void;
-
   hasGameResult(): boolean;
   clearGameResult(): void;
   getGameResult(): GameResult | undefined;
@@ -57,7 +52,6 @@ export namespace Response {
     newPlayerJoined?: NewPlayerJoined.AsObject,
     problem?: Problem.AsObject,
     answerResult?: AnswerResult.AsObject,
-    problemResult?: ProblemResult.AsObject,
     gameResult?: GameResult.AsObject,
   }
 
@@ -66,8 +60,7 @@ export namespace Response {
     GAME_STARTED: 1;
     PROBLEM: 2;
     ANSWER_RESULT: 3;
-    PROBLEM_RESULT: 4;
-    GAME_RESULT: 5;
+    GAME_RESULT: 4;
   }
 
   export const Type: TypeMap;
@@ -77,7 +70,6 @@ export namespace Response {
     NEW_PLAYER_JOINED = 10,
     PROBLEM = 11,
     ANSWER_RESULT = 12,
-    PROBLEM_RESULT = 13,
     GAME_RESULT = 14,
   }
 }
@@ -106,6 +98,9 @@ export class Problem extends jspb.Message {
   getType(): Problem.TypeMap[keyof Problem.TypeMap];
   setType(value: Problem.TypeMap[keyof Problem.TypeMap]): void;
 
+  getNumber(): number;
+  setNumber(value: number): void;
+
   hasAddition(): boolean;
   clearAddition(): void;
   getAddition(): Addition | undefined;
@@ -125,6 +120,7 @@ export class Problem extends jspb.Message {
 export namespace Problem {
   export type AsObject = {
     type: Problem.TypeMap[keyof Problem.TypeMap],
+    number: number,
     addition?: Addition.AsObject,
   }
 
@@ -165,11 +161,19 @@ export namespace Addition {
 }
 
 export class AnswerResult extends jspb.Message {
+  getPlayerId(): string;
+  setPlayerId(value: string): void;
+
   getCorrect(): boolean;
   setCorrect(value: boolean): void;
 
   getScore(): number;
   setScore(value: number): void;
+
+  clearPlayerScoresList(): void;
+  getPlayerScoresList(): Array<PlayerScore>;
+  setPlayerScoresList(value: Array<PlayerScore>): void;
+  addPlayerScores(value?: PlayerScore, index?: number): PlayerScore;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): AnswerResult.AsObject;
@@ -183,29 +187,9 @@ export class AnswerResult extends jspb.Message {
 
 export namespace AnswerResult {
   export type AsObject = {
+    playerId: string,
     correct: boolean,
     score: number,
-  }
-}
-
-export class ProblemResult extends jspb.Message {
-  clearPlayerScoresList(): void;
-  getPlayerScoresList(): Array<PlayerScore>;
-  setPlayerScoresList(value: Array<PlayerScore>): void;
-  addPlayerScores(value?: PlayerScore, index?: number): PlayerScore;
-
-  serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): ProblemResult.AsObject;
-  static toObject(includeInstance: boolean, msg: ProblemResult): ProblemResult.AsObject;
-  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
-  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-  static serializeBinaryToWriter(message: ProblemResult, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): ProblemResult;
-  static deserializeBinaryFromReader(message: ProblemResult, reader: jspb.BinaryReader): ProblemResult;
-}
-
-export namespace ProblemResult {
-  export type AsObject = {
     playerScoresList: Array<PlayerScore.AsObject>,
   }
 }
@@ -238,6 +222,11 @@ export class GameResult extends jspb.Message {
   getWinner(): string;
   setWinner(value: string): void;
 
+  clearPlayerScoresList(): void;
+  getPlayerScoresList(): Array<PlayerScore>;
+  setPlayerScoresList(value: Array<PlayerScore>): void;
+  addPlayerScores(value?: PlayerScore, index?: number): PlayerScore;
+
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): GameResult.AsObject;
   static toObject(includeInstance: boolean, msg: GameResult): GameResult.AsObject;
@@ -251,6 +240,7 @@ export class GameResult extends jspb.Message {
 export namespace GameResult {
   export type AsObject = {
     winner: string,
+    playerScoresList: Array<PlayerScore.AsObject>,
   }
 }
 

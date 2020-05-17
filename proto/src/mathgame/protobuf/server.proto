@@ -8,8 +8,7 @@ message Response {
         GAME_STARTED = 1; // ゲーム開始
         PROBLEM = 2; // 問題提示
         ANSWER_RESULT = 3; // 答えた結果
-        PROBLEM_RESULT = 4; // 問題の結果
-        GAME_RESULT = 5; // ゲーム終了
+        GAME_RESULT = 4; // ゲーム終了
     }
     Type type = 1;
     bool broadcast = 2;
@@ -19,7 +18,6 @@ message Response {
         NewPlayerJoined new_player_joined = 10;
         Problem problem = 11;
         AnswerResult answer_result = 12;
-        ProblemResult problem_result = 13;
         GameResult game_result = 14;
     }
 }
@@ -33,6 +31,7 @@ message Problem {
         ADDITION = 0;
     }
     Type type = 1;
+    int32 number = 2;
     oneof payload {
         Addition addition = 10;
     }
@@ -44,12 +43,10 @@ message Addition {
 }
 
 message AnswerResult {
-    bool correct = 1;
-    int32 score = 2;
-}
-
-message ProblemResult {
-    repeated PlayerScore player_scores = 1;
+    string player_id = 1;
+    bool correct = 2;
+    int32 score = 3;
+    repeated PlayerScore player_scores = 4;
 }
 
 message PlayerScore {
@@ -59,4 +56,5 @@ message PlayerScore {
 
 message GameResult {
     string winner = 1;
+    repeated PlayerScore player_scores = 4;
 }

@@ -46,24 +46,42 @@ class Match:
         resp.broadcast = True
         channels.web.send(resp)
 
-        # Send PROBLEM
-        resp = Response()
-        resp.type = Response.Type.PROBLEM
-        resp.broadcast = True
-        problem = self._curr_problem.to_protobuf()
-        resp.problem.CopyFrom(problem)
-        channels.web.send(resp)
+        self._send_problem()
 
     def on_answer(self, command: Command):
         assert command.type == Command.Type.ANSWER
         player = self._get_player(command.player_id)
         logger.info("[PLAYER_ANSWERED]: player={}".format(player))
 
+        answer_value = command.answer.answer
+        print((answer_value, self._curr_problem, self._curr_problem._answer))
+        if self._curr_problem.is_correct(answer_value):
+            logger.info("[ANSWER_IS_CORRECT]: player={}".format(player))
+            self._step()
+            self._send_problem()
+        else:
+            logger.info("[ANSWER_IS_WRONG]: player={}".format(player))
+            # WrongAnswer
+            pass
+
     def _get_player(self, player_id: str) -> Player:
         for player in self._players:
             if player.id == player_id:
                 return player
         raise RuntimeError()
+
+    def _step(self):
+        self._curr_problem_index += 1
+        self._curr_problem_index %= len(self._problems)
+
+    def _send_problem(self):
+        resp = Response()
+        resp.type = Response.Type.PROBLEM
+        resp.broadcast = True
+        problem = self._curr_problem.to_protobuf()
+        resp.problem.CopyFrom(problem)
+        resp.problem.number = self._curr_problem_index + 1
+        channels.web.send(resp)
 
     @property
     def _curr_problem(self) -> Problem:

@@ -5,18 +5,23 @@ import { Addition } from 'game/problem'
 type Props = {
   client: WSAPIClient
   problem: Addition
+  number: number
 }
-export default function GameAddition({ client, problem }: Props) {
+export default function GameAddition({ client, problem, number }: Props) {
   const [answer, setAnswer] = useState(0)
 
-  const submit = () => client.answer(answer)
   const add = (value: number) => setAnswer(answer * 10 + value)
   const clear = () => setAnswer(0)
+
+  const submit = () => {
+    client.answer(answer)
+    clear()
+  }
   return (
     <div>
       <div>
         <p>
-          Q. {problem.x} + {problem.y} = ?
+          Q{number}. {problem.x} + {problem.y} = ?
         </p>
       </div>
 
