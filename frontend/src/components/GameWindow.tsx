@@ -19,8 +19,6 @@ export default function GameWindow({ client }: GameWindowProps) {
 
   useEffect(() => {
     const handler = (resp: server_pb.Response) => {
-      console.log('response comes ' + resp.getType())
-
       switch (resp.getType()) {
         case server_pb.Response.Type.PROBLEM:
           const respProblem = resp.getProblem()
@@ -28,6 +26,10 @@ export default function GameWindow({ client }: GameWindowProps) {
             const problem = Addition.from(respProblem)
             setProblem({ number: respProblem.getNumber(), problem })
           }
+          break
+        case server_pb.Response.Type.ANSWER_RESULT:
+          const answerResult = resp.getAnswerResult()
+          console.log(answerResult?.toObject())
           break
         default:
           break

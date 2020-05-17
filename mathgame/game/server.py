@@ -53,16 +53,27 @@ class Match:
         player = self._get_player(command.player_id)
         logger.info("[PLAYER_ANSWERED]: player={}".format(player))
 
-        answer_value = command.answer.answer
-        print((answer_value, self._curr_problem, self._curr_problem._answer))
-        if self._curr_problem.is_correct(answer_value):
+        resp = Response()
+        resp.type = Response.Type.ANSWER_RESULT
+        resp.broadcast = True
+
+        answer_result = server_pb2.AnswerResult()
+        answer_result.player_id = command.player_id
+
+        if self._curr_problem.is_correct(command.answer.answer):
             logger.info("[ANSWER_IS_CORRECT]: player={}".format(player))
+
+            answer_result.correct = True
+            answer_result.score = 1
+
             self._step()
             self._send_problem()
         else:
             logger.info("[ANSWER_IS_WRONG]: player={}".format(player))
-            # WrongAnswer
-            pass
+            answer_result.correct = False
+
+        resp.answer_result.CopyFrom(answer_result)
+        channels.web.send(resp)
 
     def _get_player(self, player_id: str) -> Player:
         for player in self._players:
