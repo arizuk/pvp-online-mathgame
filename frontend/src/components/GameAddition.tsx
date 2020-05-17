@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { WSAPIClient } from 'api/client'
 import * as server_pb from 'mathgame/protobuf/server_pb'
 
@@ -20,6 +20,10 @@ export default function GameAddition({ client, problem, answerResult }: Props) {
     client.answer(answer)
     clear()
   }
+
+  useEffect(() => {
+    clear()
+  }, [number])
 
   let answerResultView = null
   if (answerResult) {

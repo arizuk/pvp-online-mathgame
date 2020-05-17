@@ -14,6 +14,9 @@ export default function GameWindow({ client }: GameWindowProps) {
     answerResult,
     setAnswerResult,
   ] = useState<server_pb.AnswerResult | null>(null)
+  const [gameResult, setGameResult] = useState<server_pb.GameResult | null>(
+    null
+  )
 
   useEffect(() => {
     const handler = (resp: server_pb.Response) => {
@@ -25,6 +28,10 @@ export default function GameWindow({ client }: GameWindowProps) {
         case server_pb.Response.Type.ANSWER_RESULT:
           const respAnswerResult = resp.getAnswerResult()
           if (respAnswerResult) setAnswerResult(respAnswerResult)
+          break
+        case server_pb.Response.Type.GAME_RESULT:
+          const respGameResult = resp.getGameResult()
+          if (respGameResult) setGameResult(respGameResult)
           break
         default:
           break
@@ -45,7 +52,9 @@ export default function GameWindow({ client }: GameWindowProps) {
   if (!started) {
     return <></>
   }
-  if (problem) {
+  if (gameResult) {
+    return <div>Game終了! winner: {gameResult.getWinner()}</div>
+  } else if (problem) {
     return (
       <GameAddition
         client={client}

@@ -1,5 +1,6 @@
 import asyncio
 import logging
+from typing import List
 
 from mathgame.message_channel import channels
 from mathgame.protobuf import server_pb2
@@ -12,20 +13,52 @@ from .problem import Problem, RandomAdditionFactory
 logger = logging.getLogger(__name__)
 
 
+class MatchPlayers:
+    def __init__(self):
+        self._players = {}
+
+    def add(self, player_id: str) -> Player:
+        if player_id in self._players:
+            return self.get(player_id)
+
+        new_player = Player(id=player_id)
+        self._players[player_id] = (new_player, PlayerState())
+        return new_player
+
+    def add_score(self, player_id: str, score: int):
+        self._players[player_id][1].score += score
+
+    def get(self, player_id: str) -> Player:
+        return self._players[player_id][0]
+
+    def get_winner(self) -> Player:
+        assert len(self._players) >= 1
+        orders = sorted(self._players.keys(), key=lambda x: -self._players[x][1].score)
+        return self.get(orders[0])
+
+    def get_scores(self) -> List[dict]:
+        scores = []
+        for (player, state) in self._players.values():
+            scores.append({"player_id": player.id, "score": state.score})
+        return scores
+
+    @property
+    def num_players(self):
+        return len(self._players)
+
+
 class Match:
-    def __init__(self, num_problems: int = 5):
-        self._players = []
-        self._player_states = {}
+    def __init__(self, num_problems: int = 3):
+        self._match_players = MatchPlayers()
         self._problems = RandomAdditionFactory.generate(num_problems)
         self._curr_problem_index = 0
+        self._finished = False
 
     def on_join_room(self, command: Command):
         assert command.type == Command.Type.JOIN_ROOM
-        player = Player(id=command.player_id)
 
+        player = self._match_players.add(command.player_id)
         logger.info("[PLYAER_JOINED]: player={}".format(player))
-        self._players.append(player)
-        self._player_states[player.id] = PlayerState()
 
         resp = Response()
         resp.type = Response.Type.NEW_PLAYER_JOINED
@@ -37,7 +70,8 @@ class Match:
 
     def on_start_game(self, command: Command):
         assert command.type == Command.Type.START_GAME
-        player = self._get_player(command.player_id)
+
+        player = self._match_players.add(command.player_id)
         logger.info("[GAME_STARTED]: player={}".format(player))
 
         # Send GAME_STARTED
@@ -50,7 +84,7 @@ class Match:
 
     def on_answer(self, command: Command):
         assert command.type == Command.Type.ANSWER
-        player = self._get_player(command.player_id)
+        player = self._match_players.add(command.player_id)
         logger.info("[PLAYER_ANSWERED]: player={}".format(player))
 
         resp = Response()
@@ -66,8 +100,14 @@ class Match:
             answer_result.correct = True
             answer_result.score = 1
 
+            self._on_correct_answer(command.player_id, score=1)
+
             self._step()
-            self._send_problem()
+            if self._finished:
+                self._send_game_result()
+            else:
+                # TODO: 問題を送るをちょっと送らせたい
+                self._send_problem()
         else:
             logger.info("[ANSWER_IS_WRONG]: player={}".format(player))
             answer_result.correct = False
@@ -75,15 +115,24 @@ class Match:
         resp.answer_result.CopyFrom(answer_result)
         channels.web.send(resp)
 
-    def _get_player(self, player_id: str) -> Player:
-        for player in self._players:
-            if player.id == player_id:
-                return player
-        raise RuntimeError()
-
     def _step(self):
         self._curr_problem_index += 1
+        if self._curr_problem_index >= len(self._problems):
+            self._finished = True
         self._curr_problem_index %= len(self._problems)
+
+    def _on_correct_answer(self, player_id, score):
+        self._match_players.add_score(player_id, score)
+
+    def _send_game_result(self):
+        resp = Response()
+        resp.type = Response.Type.GAME_RESULT
+        resp.broadcast = True
+
+        game_result = server_pb2.GameResult()
+        game_result.winner = self._match_players.get_winner().id
+        resp.game_result.CopyFrom(game_result)
+        channels.web.send(resp)
 
     def _send_problem(self):
         resp = Response()
@@ -95,11 +144,12 @@ class Match:
         channels.web.send(resp)
 
     @property
+    def finished(self) -> bool:
+        return self._finished
+
+    @property
     def _curr_problem(self) -> Problem:
         return self._problems[self._curr_problem_index]
-
-    def tick(self):
-        pass
 
 
 class GameServer:
@@ -133,8 +183,9 @@ class GameServer:
                 for command in commands:
                     self.handle_command(command)
 
-                if self.current_match:
-                    self.current_match.tick()
+                if self.current_match.finished:
+                    self.current_match = Match()
+
             except Exception as e:
                 logger.exception(e)
 
