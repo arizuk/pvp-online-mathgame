@@ -25,4 +25,5 @@ message StartGame {
 }
 
 message Answer {
+    int32 answer = 1;
 }

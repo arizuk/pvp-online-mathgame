@@ -81,6 +81,9 @@ export namespace StartGame {
 }
 
 export class Answer extends jspb.Message {
+  getAnswer(): number;
+  setAnswer(value: number): void;
+
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): Answer.AsObject;
   static toObject(includeInstance: boolean, msg: Answer): Answer.AsObject;
@@ -93,6 +96,7 @@ export class Answer extends jspb.Message {
 
 export namespace Answer {
   export type AsObject = {
+    answer: number,
   }
 }
 

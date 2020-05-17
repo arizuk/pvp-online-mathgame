@@ -3,25 +3,7 @@ import { WSAPIClient } from 'api/client'
 import { GameContext } from 'components/GameContainer'
 import * as server_pb from 'mathgame/protobuf/server_pb'
 import { Addition } from 'game/problem'
-
-type GameAdditionProps = {
-  client: WSAPIClient
-  problem: Addition
-}
-function GameAddition({ client, problem }: GameAdditionProps) {
-  const answer = () => {
-    client.answer('hoge')
-  }
-
-  return (
-    <div>
-      <div>
-        Q. {problem.x} + {problem.y} = ?
-      </div>
-      <div onClick={answer}>こたえる</div>
-    </div>
-  )
-}
+import GameAddition from './GameAddition'
 
 type GameWindowProps = {
   client: WSAPIClient
@@ -53,11 +35,16 @@ export default function GameWindow({ client }: GameWindowProps) {
     }
   }, [client])
 
-  if (!started) {
-    return <></>
-  }
-  if (problem) {
-    return <GameAddition client={client} problem={problem} />
-  }
-  return <div>Server response waiting..</div>
+  // FIXME: debug
+  return (
+    <GameAddition client={client} problem={new Addition(10, 20)}></GameAddition>
+  )
+
+  // if (!started) {
+  //   return <></>
+  // }
+  // if (problem) {
+  //   return <GameAddition client={client} problem={problem} />
+  // }
+  // return <div>Server response waiting..</div>
 }

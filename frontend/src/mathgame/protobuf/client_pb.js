@@ -548,7 +548,7 @@ proto.mathgame.protobuf.Answer.prototype.toObject = function(opt_includeInstance
  */
 proto.mathgame.protobuf.Answer.toObject = function(includeInstance, msg) {
   var f, obj = {
-
+    answer: jspb.Message.getFieldWithDefault(msg, 1, 0)
   };
 
   if (includeInstance) {
@@ -585,6 +585,10 @@ proto.mathgame.protobuf.Answer.deserializeBinaryFromReader = function(msg, reade
     }
     var field = reader.getFieldNumber();
     switch (field) {
+    case 1:
+      var value = /** @type {number} */ (reader.readInt32());
+      msg.setAnswer(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -614,6 +618,31 @@ proto.mathgame.protobuf.Answer.prototype.serializeBinary = function() {
  */
 proto.mathgame.protobuf.Answer.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
+  f = message.getAnswer();
+  if (f !== 0) {
+    writer.writeInt32(
+      1,
+      f
+    );
+  }
+};
+
+
+/**
+ * optional int32 answer = 1;
+ * @return {number}
+ */
+proto.mathgame.protobuf.Answer.prototype.getAnswer = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 1, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.mathgame.protobuf.Answer} returns this
+ */
+proto.mathgame.protobuf.Answer.prototype.setAnswer = function(value) {
+  return jspb.Message.setProto3IntField(this, 1, value);
 };
 
 

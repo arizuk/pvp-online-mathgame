@@ -40,9 +40,10 @@ export class WSAPIClient {
     this.send(cmd)
   }
 
-  answer(v: string) {
+  answer(answer: number) {
     const cmd = this.newCommand(Command.Type.ANSWER)
     const payload = new Answer()
+    payload.setAnswer(answer)
     cmd.setAnswer(payload)
     this.send(cmd)
   }
