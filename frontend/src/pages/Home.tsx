@@ -1,22 +1,17 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { AppContext } from 'components/AppContainer'
 import PageLink from 'components/PageLink'
 import GameWindow from 'components/GameWindow'
 import { GameContext, GameContainer } from 'components/GameContainer'
 import { WSAPIContext } from 'components/WSAPIContainer'
 import * as server_pb from 'mathgame/protobuf/server_pb'
-
-const onNewPlayerJoined = (playerId: string, resp: server_pb.Response) => {
-  const newPlayerId = resp.getNewPlayerJoined()?.getPlayerId()
-  if (playerId !== newPlayerId) {
-    console.log(`${newPlayerId}さんが入室しました`)
-  }
-}
+import { FaRegThumbsUp } from 'react-icons/fa'
 
 function Lobby() {
   const { playerId } = useContext(AppContext)
   const { wsReady, wsApiRef } = useContext(WSAPIContext)
   const gameCtx = useContext(GameContext)
+  const [notification, setNotification] = useState('')
 
   useEffect(() => {
     const client = wsApiRef?.current
@@ -25,7 +20,11 @@ function Lobby() {
     const handler = (resp: server_pb.Response) => {
       switch (resp.getType()) {
         case server_pb.Response.Type.NEW_PLAYER_JOINED:
-          onNewPlayerJoined(playerId, resp)
+          const newPlayerId = resp.getNewPlayerJoined()?.getPlayerId()
+          if (playerId !== newPlayerId) {
+            const message = `${newPlayerId}さんが入室しました`
+            setNotification(message)
+          }
           break
         case server_pb.Response.Type.GAME_STARTED:
           gameCtx.setStarted(true)
@@ -51,15 +50,32 @@ function Lobby() {
 
   return (
     <div>
-      <h1>Home Page</h1>
-      <div>
-        なまえ: <PageLink to="playerEdit">{playerId}</PageLink>
+      <h1 className="title">みんなで!さんすう!</h1>
+      <div className="content">
+        {notification ? (
+          <div className="notification">
+            <div className="item">
+              {notification}
+              &nbsp;
+              <FaRegThumbsUp />
+            </div>
+          </div>
+        ) : null}
+        <div className="playerInfo">
+          <div className="item label">なまえ</div>
+          <div className="item name">
+            <PageLink to="playerEdit">{playerId}</PageLink>
+          </div>
+        </div>
+        <div>
+          <button className="button" onClick={() => startGame()}>
+            ゲームスタート
+          </button>
+        </div>
       </div>
-      <div>
-        <button onClick={() => startGame()}>ゲームスタート</button>
+      <div className="footer">
+        <div>wsReady: {String(wsReady)}</div>
       </div>
-
-      <div>wsReady: {String(wsReady)}</div>
     </div>
   )
 }

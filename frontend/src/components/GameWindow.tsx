@@ -3,6 +3,17 @@ import { WSAPIClient } from 'api/client'
 import { GameContext } from 'components/GameContainer'
 import * as server_pb from 'mathgame/protobuf/server_pb'
 import GameAddition from './GameAddition'
+import GameResult from './GameResult'
+
+const makeDummyProblem = () => {
+  const prob = new server_pb.Problem()
+  prob.setNumber(1)
+  const addition = new server_pb.Addition()
+  addition.setX(12)
+  addition.setY(8)
+  prob.setAddition(addition)
+  return prob
+}
 
 type GameWindowProps = {
   client: WSAPIClient
@@ -44,24 +55,24 @@ export default function GameWindow({ client }: GameWindowProps) {
     }
   }, [client])
 
-  // // FIXME: debug
-  // return (
-  //   <GameAddition client={client} problem={new Addition(10, 20)}></GameAddition>
-  // )
+  const fakeResult = new server_pb.GameResult()
+  fakeResult.setWinner('しおり')
+  return <GameResult gameResult={fakeResult} />
 
-  if (!started) {
-    return <></>
-  }
-  if (gameResult) {
-    return <div>Game終了! winner: {gameResult.getWinner()}</div>
-  } else if (problem) {
-    return (
-      <GameAddition
-        client={client}
-        problem={problem}
-        answerResult={answerResult}
-      />
-    )
-  }
-  return <div>Server response waiting..</div>
+  // if (!started) {
+  //   return <></>
+  // }
+
+  // if (gameResult) {
+  //   return <GameResult gameResult={gameResult} />
+  // } else if (problem) {
+  //   return (
+  //     <GameAddition
+  //       client={client}
+  //       problem={problem}
+  //       answerResult={answerResult}
+  //     />
+  //   )
+  // }
+  // return <div>ロード中です。ちょっとまってね</div>
 }

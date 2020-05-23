@@ -14,22 +14,28 @@ function PlayerEdit() {
   }
 
   return (
-    <div>
-      <h1>Player Edit Page</h1>
-      {appContext.playerId ? null : (
-        <div>ゲームをはじめるにはまず、なまえを入力してください</div>
-      )}
-
+    <div className="playerEdit">
+      <h1 className="title small">みんなで!さんすう!</h1>
+      <div className="guide">
+        ゲームをはじめるには
+        <br />
+        なまえを入力してください
+      </div>
       <div>
         <input
+          className="form"
           type="text"
           value={playerId}
           onChange={(ev) => setPlayerId(ev.target.value)}
         />
       </div>
-      <div>
-        <button onClick={save}>Save</button>
-        <button onClick={() => goToPage('home')}>Cancel</button>
+      <div className="control">
+        <button className="button" onClick={save}>
+          へんこうする
+        </button>
+        <button className="button gray" onClick={() => goToPage('home')}>
+          もどる
+        </button>
       </div>
     </div>
   )

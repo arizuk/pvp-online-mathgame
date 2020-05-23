@@ -1,38 +1,110 @@
-.App {
+body {
+  width: 100vw;
+  height: 100vh;
+  background: whitesmoke;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: center;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
+/* TODO: 個別にうつす */
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+.title {
+  background-color: rgb(54, 203, 230);
   color: white;
+  width: 100vw;
+  height: 100px;
+  line-height: 100px;
+  text-align: center;
+  font-family: "Nico Moji";
+  margin: 0;
+}
+.title.small {
+  height: 20px;
+  line-height: 20px;
+  font-size: 20px;
 }
 
-.App-link {
-  color: #61dafb;
+.notification {
+  margin: 30px;
+  display: flex;
+  justify-content: left;
+  background-color: white;
+  border-left: solid 7px rgb(46, 226, 136);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.notification .item {
+  margin: 5px;
+  padding: 15px;
+}
+
+.playerInfo {
+  margin: 30px;
+  display: flex;
+  justify-content: center;
+  background-color: white;
+  border-radius: 10px;
+}
+
+.playerInfo .label {
+  color: gray;
+}
+
+.playerInfo .name {
+  font-weight: bold;
+  /* font-family: "Nico Moji"; */
+}
+
+.playerInfo .item {
+  margin: 5px;
+  padding: 15px;
+}
+
+.footer {
+  font-size: 80%;
+  position: absolute;
+  bottom: 0;
+  padding: 10px
+}
+
+.guide {
+  margin: 30px;
+  background-color: white;
+  padding: 15px;
+  border-radius: 5px;
+  border-left: solid 7px rgb(46, 226, 136);
+}
+
+.playerEdit .form {
+  margin: 30px;
+  margin-top: 0px;
+  padding: 15px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  /* color: #a0a0a0; */
+}
+
+.playerEdit .control {
+  display: flex;
+  justify-content: center;
+}
+
+.button {
+  margin: 10px;
+  padding: 0.5em 1em;
+  text-decoration: none;
+  background: rgb(54, 203, 230);
+  color: #FFF;
+  border: none;
+  font-size: 110%;
+  /* border-bottom: solid 4px #627295; */
+  /* border-radius: 3px; */
+}
+
+.button.gray {
+  background: gray;
 }

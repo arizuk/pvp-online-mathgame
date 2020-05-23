@@ -1,6 +1,44 @@
 import React, { useState, useEffect } from 'react'
 import { WSAPIClient } from 'api/client'
 import * as server_pb from 'mathgame/protobuf/server_pb'
+import { FaRegThumbsUp } from 'react-icons/fa'
+
+import './GameAddition.css'
+
+type NumberButtonProps = {
+  onClick: () => void
+  number: number
+}
+function NumberButton({ onClick, number }: NumberButtonProps) {
+  return <button onClick={onClick}>{number}</button>
+}
+
+function AnswerResult({
+  answerResult,
+}: {
+  answerResult: server_pb.AnswerResult | null
+}) {
+  let content = <div>とけるかな？</div>
+  if (answerResult) {
+    if (answerResult.getCorrect()) {
+      content = (
+        <div>
+          <span className="playerName">{answerResult.getPlayerId()}</span>{' '}
+          がせいかいしたよ <FaRegThumbsUp />
+        </div>
+      )
+    } else {
+      content = (
+        <div>
+          <span className="playerName">{answerResult.getPlayerId()}</span>{' '}
+          がまちがえたよ
+        </div>
+      )
+    }
+  }
+
+  return <div className="GameAddition-answerResult">{content}</div>
+}
 
 type Props = {
   client: WSAPIClient
@@ -25,48 +63,44 @@ export default function GameAddition({ client, problem, answerResult }: Props) {
     clear()
   }, [number])
 
-  let answerResultView = null
-  if (answerResult) {
-    answerResultView = (
-      <div>
-        {answerResult.getPlayerId()} answered:
-        {String(answerResult.getCorrect())}
-      </div>
-    )
-  }
-
   return (
     <div>
+      <h1 className="GameAddition-title">Question {number}</h1>
       <div>
-        <p>
-          Q{number}. {addition.getX()} + {addition.getY()} = ?
-        </p>
-      </div>
-      <div>
-        <p>{answer}</p>
-      </div>
-      <div>
-        <div>
-          <button onClick={() => add(0)}>0</button>
-          <button onClick={() => add(1)}>1</button>
-          <button onClick={() => add(2)}>2</button>
-          <button onClick={() => add(3)}>3</button>
-          <button onClick={() => add(4)}>4</button>
-        </div>
-        <div>
-          <button onClick={() => add(5)}>5</button>
-          <button onClick={() => add(6)}>6</button>
-          <button onClick={() => add(7)}>7</button>
-          <button onClick={() => add(8)}>8</button>
-          <button onClick={() => add(9)}>9</button>
-        </div>
-      </div>
-      <div>
-        <button onClick={clear}>clear</button>
-        <button onClick={submit}>answer</button>
+        <AnswerResult answerResult={answerResult} />
       </div>
 
-      <div>{answerResultView}</div>
+      <div className="GameAddition-problem">
+        {addition.getX()} + {addition.getY()} = ?
+      </div>
+
+      <div className="GameAddition-answer">
+        <div>{answer}</div>
+      </div>
+
+      <div className="GameAddition-numberPad">
+        <div>
+          {[0, 1, 2, 3].map((n) => (
+            <NumberButton onClick={() => add(n)} number={n} />
+          ))}
+        </div>
+        <div>
+          {[4, 5, 6, 7].map((n) => (
+            <NumberButton onClick={() => add(n)} number={n} />
+          ))}
+        </div>
+        <div>
+          {[8, 9].map((n) => (
+            <NumberButton onClick={() => add(n)} number={n} />
+          ))}
+        </div>
+      </div>
+      <div className="GameAddition-control">
+        <button onClick={clear}>クリア</button>
+        <button className="submit" onClick={submit}>
+          けってい
+        </button>
+      </div>
     </div>
   )
 }

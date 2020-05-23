@@ -1,0 +1,22 @@
+.GameResult-title {
+    background-color: rgb(54, 203, 230);
+    color: white;
+    width: 100vw;
+    margin: 0;
+    margin-bottom: 30px;
+    font-family: "Nico Moji";
+}
+
+.GameResult-winner {
+    margin: 30px;
+    background-color: white;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.GameResult-winner .winner {
+    margin: 20px;
+    font-size: 40px;
+    font-weight: bold;
+    color: goldenrod;
+}

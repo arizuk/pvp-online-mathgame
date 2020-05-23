@@ -45,4 +45,4 @@ app = Starlette(routes=routes, debug=True, on_startup=[on_server_startup])
 
 
 def start_web_server(**kw_args):
-    uvicorn.run(app, debug=True, **kw_args)
+    uvicorn.run(app, host="0.0.0.0", debug=True, **kw_args)

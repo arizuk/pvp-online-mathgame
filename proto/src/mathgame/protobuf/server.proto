@@ -51,7 +51,7 @@ message AnswerResult {
 
 message PlayerScore {
     string player_id = 1;
-    string score = 2;
+    int32 score = 2;
 }
 
 message GameResult {
