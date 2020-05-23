@@ -1,5 +1,7 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React from 'react'
 import * as server_pb from 'mathgame/protobuf/server_pb'
+import PlayerScoreList from './PlayerScoreList'
+
 import './GameResult.css'
 
 export default function GameResult({
@@ -16,8 +18,13 @@ export default function GameResult({
         <div>のかちだよ</div>
       </div>
 
-      <div className="GameResult-detais">
-        <div>まさき: 0ぽいんと</div>
+      <PlayerScoreList playerScores={gameResult.getPlayerScoresList()} />
+
+      <div>
+        {/* FIXME */}
+        <button className="button" onClick={() => window.location.reload()}>
+          もどる
+        </button>
       </div>
     </div>
   )

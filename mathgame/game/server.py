@@ -42,15 +42,25 @@ class MatchPlayers:
             scores.append({"player_id": player.id, "score": state.score})
         return scores
 
+    def get_scores_as_protobuf(self) -> List[server_pb2.PlayerScore]:
+        scores = self.get_scores()
+        pb_scores = []
+        for score in scores:
+            pb_score = server_pb2.PlayerScore()
+            pb_score.score = score["score"]
+            pb_score.player_id = score["player_id"]
+            pb_scores.append(pb_score)
+        return pb_scores
+
     @property
     def num_players(self):
         return len(self._players)
 
 
 class Match:
-    def __init__(self, num_problems: int = 3):
+    def __init__(self):
         self._match_players = MatchPlayers()
-        self._problems = RandomAdditionFactory.generate(num_problems)
+        self._problems = None
         self._curr_problem_index = 0
         self._finished = False
 
@@ -71,8 +81,12 @@ class Match:
     def on_start_game(self, command: Command):
         assert command.type == Command.Type.START_GAME
 
-        player = self._match_players.add(command.player_id)
+        player = self._match_players.get(command.player_id)
         logger.info("[GAME_STARTED]: player={}".format(player))
+
+        # 問題の初期化
+        start_game = command.start_game
+        self._problems = RandomAdditionFactory.generate(start_game.num_problems)
 
         # Send GAME_STARTED
         resp = Response()
@@ -84,7 +98,7 @@ class Match:
 
     def on_answer(self, command: Command):
         assert command.type == Command.Type.ANSWER
-        player = self._match_players.add(command.player_id)
+        player = self._match_players.get(command.player_id)
         logger.info("[PLAYER_ANSWERED]: player={}".format(player))
 
         resp = Response()
@@ -112,6 +126,7 @@ class Match:
             logger.info("[ANSWER_IS_WRONG]: player={}".format(player))
             answer_result.correct = False
 
+        self._set_player_scores(answer_result)
         resp.answer_result.CopyFrom(answer_result)
         channels.web.send(resp)
 
@@ -131,8 +146,15 @@ class Match:
 
         game_result = server_pb2.GameResult()
         game_result.winner = self._match_players.get_winner().id
+
+        self._set_player_scores(game_result)
+
         resp.game_result.CopyFrom(game_result)
         channels.web.send(resp)
+
+    def _set_player_scores(self, result_pb):
+        for player_score in self._match_players.get_scores_as_protobuf():
+            result_pb.player_scores.append(player_score)
 
     def _send_problem(self):
         resp = Response()

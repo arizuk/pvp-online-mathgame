@@ -411,7 +411,8 @@ proto.mathgame.protobuf.StartGame.prototype.toObject = function(opt_includeInsta
  */
 proto.mathgame.protobuf.StartGame.toObject = function(includeInstance, msg) {
   var f, obj = {
-    type: jspb.Message.getFieldWithDefault(msg, 1, 0)
+    type: jspb.Message.getFieldWithDefault(msg, 1, 0),
+    numProblems: jspb.Message.getFieldWithDefault(msg, 2, 0)
   };
 
   if (includeInstance) {
@@ -452,6 +453,10 @@ proto.mathgame.protobuf.StartGame.deserializeBinaryFromReader = function(msg, re
       var value = /** @type {!proto.mathgame.protobuf.StartGame.Type} */ (reader.readEnum());
       msg.setType(value);
       break;
+    case 2:
+      var value = /** @type {number} */ (reader.readInt32());
+      msg.setNumProblems(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -488,6 +493,13 @@ proto.mathgame.protobuf.StartGame.serializeBinaryToWriter = function(message, wr
       f
     );
   }
+  f = message.getNumProblems();
+  if (f !== 0) {
+    writer.writeInt32(
+      2,
+      f
+    );
+  }
 };
 
 
@@ -513,6 +525,24 @@ proto.mathgame.protobuf.StartGame.prototype.getType = function() {
  */
 proto.mathgame.protobuf.StartGame.prototype.setType = function(value) {
   return jspb.Message.setProto3EnumField(this, 1, value);
+};
+
+
+/**
+ * optional int32 num_problems = 2;
+ * @return {number}
+ */
+proto.mathgame.protobuf.StartGame.prototype.getNumProblems = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.mathgame.protobuf.StartGame} returns this
+ */
+proto.mathgame.protobuf.StartGame.prototype.setNumProblems = function(value) {
+  return jspb.Message.setProto3IntField(this, 2, value);
 };
 
 

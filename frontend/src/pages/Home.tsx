@@ -6,12 +6,14 @@ import { GameContext, GameContainer } from 'components/GameContainer'
 import { WSAPIContext } from 'components/WSAPIContainer'
 import * as server_pb from 'mathgame/protobuf/server_pb'
 import { FaRegThumbsUp } from 'react-icons/fa'
+import './Home.css'
 
 function Lobby() {
   const { playerId } = useContext(AppContext)
   const { wsReady, wsApiRef } = useContext(WSAPIContext)
   const gameCtx = useContext(GameContext)
   const [notification, setNotification] = useState('')
+  const [numProblems, setNumProblems] = useState(5)
 
   useEffect(() => {
     const client = wsApiRef?.current
@@ -44,7 +46,7 @@ function Lobby() {
   const startGame = () => {
     if (wsReady) {
       gameCtx.setStarted(true)
-      wsApiRef?.current?.startGame()
+      wsApiRef?.current?.startGame(numProblems)
     }
   }
 
@@ -67,10 +69,25 @@ function Lobby() {
             <PageLink to="playerEdit">{playerId}</PageLink>
           </div>
         </div>
-        <div>
-          <button className="button" onClick={() => startGame()}>
-            ゲームスタート
-          </button>
+
+        <div className="Home-gameStart">
+          <div className="selectBoxWrap">
+            <div className="selectBox">
+              <select
+                value={numProblems}
+                onChange={(ev) => setNumProblems(parseInt(ev.target.value, 10))}
+              >
+                {[1, 3, 5, 10].map((num) => (
+                  <option value={num}>{num}問</option>
+                ))}
+              </select>
+            </div>
+          </div>
+          <div>
+            <button className="button" onClick={() => startGame()}>
+              ゲームスタート
+            </button>
+          </div>
         </div>
       </div>
       <div className="footer">

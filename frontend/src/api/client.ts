@@ -32,11 +32,12 @@ export class WSAPIClient {
     this.send(cmd)
   }
 
-  startGame() {
+  startGame(numProblems: number) {
     const cmd = this.newCommand(Command.Type.START_GAME)
     const payload = new StartGame()
     cmd.setStartGame(payload)
     payload.setType(StartGame.Type.ADDITION)
+    payload.setNumProblems(numProblems)
     this.send(cmd)
   }
 

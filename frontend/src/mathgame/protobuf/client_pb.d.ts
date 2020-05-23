@@ -58,6 +58,9 @@ export class StartGame extends jspb.Message {
   getType(): StartGame.TypeMap[keyof StartGame.TypeMap];
   setType(value: StartGame.TypeMap[keyof StartGame.TypeMap]): void;
 
+  getNumProblems(): number;
+  setNumProblems(value: number): void;
+
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): StartGame.AsObject;
   static toObject(includeInstance: boolean, msg: StartGame): StartGame.AsObject;
@@ -71,6 +74,7 @@ export class StartGame extends jspb.Message {
 export namespace StartGame {
   export type AsObject = {
     type: StartGame.TypeMap[keyof StartGame.TypeMap],
+    numProblems: number,
   }
 
   export interface TypeMap {

@@ -4,6 +4,7 @@ import * as server_pb from 'mathgame/protobuf/server_pb'
 import { FaRegThumbsUp } from 'react-icons/fa'
 
 import './GameAddition.css'
+import PlayerScoreList from './PlayerScoreList'
 
 type NumberButtonProps = {
   onClick: () => void
@@ -101,6 +102,8 @@ export default function GameAddition({ client, problem, answerResult }: Props) {
           けってい
         </button>
       </div>
+
+      <PlayerScoreList playerScores={answerResult?.getPlayerScoresList()} />
     </div>
   )
 }

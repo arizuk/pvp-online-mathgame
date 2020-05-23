@@ -1,0 +1,15 @@
+.PlayerScoreList {
+    margin: 30px;
+    background-color: white;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.PlayerScoreList .player span {
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.PlayerScoreList .player span.name {
+    font-weight: bold;
+}
