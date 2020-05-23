@@ -1420,7 +1420,7 @@ proto.mathgame.protobuf.PlayerScore.prototype.toObject = function(opt_includeIns
 proto.mathgame.protobuf.PlayerScore.toObject = function(includeInstance, msg) {
   var f, obj = {
     playerId: jspb.Message.getFieldWithDefault(msg, 1, ""),
-    score: jspb.Message.getFieldWithDefault(msg, 2, "")
+    score: jspb.Message.getFieldWithDefault(msg, 2, 0)
   };
 
   if (includeInstance) {
@@ -1462,7 +1462,7 @@ proto.mathgame.protobuf.PlayerScore.deserializeBinaryFromReader = function(msg, 
       msg.setPlayerId(value);
       break;
     case 2:
-      var value = /** @type {string} */ (reader.readString());
+      var value = /** @type {number} */ (reader.readInt32());
       msg.setScore(value);
       break;
     default:
@@ -1502,8 +1502,8 @@ proto.mathgame.protobuf.PlayerScore.serializeBinaryToWriter = function(message, 
     );
   }
   f = message.getScore();
-  if (f.length > 0) {
-    writer.writeString(
+  if (f !== 0) {
+    writer.writeInt32(
       2,
       f
     );
@@ -1530,20 +1530,20 @@ proto.mathgame.protobuf.PlayerScore.prototype.setPlayerId = function(value) {
 
 
 /**
- * optional string score = 2;
- * @return {string}
+ * optional int32 score = 2;
+ * @return {number}
  */
 proto.mathgame.protobuf.PlayerScore.prototype.getScore = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
 };
 
 
 /**
- * @param {string} value
+ * @param {number} value
  * @return {!proto.mathgame.protobuf.PlayerScore} returns this
  */
 proto.mathgame.protobuf.PlayerScore.prototype.setScore = function(value) {
-  return jspb.Message.setProto3StringField(this, 2, value);
+  return jspb.Message.setProto3IntField(this, 2, value);
 };
 
 

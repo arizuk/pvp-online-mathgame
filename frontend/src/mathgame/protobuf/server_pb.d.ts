@@ -198,8 +198,8 @@ export class PlayerScore extends jspb.Message {
   getPlayerId(): string;
   setPlayerId(value: string): void;
 
-  getScore(): string;
-  setScore(value: string): void;
+  getScore(): number;
+  setScore(value: number): void;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): PlayerScore.AsObject;
@@ -214,7 +214,7 @@ export class PlayerScore extends jspb.Message {
 export namespace PlayerScore {
   export type AsObject = {
     playerId: string,
-    score: string,
+    score: number,
   }
 }
 
