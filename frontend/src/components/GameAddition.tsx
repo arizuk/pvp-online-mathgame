@@ -80,22 +80,23 @@ export default function GameAddition({ client, problem, answerResult }: Props) {
       </div>
 
       <div className="GameAddition-numberPad">
-        <div>
+        <div className="row">
           {[0, 1, 2, 3].map((n) => (
             <NumberButton onClick={() => add(n)} number={n} />
           ))}
         </div>
-        <div>
+        <div className="row">
           {[4, 5, 6, 7].map((n) => (
             <NumberButton onClick={() => add(n)} number={n} />
           ))}
         </div>
-        <div>
+        <div className="row">
           {[8, 9].map((n) => (
             <NumberButton onClick={() => add(n)} number={n} />
           ))}
         </div>
       </div>
+
       <div className="GameAddition-control">
         <button onClick={clear}>クリア</button>
         <button className="submit" onClick={submit}>

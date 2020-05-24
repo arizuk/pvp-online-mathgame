@@ -3,6 +3,8 @@
     background-color: white;
     border-radius: 10px;
     padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .PlayerScoreList .player span {
