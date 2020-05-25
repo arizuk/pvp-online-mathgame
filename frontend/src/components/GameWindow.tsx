@@ -3,7 +3,6 @@ import { WSAPIClient } from 'api/client'
 import { GameContext } from 'components/GameContainer'
 import * as server_pb from 'mathgame/protobuf/server_pb'
 import GameAddition from './GameAddition'
-import GameResult from './GameResult'
 
 // eslint-disable-next-line
 const makeDummyProblem = () => {
@@ -16,6 +15,7 @@ const makeDummyProblem = () => {
   return prob
 }
 
+// TODO: どこかにうつす
 // eslint-disable-next-line
 const makeDummyGameResult = () => {
   const gameResult = new server_pb.GameResult()
@@ -34,14 +34,11 @@ type GameWindowProps = {
   client: WSAPIClient
 }
 export default function GameWindow({ client }: GameWindowProps) {
-  const { started, problem, gameResult, answerResult } = useContext(GameContext)
+  const { started, problem, answerResult } = useContext(GameContext)
   if (!started) {
-    return <></>
+    return null
   }
-
-  if (gameResult) {
-    return <GameResult gameResult={gameResult} />
-  } else if (problem) {
+  if (problem) {
     return (
       <GameAddition
         client={client}
@@ -49,6 +46,7 @@ export default function GameWindow({ client }: GameWindowProps) {
         answerResult={answerResult}
       />
     )
+  } else {
+    return <div>ロード中です。ちょっとまってね</div>
   }
-  return <div>ロード中です。ちょっとまってね</div>
 }

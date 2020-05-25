@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from 'react'
 import { WSAPIContext } from './WSAPIContainer'
 import * as server_pb from 'mathgame/protobuf/server_pb'
 import { AppContext } from './AppContainer'
+import { RouterContext } from './Router'
 
 type Context = {
   started: boolean
@@ -38,6 +39,8 @@ export const GameContainer: React.FunctionComponent<{}> = ({ children }) => {
     null
   )
 
+  const { goToPage } = useContext(RouterContext)
+
   useEffect(() => {
     const client = wsApiRef?.current
     if (!client || !wsReady) return
@@ -65,6 +68,7 @@ export const GameContainer: React.FunctionComponent<{}> = ({ children }) => {
         case server_pb.Response.Type.GAME_RESULT:
           const respGameResult = resp.getGameResult()
           if (respGameResult) setGameResult(respGameResult)
+          goToPage('gameResult')
           break
         default:
           break

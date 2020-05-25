@@ -9,6 +9,7 @@ import { Router, Route, Switch } from 'components/Router'
 
 import PlayerEdit from 'pages/PlayerEdit'
 import Home from 'pages/Home'
+import GameResult from 'pages/GameResult'
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
                 <GameContainer>
                   <Switch>
                     <Route page="home" component={Home} />
+                    <Route page="gameResult" component={GameResult} />
                   </Switch>
                 </GameContainer>
               </Auth>
