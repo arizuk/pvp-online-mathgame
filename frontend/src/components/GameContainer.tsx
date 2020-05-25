@@ -7,16 +7,22 @@ import { RouterContext } from './Router'
 type Context = {
   started: boolean
   setStarted: (v: boolean) => void
+  roomJoined: boolean
+  setRoomJoined: (v: boolean) => void
   notification: string
+  resetGame: () => void
 
   problem: server_pb.Problem | null
   answerResult: server_pb.AnswerResult | null
   gameResult: server_pb.GameResult | null
 }
 export const GameContext = React.createContext<Context>({
+  roomJoined: false,
+  setRoomJoined: (v) => {},
   started: false,
   setStarted: (v) => {},
   notification: '',
+  resetGame: () => {},
 
   problem: null,
   answerResult: null,
@@ -25,6 +31,7 @@ export const GameContext = React.createContext<Context>({
 
 export const GameContainer: React.FunctionComponent<{}> = ({ children }) => {
   const { playerId } = useContext(AppContext)
+  const [roomJoined, setRoomJoined] = useState(false)
   const [started, setStarted] = useState(false)
 
   const { wsReady, wsApiRef } = useContext(WSAPIContext)
@@ -55,7 +62,9 @@ export const GameContainer: React.FunctionComponent<{}> = ({ children }) => {
           }
           break
         case server_pb.Response.Type.GAME_STARTED:
-          setStarted(true)
+          if (roomJoined) {
+            setStarted(true)
+          }
           break
         case server_pb.Response.Type.PROBLEM:
           const respProblem = resp.getProblem()
@@ -78,15 +87,32 @@ export const GameContainer: React.FunctionComponent<{}> = ({ children }) => {
     return () => {
       client.removeResponseListener(handler)
     }
-  }, [wsApiRef, wsReady, playerId])
+  }, [wsApiRef, wsReady, playerId, goToPage, roomJoined])
+
+  useEffect(() => {
+    if (started) {
+      goToPage('gameWindow')
+    }
+  }, [started, goToPage])
+
+  const resetGame = () => {
+    setRoomJoined(false)
+    setStarted(false)
+    setProblem(null)
+    setAnswerResult(null)
+    setNotification('')
+  }
 
   const store = {
+    roomJoined,
+    setRoomJoined,
     started,
     setStarted,
     notification,
     problem,
     gameResult,
     answerResult,
+    resetGame,
   }
   return <GameContext.Provider value={store}>{children}</GameContext.Provider>
 }

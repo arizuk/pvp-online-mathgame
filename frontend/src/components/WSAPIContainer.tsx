@@ -26,11 +26,10 @@ export const WSAPIContainer: React.FunctionComponent<{}> = ({ children }) => {
 
     const client = new WSAPIClient(getWsServerUrl(window), playerId)
     wsApiRef.current = client
-    setInitialized(true)
 
     client.socket.addEventListener('open', (ev) => {
       console.log('ON OPEN')
-      client.joinRoom()
+      setInitialized(true)
     })
     client.socket.addEventListener('close', (ev) => {
       console.log('connection closed')

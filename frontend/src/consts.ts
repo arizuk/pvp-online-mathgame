@@ -1,3 +1,3 @@
-const pages = ['home', 'playerEdit', 'gameResult'] as const
+const pages = ['home', 'playerEdit', 'gameResult', 'gameWindow'] as const
 
 export type Page = typeof pages[number]

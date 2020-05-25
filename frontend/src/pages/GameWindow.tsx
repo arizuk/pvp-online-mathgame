@@ -1,8 +1,8 @@
 import React, { useContext } from 'react'
-import { WSAPIClient } from 'api/client'
 import { GameContext } from 'components/GameContainer'
 import * as server_pb from 'mathgame/protobuf/server_pb'
-import GameAddition from './GameAddition'
+import GameAddition from 'components/GameAddition'
+import { WSAPIContext } from 'components/WSAPIContainer'
 
 // eslint-disable-next-line
 const makeDummyProblem = () => {
@@ -30,14 +30,18 @@ const makeDummyGameResult = () => {
   return gameResult
 }
 
-type GameWindowProps = {
-  client: WSAPIClient
-}
-export default function GameWindow({ client }: GameWindowProps) {
+export default function GameWindow() {
+  const { wsApiRef } = useContext(WSAPIContext)
   const { started, problem, answerResult } = useContext(GameContext)
+
   if (!started) {
     return null
   }
+  const client = wsApiRef?.current
+  if (!client) {
+    return null
+  }
+
   if (problem) {
     return (
       <GameAddition

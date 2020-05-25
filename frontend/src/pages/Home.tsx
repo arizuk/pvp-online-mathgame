@@ -1,7 +1,6 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { AppContext } from 'components/AppContainer'
 import PageLink from 'components/PageLink'
-import GameWindow from 'components/GameWindow'
 import { GameContext } from 'components/GameContainer'
 import { WSAPIContext } from 'components/WSAPIContainer'
 import { FaRegThumbsUp } from 'react-icons/fa'
@@ -10,7 +9,7 @@ import './Home.css'
 function Lobby() {
   const { playerId } = useContext(AppContext)
   const { wsReady, wsApiRef } = useContext(WSAPIContext)
-  const { setStarted, notification } = useContext(GameContext)
+  const { setStarted, notification, setRoomJoined } = useContext(GameContext)
   const [numProblems, setNumProblems] = useState(5)
 
   // TODO: check current state
@@ -20,6 +19,13 @@ function Lobby() {
       wsApiRef?.current?.startGame(numProblems)
     }
   }
+
+  useEffect(() => {
+    if (wsReady) {
+      setRoomJoined(true)
+      wsApiRef?.current?.joinRoom()
+    }
+  }, [wsReady, wsApiRef, setRoomJoined])
 
   return (
     <div>
@@ -49,7 +55,9 @@ function Lobby() {
                 onChange={(ev) => setNumProblems(parseInt(ev.target.value, 10))}
               >
                 {[1, 3, 5, 10].map((num) => (
-                  <option value={num}>{num}問</option>
+                  <option key={num} value={num}>
+                    {num}問
+                  </option>
                 ))}
               </select>
             </div>
@@ -69,18 +77,6 @@ function Lobby() {
 }
 
 function Home() {
-  const { wsApiRef } = useContext(WSAPIContext)
-  const gameCtx = useContext(GameContext)
-  const gameWindow = wsApiRef?.current ? (
-    <GameWindow client={wsApiRef.current} />
-  ) : null
-
-  return (
-    <div>
-      {gameCtx.started ? null : <Lobby />}
-      {gameWindow}
-    </div>
-  )
+  return <Lobby />
 }
-
 export default Home
