@@ -131,7 +131,7 @@ body {
 	appearance: none;
 }
 .selectBox select::-ms-expand {
-    display: none;
+  display: none;
 }
 .selectBox {
 	position: relative;
@@ -163,5 +163,6 @@ body {
 }
 .selectBox select {
 	padding: 8px 38px 8px 8px;
-	color: #666666;
+  color: #666666;
+  font-size: 16px;
 }
