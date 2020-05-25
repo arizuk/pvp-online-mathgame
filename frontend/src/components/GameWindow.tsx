@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext } from 'react'
 import { WSAPIClient } from 'api/client'
 import { GameContext } from 'components/GameContainer'
 import * as server_pb from 'mathgame/protobuf/server_pb'
@@ -24,7 +24,7 @@ const makeDummyGameResult = () => {
   names.forEach((name: string, i: number) => {
     const score = new server_pb.PlayerScore()
     score.setPlayerId(name)
-    score.setScore((i+1) * 2)
+    score.setScore((i + 1) * 2)
     gameResult.addPlayerScores(score)
   })
   return gameResult
@@ -34,42 +34,7 @@ type GameWindowProps = {
   client: WSAPIClient
 }
 export default function GameWindow({ client }: GameWindowProps) {
-  const { started } = useContext(GameContext)
-  const [problem, setProblem] = useState<server_pb.Problem | null>(null)
-  const [
-    answerResult,
-    setAnswerResult,
-  ] = useState<server_pb.AnswerResult | null>(null)
-  const [gameResult, setGameResult] = useState<server_pb.GameResult | null>(
-    null
-  )
-
-  useEffect(() => {
-    const handler = (resp: server_pb.Response) => {
-      switch (resp.getType()) {
-        case server_pb.Response.Type.PROBLEM:
-          const respProblem = resp.getProblem()
-          if (respProblem) setProblem(respProblem)
-          break
-        case server_pb.Response.Type.ANSWER_RESULT:
-          const respAnswerResult = resp.getAnswerResult()
-          if (respAnswerResult) setAnswerResult(respAnswerResult)
-          break
-        case server_pb.Response.Type.GAME_RESULT:
-          const respGameResult = resp.getGameResult()
-          if (respGameResult) setGameResult(respGameResult)
-          break
-        default:
-          break
-      }
-    }
-    client.addResponseListener(handler)
-    return () => {
-      console.log('GameWindow offResponse called')
-      client.removeResponseListener(handler)
-    }
-  }, [client])
-
+  const { started, problem, gameResult, answerResult } = useContext(GameContext)
   if (!started) {
     return <></>
   }

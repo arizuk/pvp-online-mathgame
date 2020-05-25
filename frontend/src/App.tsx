@@ -4,6 +4,7 @@ import './App.css'
 import Auth from 'components/Auth'
 import { AppContainer } from 'components/AppContainer'
 import { WSAPIContainer } from 'components/WSAPIContainer'
+import { GameContainer } from 'components/GameContainer'
 import { Router, Route, Switch } from 'components/Router'
 
 import PlayerEdit from 'pages/PlayerEdit'
@@ -19,9 +20,11 @@ function App() {
               <Route page="playerEdit" component={PlayerEdit} />
 
               <Auth>
-                <Switch>
-                  <Route page="home" component={Home} />
-                </Switch>
+                <GameContainer>
+                  <Switch>
+                    <Route page="home" component={Home} />
+                  </Switch>
+                </GameContainer>
               </Auth>
             </Switch>
           </Router>
