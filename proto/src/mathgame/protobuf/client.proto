@@ -20,6 +20,8 @@ message Command {
 message StartGame {
     enum Type {
         ADDITION = 0;
+        SUBTRACTION = 1;
+        MULTIPLICATION = 2;
     }
     Type type = 1;
     int32 num_problems = 2;

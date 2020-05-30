@@ -18,7 +18,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='mathgame.protobuf',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=b'\n\x1emathgame/protobuf/server.proto\x12\x11mathgame.protobuf\"\xb2\x03\n\x08Response\x12.\n\x04type\x18\x01 \x01(\x0e\x32 .mathgame.protobuf.Response.Type\x12\x11\n\tbroadcast\x18\x02 \x01(\x08\x12\x16\n\x0e\x64\x65stination_id\x18\x03 \x01(\t\x12?\n\x11new_player_joined\x18\n \x01(\x0b\x32\".mathgame.protobuf.NewPlayerJoinedH\x00\x12-\n\x07problem\x18\x0b \x01(\x0b\x32\x1a.mathgame.protobuf.ProblemH\x00\x12\x38\n\ranswer_result\x18\x0c \x01(\x0b\x32\x1f.mathgame.protobuf.AnswerResultH\x00\x12\x34\n\x0bgame_result\x18\x0e \x01(\x0b\x32\x1d.mathgame.protobuf.GameResultH\x00\"`\n\x04Type\x12\x15\n\x11NEW_PLAYER_JOINED\x10\x00\x12\x10\n\x0cGAME_STARTED\x10\x01\x12\x0b\n\x07PROBLEM\x10\x02\x12\x11\n\rANSWER_RESULT\x10\x03\x12\x0f\n\x0bGAME_RESULT\x10\x04\x42\t\n\x07payload\"$\n\x0fNewPlayerJoined\x12\x11\n\tplayer_id\x18\x01 \x01(\t\"\x9a\x01\n\x07Problem\x12-\n\x04type\x18\x01 \x01(\x0e\x32\x1f.mathgame.protobuf.Problem.Type\x12\x0e\n\x06number\x18\x02 \x01(\x05\x12/\n\x08\x61\x64\x64ition\x18\n \x01(\x0b\x32\x1b.mathgame.protobuf.AdditionH\x00\"\x14\n\x04Type\x12\x0c\n\x08\x41\x44\x44ITION\x10\x00\x42\t\n\x07payload\" \n\x08\x41\x64\x64ition\x12\t\n\x01x\x18\x01 \x01(\x05\x12\t\n\x01y\x18\x02 \x01(\x05\"x\n\x0c\x41nswerResult\x12\x11\n\tplayer_id\x18\x01 \x01(\t\x12\x0f\n\x07\x63orrect\x18\x02 \x01(\x08\x12\r\n\x05score\x18\x03 \x01(\x05\x12\x35\n\rplayer_scores\x18\x04 \x03(\x0b\x32\x1e.mathgame.protobuf.PlayerScore\"/\n\x0bPlayerScore\x12\x11\n\tplayer_id\x18\x01 \x01(\t\x12\r\n\x05score\x18\x02 \x01(\x05\"S\n\nGameResult\x12\x0e\n\x06winner\x18\x01 \x01(\t\x12\x35\n\rplayer_scores\x18\x04 \x03(\x0b\x32\x1e.mathgame.protobuf.PlayerScoreb\x06proto3'
+  serialized_pb=b'\n\x1emathgame/protobuf/server.proto\x12\x11mathgame.protobuf\"\xb2\x03\n\x08Response\x12.\n\x04type\x18\x01 \x01(\x0e\x32 .mathgame.protobuf.Response.Type\x12\x11\n\tbroadcast\x18\x02 \x01(\x08\x12\x16\n\x0e\x64\x65stination_id\x18\x03 \x01(\t\x12?\n\x11new_player_joined\x18\n \x01(\x0b\x32\".mathgame.protobuf.NewPlayerJoinedH\x00\x12-\n\x07problem\x18\x0b \x01(\x0b\x32\x1a.mathgame.protobuf.ProblemH\x00\x12\x38\n\ranswer_result\x18\x0c \x01(\x0b\x32\x1f.mathgame.protobuf.AnswerResultH\x00\x12\x34\n\x0bgame_result\x18\x0e \x01(\x0b\x32\x1d.mathgame.protobuf.GameResultH\x00\"`\n\x04Type\x12\x15\n\x11NEW_PLAYER_JOINED\x10\x00\x12\x10\n\x0cGAME_STARTED\x10\x01\x12\x0b\n\x07PROBLEM\x10\x02\x12\x11\n\rANSWER_RESULT\x10\x03\x12\x0f\n\x0bGAME_RESULT\x10\x04\x42\t\n\x07payload\"$\n\x0fNewPlayerJoined\x12\x11\n\tplayer_id\x18\x01 \x01(\t\"\xbf\x01\n\x07Problem\x12-\n\x04type\x18\x01 \x01(\x0e\x32\x1f.mathgame.protobuf.Problem.Type\x12\x0e\n\x06number\x18\x02 \x01(\x05\x12/\n\x08\x61\x64\x64ition\x18\n \x01(\x0b\x32\x1b.mathgame.protobuf.AdditionH\x00\"9\n\x04Type\x12\x0c\n\x08\x41\x44\x44ITION\x10\x00\x12\x0f\n\x0bSUBTRACTION\x10\x01\x12\x12\n\x0eMULTIPLICATION\x10\x02\x42\t\n\x07payload\" \n\x08\x41\x64\x64ition\x12\t\n\x01x\x18\x01 \x01(\x05\x12\t\n\x01y\x18\x02 \x01(\x05\"x\n\x0c\x41nswerResult\x12\x11\n\tplayer_id\x18\x01 \x01(\t\x12\x0f\n\x07\x63orrect\x18\x02 \x01(\x08\x12\r\n\x05score\x18\x03 \x01(\x05\x12\x35\n\rplayer_scores\x18\x04 \x03(\x0b\x32\x1e.mathgame.protobuf.PlayerScore\"/\n\x0bPlayerScore\x12\x11\n\tplayer_id\x18\x01 \x01(\t\x12\r\n\x05score\x18\x02 \x01(\x05\"S\n\nGameResult\x12\x0e\n\x06winner\x18\x01 \x01(\t\x12\x35\n\rplayer_scores\x18\x04 \x03(\x0b\x32\x1e.mathgame.protobuf.PlayerScoreb\x06proto3'
 )
 
 
@@ -67,11 +67,19 @@ _PROBLEM_TYPE = _descriptor.EnumDescriptor(
       name='ADDITION', index=0, number=0,
       serialized_options=None,
       type=None),
+    _descriptor.EnumValueDescriptor(
+      name='SUBTRACTION', index=1, number=1,
+      serialized_options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='MULTIPLICATION', index=2, number=2,
+      serialized_options=None,
+      type=None),
   ],
   containing_type=None,
   serialized_options=None,
   serialized_start=652,
-  serialized_end=672,
+  serialized_end=709,
 )
 _sym_db.RegisterEnumDescriptor(_PROBLEM_TYPE)
 
@@ -229,7 +237,7 @@ _PROBLEM = _descriptor.Descriptor(
       index=0, containing_type=None, fields=[]),
   ],
   serialized_start=529,
-  serialized_end=683,
+  serialized_end=720,
 )
 
 
@@ -266,8 +274,8 @@ _ADDITION = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=685,
-  serialized_end=717,
+  serialized_start=722,
+  serialized_end=754,
 )
 
 
@@ -318,8 +326,8 @@ _ANSWERRESULT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=719,
-  serialized_end=839,
+  serialized_start=756,
+  serialized_end=876,
 )
 
 
@@ -356,8 +364,8 @@ _PLAYERSCORE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=841,
-  serialized_end=888,
+  serialized_start=878,
+  serialized_end=925,
 )
 
 
@@ -394,8 +402,8 @@ _GAMERESULT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=890,
-  serialized_end=973,
+  serialized_start=927,
+  serialized_end=1010,
 )
 
 _RESPONSE.fields_by_name['type'].enum_type = _RESPONSE_TYPE

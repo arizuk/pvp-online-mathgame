@@ -126,6 +126,8 @@ export namespace Problem {
 
   export interface TypeMap {
     ADDITION: 0;
+    SUBTRACTION: 1;
+    MULTIPLICATION: 2;
   }
 
   export const Type: TypeMap;

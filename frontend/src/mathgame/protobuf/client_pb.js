@@ -507,7 +507,9 @@ proto.mathgame.protobuf.StartGame.serializeBinaryToWriter = function(message, wr
  * @enum {number}
  */
 proto.mathgame.protobuf.StartGame.Type = {
-  ADDITION: 0
+  ADDITION: 0,
+  SUBTRACTION: 1,
+  MULTIPLICATION: 2
 };
 
 /**

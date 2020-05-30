@@ -901,7 +901,9 @@ proto.mathgame.protobuf.Problem.serializeBinaryToWriter = function(message, writ
  * @enum {number}
  */
 proto.mathgame.protobuf.Problem.Type = {
-  ADDITION: 0
+  ADDITION: 0,
+  SUBTRACTION: 1,
+  MULTIPLICATION: 2
 };
 
 /**

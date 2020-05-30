@@ -18,7 +18,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='mathgame.protobuf',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=b'\n\x1emathgame/protobuf/client.proto\x12\x11mathgame.protobuf\"\xea\x01\n\x07\x43ommand\x12-\n\x04type\x18\x01 \x01(\x0e\x32\x1f.mathgame.protobuf.Command.Type\x12\x11\n\tplayer_id\x18\x02 \x01(\t\x12\x32\n\nstart_game\x18\n \x01(\x0b\x32\x1c.mathgame.protobuf.StartGameH\x00\x12+\n\x06\x61nswer\x18\x0b \x01(\x0b\x32\x19.mathgame.protobuf.AnswerH\x00\"1\n\x04Type\x12\r\n\tJOIN_ROOM\x10\x00\x12\x0e\n\nSTART_GAME\x10\x01\x12\n\n\x06\x41NSWER\x10\x02\x42\t\n\x07payload\"h\n\tStartGame\x12/\n\x04type\x18\x01 \x01(\x0e\x32!.mathgame.protobuf.StartGame.Type\x12\x14\n\x0cnum_problems\x18\x02 \x01(\x05\"\x14\n\x04Type\x12\x0c\n\x08\x41\x44\x44ITION\x10\x00\"\x18\n\x06\x41nswer\x12\x0e\n\x06\x61nswer\x18\x01 \x01(\x05\x62\x06proto3'
+  serialized_pb=b'\n\x1emathgame/protobuf/client.proto\x12\x11mathgame.protobuf\"\xea\x01\n\x07\x43ommand\x12-\n\x04type\x18\x01 \x01(\x0e\x32\x1f.mathgame.protobuf.Command.Type\x12\x11\n\tplayer_id\x18\x02 \x01(\t\x12\x32\n\nstart_game\x18\n \x01(\x0b\x32\x1c.mathgame.protobuf.StartGameH\x00\x12+\n\x06\x61nswer\x18\x0b \x01(\x0b\x32\x19.mathgame.protobuf.AnswerH\x00\"1\n\x04Type\x12\r\n\tJOIN_ROOM\x10\x00\x12\x0e\n\nSTART_GAME\x10\x01\x12\n\n\x06\x41NSWER\x10\x02\x42\t\n\x07payload\"\x8d\x01\n\tStartGame\x12/\n\x04type\x18\x01 \x01(\x0e\x32!.mathgame.protobuf.StartGame.Type\x12\x14\n\x0cnum_problems\x18\x02 \x01(\x05\"9\n\x04Type\x12\x0c\n\x08\x41\x44\x44ITION\x10\x00\x12\x0f\n\x0bSUBTRACTION\x10\x01\x12\x12\n\x0eMULTIPLICATION\x10\x02\"\x18\n\x06\x41nswer\x12\x0e\n\x06\x61nswer\x18\x01 \x01(\x05\x62\x06proto3'
 )
 
 
@@ -59,11 +59,19 @@ _STARTGAME_TYPE = _descriptor.EnumDescriptor(
       name='ADDITION', index=0, number=0,
       serialized_options=None,
       type=None),
+    _descriptor.EnumValueDescriptor(
+      name='SUBTRACTION', index=1, number=1,
+      serialized_options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='MULTIPLICATION', index=2, number=2,
+      serialized_options=None,
+      type=None),
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=374,
-  serialized_end=394,
+  serialized_start=375,
+  serialized_end=432,
 )
 _sym_db.RegisterEnumDescriptor(_STARTGAME_TYPE)
 
@@ -158,8 +166,8 @@ _STARTGAME = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=290,
-  serialized_end=394,
+  serialized_start=291,
+  serialized_end=432,
 )
 
 
@@ -189,8 +197,8 @@ _ANSWER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=396,
-  serialized_end=420,
+  serialized_start=434,
+  serialized_end=458,
 )
 
 _COMMAND.fields_by_name['type'].enum_type = _COMMAND_TYPE

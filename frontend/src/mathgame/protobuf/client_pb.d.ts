@@ -79,6 +79,8 @@ export namespace StartGame {
 
   export interface TypeMap {
     ADDITION: 0;
+    SUBTRACTION: 1;
+    MULTIPLICATION: 2;
   }
 
   export const Type: TypeMap;

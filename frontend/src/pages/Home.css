@@ -1,8 +1,39 @@
-.Home-gameStart .selectBoxWrap {
-    width: 60%;
+.Home-gameStartModal .modalTitle {
+    margin: 0;
+    padding: 0;
+    margin-bottom: 30px;
+    background-color: rgb(54, 203, 230);
+    color: white;
+}
+
+.Home-gameStartModal .selectBoxWrap {
     margin: auto;
 }
 
-.Home-gameStart .selectBoxWrap .selectBox {
+.Home-gameStartModal .selectBoxWrap .selectBox {
     margin: 15px;
 }
+
+.Home-gameStartModal .types {
+    display: flex;
+    justify-content: center;
+}
+
+.Home-gameStartModal .types div {
+    margin: 5px;
+}
+
+.Home-gameStartModal .types button {
+    padding: 0.5em 0.5em;
+    text-decoration: none;
+    background: gray;
+    /* background: rgb(54, 203, 230); */
+    color: #FFF;
+    border: none;
+    font-size: 16px;
+  }
+
+.Home-gameStartModal .types button.selected {
+    background: rgb(46, 226, 136);
+}
+

@@ -1,6 +1,7 @@
 import { Command, Answer, StartGame } from 'mathgame/protobuf/client_pb'
 import * as server_pb from 'mathgame/protobuf/server_pb'
 
+type ProblemType = StartGame.TypeMap[keyof StartGame.TypeMap]
 type CommandType = Command.TypeMap[keyof Command.TypeMap]
 type Listener = (event: server_pb.Response) => void
 
@@ -32,11 +33,11 @@ export class WSAPIClient {
     this.send(cmd)
   }
 
-  startGame(numProblems: number) {
+  startGame(type: ProblemType, numProblems: number) {
     const cmd = this.newCommand(Command.Type.START_GAME)
     const payload = new StartGame()
     cmd.setStartGame(payload)
-    payload.setType(StartGame.Type.ADDITION)
+    payload.setType(type)
     payload.setNumProblems(numProblems)
     this.send(cmd)
   }
