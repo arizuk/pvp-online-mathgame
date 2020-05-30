@@ -48,7 +48,7 @@ function ModalGameStart({ startGame, closeModal }: ModalGameStartProps) {
         {typeOptions.map((v) => (
           <div>
             <button
-              className={type == v.value ? 'selected' : ''}
+              className={type === v.value ? 'selected' : ''}
               onClick={() => setType(v.value)}
             >
               {v.text}
