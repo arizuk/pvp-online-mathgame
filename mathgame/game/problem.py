@@ -95,8 +95,9 @@ def generate_subtraction(num):
 def generate_multiplication(num):
     probs = []
     for _ in range(num):
-        x = random.randint(1, 9)
-        probs.append(Multiplication(x=x, y=x))
+        x = random.randint(1, 3)
+        y = random.randint(1, 3)
+        probs.append(Multiplication(x=x, y=y))
     return probs
 
 
