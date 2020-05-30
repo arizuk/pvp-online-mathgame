@@ -1,9 +1,8 @@
-from mathgame.game.player import Player, PlayerState
-from mathgame.game.server import MatchPlayers
+from mathgame.game.server import RoomPlayers
 
 
-def test_match_players():
-    match_players = MatchPlayers()
+def test_room_players():
+    match_players = RoomPlayers()
     p1 = match_players.add("p1")
     assert p1.id == "p1"
     assert match_players.num_players == 1

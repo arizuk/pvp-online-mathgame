@@ -13,7 +13,7 @@ from .problem import Problem, ProblemGenerator
 logger = logging.getLogger(__name__)
 
 
-class MatchPlayers:
+class RoomPlayers:
     def __init__(self):
         self._players = {}
 
@@ -57,9 +57,9 @@ class MatchPlayers:
         return len(self._players)
 
 
-class Match:
+class Room:
     def __init__(self):
-        self._match_players = MatchPlayers()
+        self._room_players = RoomPlayers()
         self._problems = None
         self._curr_problem_index = 0
 
@@ -69,7 +69,7 @@ class Match:
     def on_join_room(self, command: Command):
         assert command.type == Command.Type.JOIN_ROOM
 
-        player = self._match_players.add(command.player_id)
+        player = self._room_players.add(command.player_id)
         logger.info("[PLYAER_JOINED]: player={}".format(player))
 
         resp = Response()
@@ -83,7 +83,7 @@ class Match:
     def on_start_game(self, command: Command):
         assert command.type == Command.Type.START_GAME
 
-        player = self._match_players.get(command.player_id)
+        player = self._room_players.get(command.player_id)
         logger.info("[GAME_STARTED]: player={}".format(player))
 
         if not self._started:
@@ -103,7 +103,7 @@ class Match:
 
     def on_answer(self, command: Command):
         assert command.type == Command.Type.ANSWER
-        player = self._match_players.get(command.player_id)
+        player = self._room_players.get(command.player_id)
         logger.info("[PLAYER_ANSWERED]: player={}".format(player))
 
         resp = Response()
@@ -142,7 +142,7 @@ class Match:
         self._curr_problem_index %= len(self._problems)
 
     def _on_correct_answer(self, player_id, score):
-        self._match_players.add_score(player_id, score)
+        self._room_players.add_score(player_id, score)
 
     def _send_game_result(self):
         resp = Response()
@@ -150,7 +150,7 @@ class Match:
         resp.broadcast = True
 
         game_result = server_pb2.GameResult()
-        game_result.winner = self._match_players.get_winner().id
+        game_result.winner = self._room_players.get_winner().id
 
         self._set_player_scores(game_result)
 
@@ -158,7 +158,7 @@ class Match:
         channels.web.send(resp)
 
     def _set_player_scores(self, result_pb):
-        for player_score in self._match_players.get_scores_as_protobuf():
+        for player_score in self._room_players.get_scores_as_protobuf():
             result_pb.player_scores.append(player_score)
 
     def _send_problem(self):
@@ -181,17 +181,17 @@ class Match:
 
 class GameServer:
     def __init__(self):
-        self.current_match = Match()
+        self.current_room = Room()
 
     def handle_command(self, command: Command):
         logger.info(f"[READ_MESSAGE]: {command}")
 
         if command.type == Command.Type.JOIN_ROOM:
-            self.current_match.on_join_room(command)
+            self.current_room.on_join_room(command)
         elif command.type == Command.Type.START_GAME:
-            self.current_match.on_start_game(command)
+            self.current_room.on_start_game(command)
         elif command.type == Command.Type.ANSWER:
-            self.current_match.on_answer(command)
+            self.current_room.on_answer(command)
         else:
             raise NotImplementedError(str(command))
 
@@ -210,8 +210,8 @@ class GameServer:
                 for command in commands:
                     self.handle_command(command)
 
-                if self.current_match.finished:
-                    self.current_match = Match()
+                if self.current_room.finished:
+                    self.current_room = Room()
 
             except Exception as e:
                 logger.exception(e)
