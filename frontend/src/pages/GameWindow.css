@@ -1,0 +1,72 @@
+.GameWindow-title {
+    background-color: rgb(54, 203, 230);
+    color: white;
+    width: 100vw;
+    margin: 0;
+    font-size: 20px;
+}
+
+.GameWindow-problem {
+    font-size: 50px;
+    margin: 15px;
+}
+
+.GameWindow-answer {
+    margin: 15px;
+    font-size: 30px;
+    background-color: white;
+}
+
+.GameWindow-numberPad {
+    margin: 0;
+    margin-bottom: 30px;
+}
+
+.GameWindow-numberPad .row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.GameWindow-numberPad button {
+    margin: 5px;
+    /* padding: 0.5em 1em; */
+    text-decoration: none;
+    background: rgb(54, 203, 230);
+    color: #FFF;
+    border: none;
+    width: 20vw;
+    font-size: 7vw;
+    height: 50px;
+  }
+
+
+.GameWindow-control button {
+    margin: 2px;
+    padding: 0.5em 1em;
+    text-decoration: none;
+    background: gray;
+    width: 40%;
+    color: #FFF;
+    border: none;
+    font-size: 20px;
+  }
+
+.GameWindow-control button.submit {
+    background: #f58d51;
+  }
+
+
+.GameWindow-answerResult {
+    margin: 0px;
+    padding: 5px;
+    background-color: white;
+    border-top: solid 1px rgb(46, 226, 136);
+    border-bottom: solid 1px rgb(46, 226, 136);
+    height: 20px;
+    line-height: 20px;
+}
+
+.GameWindow-answerResult .playerName {
+    font-weight: bold;
+}

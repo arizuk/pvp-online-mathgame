@@ -1,8 +1,12 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { GameContext } from 'components/GameContainer'
 import * as server_pb from 'mathgame/protobuf/server_pb'
-import GameAddition from 'components/GameAddition'
+import { GameAddition } from 'components/Problems'
 import { WSAPIContext } from 'components/WSAPIContainer'
+import { FaRegThumbsUp } from 'react-icons/fa'
+import PlayerScoreList from 'components/PlayerScoreList'
+
+import './GameWindow.css'
 
 // eslint-disable-next-line
 const makeDummyProblem = () => {
@@ -30,27 +34,106 @@ const makeDummyGameResult = () => {
   return gameResult
 }
 
+type NumberButtonProps = {
+  onClick: () => void
+  number: number
+}
+function NumberButton({ onClick, number }: NumberButtonProps) {
+  return <button onClick={onClick}>{number}</button>
+}
+
+function AnswerResult({
+  answerResult,
+}: {
+  answerResult: server_pb.AnswerResult | null
+}) {
+  let content = <div>とけるかな？</div>
+  if (answerResult) {
+    if (answerResult.getCorrect()) {
+      content = (
+        <div>
+          <span className="playerName">{answerResult.getPlayerId()}</span>{' '}
+          がせいかいしたよ <FaRegThumbsUp />
+        </div>
+      )
+    } else {
+      content = (
+        <div>
+          <span className="playerName">{answerResult.getPlayerId()}</span>{' '}
+          がまちがえたよ
+        </div>
+      )
+    }
+  }
+
+  return <div className="GameWindow-answerResult">{content}</div>
+}
+
 export default function GameWindow() {
   const { wsApiRef } = useContext(WSAPIContext)
-  const { started, problem, answerResult } = useContext(GameContext)
+  const { problem, answerResult } = useContext(GameContext)
 
-  if (!started) {
-    return null
-  }
   const client = wsApiRef?.current
-  if (!client) {
-    return null
+  const [answer, setAnswer] = useState(0)
+  const add = (value: number) => setAnswer(answer * 10 + value)
+  const clear = () => setAnswer(0)
+  const number = problem?.getNumber()
+
+  const submit = () => {
+    client?.answer(answer)
+    clear()
   }
 
-  if (problem) {
-    return (
-      <GameAddition
-        client={client}
-        problem={problem}
-        answerResult={answerResult}
-      />
-    )
-  } else {
+  useEffect(() => {
+    clear()
+  }, [number])
+
+  if (!client) return null
+  if (!problem) {
     return <div>ロード中です。ちょっとまってね</div>
   }
+
+  return (
+    <div>
+      <h1 className="GameWindow-title">Question {problem.getNumber()}</h1>
+      <div>
+        <AnswerResult answerResult={answerResult} />
+      </div>
+
+      <div className="GameWindow-problem">
+        <GameAddition problem={problem} />
+      </div>
+
+      <div className="GameWindow-answer">
+        <div>{answer}</div>
+      </div>
+
+      <div className="GameWindow-numberPad">
+        <div className="row">
+          {[0, 1, 2, 3].map((n) => (
+            <NumberButton onClick={() => add(n)} number={n} />
+          ))}
+        </div>
+        <div className="row">
+          {[4, 5, 6, 7].map((n) => (
+            <NumberButton onClick={() => add(n)} number={n} />
+          ))}
+        </div>
+        <div className="row">
+          {[8, 9].map((n) => (
+            <NumberButton onClick={() => add(n)} number={n} />
+          ))}
+        </div>
+      </div>
+
+      <div className="GameWindow-control">
+        <button onClick={clear}>クリア</button>
+        <button className="submit" onClick={submit}>
+          けってい
+        </button>
+      </div>
+
+      <PlayerScoreList playerScores={answerResult?.getPlayerScoresList()} />
+    </div>
+  )
 }
