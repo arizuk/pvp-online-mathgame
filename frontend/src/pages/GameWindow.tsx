@@ -1,7 +1,11 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { GameContext } from 'components/GameContainer'
 import * as server_pb from 'mathgame/protobuf/server_pb'
-import { GameAddition } from 'components/Problems'
+import {
+  GameAddition,
+  GameSubtraction,
+  GameMultiplication,
+} from 'components/Problems'
 import { WSAPIContext } from 'components/WSAPIContainer'
 import { FaRegThumbsUp } from 'react-icons/fa'
 import PlayerScoreList from 'components/PlayerScoreList'
@@ -12,10 +16,10 @@ import './GameWindow.css'
 const makeDummyProblem = () => {
   const prob = new server_pb.Problem()
   prob.setNumber(1)
-  const addition = new server_pb.Addition()
-  addition.setX(12)
-  addition.setY(8)
-  prob.setAddition(addition)
+  const binary = new server_pb.Binary()
+  binary.setX(12)
+  binary.setY(8)
+  prob.setBinary(binary)
   return prob
 }
 
@@ -93,6 +97,15 @@ export default function GameWindow() {
     return <div>ロード中です。ちょっとまってね</div>
   }
 
+  const ProblemComponent =
+    problem.getType() === server_pb.Problem.Type.ADDITION ? (
+      <GameAddition problem={problem} />
+    ) : problem.getType() === server_pb.Problem.Type.SUBTRACTION ? (
+      <GameSubtraction problem={problem} />
+    ) : (
+      <GameMultiplication problem={problem} />
+    )
+
   return (
     <div>
       <h1 className="GameWindow-title">Question {problem.getNumber()}</h1>
@@ -100,9 +113,7 @@ export default function GameWindow() {
         <AnswerResult answerResult={answerResult} />
       </div>
 
-      <div className="GameWindow-problem">
-        <GameAddition problem={problem} />
-      </div>
+      <div className="GameWindow-problem">{ProblemComponent}</div>
 
       <div className="GameWindow-answer">
         <div>{answer}</div>

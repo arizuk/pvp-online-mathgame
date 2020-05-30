@@ -35,11 +35,11 @@ message Problem {
     Type type = 1;
     int32 number = 2;
     oneof payload {
-        Addition addition = 10;
+        Binary binary = 10;
     }
 }
 
-message Addition {
+message Binary {
     int32 x = 1;
     int32 y = 2;
 }

@@ -1,15 +1,41 @@
 import React from 'react'
 import * as server_pb from 'mathgame/protobuf/server_pb'
 
-type Props = {
+type GameAdditionProps = {
   problem: server_pb.Problem
 }
-export function GameAddition({ problem }: Props) {
-  const addition = problem.getAddition()
-  if (!addition) throw new Error()
+export function GameAddition({ problem }: GameAdditionProps) {
+  const binary = problem.getBinary()
+  if (!binary) throw new Error()
   return (
     <div>
-      {addition.getX()} + {addition.getY()} = ?
+      {binary.getX()} + {binary.getY()} = ?
+    </div>
+  )
+}
+
+type GameSubtractionProps = {
+  problem: server_pb.Problem
+}
+export function GameSubtraction({ problem }: GameSubtractionProps) {
+  const binary = problem.getBinary()
+  if (!binary) throw new Error()
+  return (
+    <div>
+      {binary.getX()} - {binary.getY()} = ?
+    </div>
+  )
+}
+
+type GameMultiplicationProps = {
+  problem: server_pb.Problem
+}
+export function GameMultiplication({ problem }: GameMultiplicationProps) {
+  const binary = problem.getBinary()
+  if (!binary) throw new Error()
+  return (
+    <div>
+      {binary.getX()} × {binary.getY()} = ?
     </div>
   )
 }

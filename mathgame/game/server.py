@@ -8,7 +8,7 @@ from mathgame.protobuf.client_pb2 import Command
 from mathgame.protobuf.server_pb2 import Response
 
 from .player import Player, PlayerState
-from .problem import Problem, RandomAdditionFactory
+from .problem import Problem, ProblemGenerator
 
 logger = logging.getLogger(__name__)
 
@@ -62,6 +62,8 @@ class Match:
         self._match_players = MatchPlayers()
         self._problems = None
         self._curr_problem_index = 0
+
+        self._started = False
         self._finished = False
 
     def on_join_room(self, command: Command):
@@ -84,9 +86,12 @@ class Match:
         player = self._match_players.get(command.player_id)
         logger.info("[GAME_STARTED]: player={}".format(player))
 
-        # 問題の初期化
-        start_game = command.start_game
-        self._problems = RandomAdditionFactory.generate(start_game.num_problems)
+        if not self._started:
+            # 問題の初期化
+            self._started = True
+            start_game = command.start_game
+            generator = ProblemGenerator(start_game.type)
+            self._problems = generator.generate(start_game.num_problems)
 
         # Send GAME_STARTED
         resp = Response()

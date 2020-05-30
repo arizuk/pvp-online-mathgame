@@ -101,10 +101,10 @@ export class Problem extends jspb.Message {
   getNumber(): number;
   setNumber(value: number): void;
 
-  hasAddition(): boolean;
-  clearAddition(): void;
-  getAddition(): Addition | undefined;
-  setAddition(value?: Addition): void;
+  hasBinary(): boolean;
+  clearBinary(): void;
+  getBinary(): Binary | undefined;
+  setBinary(value?: Binary): void;
 
   getPayloadCase(): Problem.PayloadCase;
   serializeBinary(): Uint8Array;
@@ -121,7 +121,7 @@ export namespace Problem {
   export type AsObject = {
     type: Problem.TypeMap[keyof Problem.TypeMap],
     number: number,
-    addition?: Addition.AsObject,
+    binary?: Binary.AsObject,
   }
 
   export interface TypeMap {
@@ -134,11 +134,11 @@ export namespace Problem {
 
   export enum PayloadCase {
     PAYLOAD_NOT_SET = 0,
-    ADDITION = 10,
+    BINARY = 10,
   }
 }
 
-export class Addition extends jspb.Message {
+export class Binary extends jspb.Message {
   getX(): number;
   setX(value: number): void;
 
@@ -146,16 +146,16 @@ export class Addition extends jspb.Message {
   setY(value: number): void;
 
   serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): Addition.AsObject;
-  static toObject(includeInstance: boolean, msg: Addition): Addition.AsObject;
+  toObject(includeInstance?: boolean): Binary.AsObject;
+  static toObject(includeInstance: boolean, msg: Binary): Binary.AsObject;
   static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
   static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-  static serializeBinaryToWriter(message: Addition, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): Addition;
-  static deserializeBinaryFromReader(message: Addition, reader: jspb.BinaryReader): Addition;
+  static serializeBinaryToWriter(message: Binary, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): Binary;
+  static deserializeBinaryFromReader(message: Binary, reader: jspb.BinaryReader): Binary;
 }
 
-export namespace Addition {
+export namespace Binary {
   export type AsObject = {
     x: number,
     y: number,
